@@ -1,9 +1,9 @@
 .App {
   text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .registerPage {
-  font-family: Arial, Helvetica, sans-serif;
   width: 100vw;
   height: 90vh;
   display: flex;

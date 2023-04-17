@@ -60,7 +60,7 @@ function Register() {
                 <Field autoComplete="off" id="inputRegister" name="last"/>
                 <label>Password:</label>
                 <ErrorMessage name="pass" component="span" />
-                <Field autoComplete="off" id="inputRegister" name="pass"/>
+                <Field autoComplete="off" id="inputRegister" name="pass" type='password'/>
                 <label>BuildingNum:</label>
                 <ErrorMessage name="buildnum" component="span" />
                 <Field autoComplete="off" id="inputRegister" name="buildnum"/>
