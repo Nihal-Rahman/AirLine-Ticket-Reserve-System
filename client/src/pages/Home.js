@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import { useEffect , useState } from 'react';
+import Navbar from '../components/Navbar';
 
 function Home() {
     useEffect(()=>{
@@ -10,7 +11,9 @@ function Home() {
       }, []);
     
   return (
-    <div>Home</div>
+    <div className="App">
+      <Navbar mt-8/>
+    </div>
   )
 }
 
