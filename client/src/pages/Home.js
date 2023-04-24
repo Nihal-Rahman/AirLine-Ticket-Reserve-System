@@ -12,7 +12,7 @@ function Home() {
     
   return (
     <div className="App">
-      <Navbar mt-8/>
+      {/* <Navbar mt-8/> */}
     </div>
   )
 }

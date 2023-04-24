@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 .App {
-  text-align: center;
   font-family: 'Montserrat', sans-serif;
 }
 
 .registerPage {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
   width: 100vw;
   height: 90vh;
   display: flex;
@@ -51,4 +52,9 @@
 
 span{
   color: red;
+}
+
+.button{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
 }
