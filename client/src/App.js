@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import StaffRegister from './pages/StaffRegister';
 import StaffLogin from './pages/StaffLogin';
 import Navbar from './components/Navbar';
+import Login from './pages/Login'
 
 function App() {
   return <div className="App">
@@ -12,8 +13,10 @@ function App() {
     <Router> 
       <Routes>
         <Route path='/' exact element={<Home/>}/>
-        <Route path='/staff-register' exact element={<StaffRegister/>}/>
-        <Route path='/staff-login' exact element={<StaffLogin/>}/>
+        <Route path='/staff/register' exact element={<StaffRegister/>}/>
+        <Route path='/staff/login' exact element={<StaffLogin/>}/>
+        <Route path='/user/register' exact element={<Register />} />
+        <Route path='/user/login' exact element={<Login />} />
       </Routes>
     </Router>
     </div>;
