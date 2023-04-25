@@ -10,6 +10,9 @@ app.use(cors());
 const register = require('./routes/register');
 app.use("/register", register);
 
+const staff_register = require('./routes/staff_register');
+app.use("/staff_register", staff_register);
+
 const login = require('./routes/login');
 app.use("/login", login);
 

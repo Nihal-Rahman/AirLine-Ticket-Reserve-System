@@ -1,8 +1,7 @@
 const db = require('../connection');
 
-
 module.exports = class Staff {
-    constructor(newStaff) {
+    constructor(newStaff){
         if (newStaff != null) {
             this.userName = newStaff.userName;
             this.passcode = newStaff.passcode;
@@ -14,21 +13,19 @@ module.exports = class Staff {
     }
 
     getInfo() {
-        console.log(this.email, this.firstName, this.lastName);
+        console.log(this.userName, this.passcode);
     }
 
     insert() {
-        const sql = "INSERT INTO Airline_Staff VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        const sql = "INSERT INTO Airline_Staff VALUES (?,?,?,?,?,?);";
         var values = [this.userName, this.passcode, this.first_name, this.last_name, this.date_of_birth, this.airline_name];
-
-
 
         db.query(sql, values, (err, result) => {
             if (err) {
                 console.log(values);
                 throw err;
             }
-            console.log("Insert Success");
+            console.log("Insert Success!");
         })
     }
 
@@ -39,55 +36,15 @@ module.exports = class Staff {
                 console.log(values);
                 throw err;
             }
-            console.log("Found staff member!");
+            console.log("Found user!")
         });
+
         const result = userThere[0][0];
         if (result == null) {
             return false;
         }
         if (result != null) {
             return true;
-        }
+        } 
     }
 }
-
-
-
-// module.exports = (sequelize, DataTypes) => {
-//     const Staffs = sequelize.define("Staffs", {
-//         username: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         email: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         password: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         firstName: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         lastName: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         dob: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         airline: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         phoneNum: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//     })
-
-//     return Staffs
-// }

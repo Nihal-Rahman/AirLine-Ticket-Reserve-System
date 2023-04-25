@@ -37,7 +37,7 @@ module.exports = class Customer {
                 throw err;
             }
             console.log("Insert Success");
-        })
+        }) 
     }
 
     async getfromDB(user, pass) {
