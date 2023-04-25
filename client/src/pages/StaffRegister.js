@@ -32,7 +32,7 @@ function StaffRegister() {
     })
 
     const onSubmit = (data) => {
-        axios.post("http://localhost:3001/staff_register", data).then((response) => {
+        axios.post("http://localhost:3001/register/staff", data).then((response) => {
             console.log(response.data);
         });
         toast.success("You have been registered!")
