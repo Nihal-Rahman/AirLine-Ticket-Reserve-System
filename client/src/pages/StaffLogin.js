@@ -19,7 +19,7 @@ function StaffLogin() {
     })
 
     const onSubmit = (data) => {
-        axios.post("http://localhost:3001/Staffs/login", data).then((response) => {
+        axios.post("http://localhost:3001/login/staff", data).then((response) => {
             console.log(response.data);
         });
     };

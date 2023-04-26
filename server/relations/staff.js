@@ -1,4 +1,6 @@
 const db = require('../connection');
+const bcrypt = require("bcrypt");
+
 
 module.exports = class Staff {
     constructor(newStaff){
@@ -12,7 +14,7 @@ module.exports = class Staff {
             this.email = newStaff.email;
             this.phoneNum = newStaff.phoneNum;
         }
-    }
+    } 
 
     getInfo() {
         console.log(this.userName, this.passcode);
@@ -53,26 +55,36 @@ module.exports = class Staff {
             console.log("Insert Success!");
         });
 
-
-
     }
 
     async getfromDB(user, pass) {
-        const sql = "SELECT userName, passcode FROM Airline_Staff WHERE userName = ? AND passcode = ?;"
-        const userThere = await db.promise().query(sql, [user, pass], (err, result) => {
+        const sql = "SELECT userName, passcode FROM Airline_Staff WHERE userName = ?"
+        const userThere = await db.promise().query(sql, [user], (err, result) => {
             if (err) {
                 console.log(values);
                 throw err;
             }
+
             console.log("Found user!")
         });
+        
 
         const result = userThere[0][0];
         if (result == null) {
             return false;
         }
+
+
         if (result != null) {
-            return true;
+            bcrypt.compare(pass, result.passcode).then((match) => {
+                if (!match) {
+                    return false; 
+             }
+                else {
+                    console.log("Login successful");
+                    return true;
+                }
+            });
         } 
     }
 }
