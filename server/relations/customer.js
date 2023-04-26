@@ -1,4 +1,5 @@
 const db = require('../connection');
+const bcrypt = require("bcrypt");
 
 
 module.exports = class Customer {
@@ -42,6 +43,7 @@ module.exports = class Customer {
     }
 
     async getfromDB(user, pass) {
+        /*
         const sql = "SELECT email_address, passcode FROM Customer WHERE email_address = ? AND passcode = ?;"
         const userThere = await db.promise().query(sql, [user, pass], (err, result) => {
             if (err) {
@@ -57,5 +59,35 @@ module.exports = class Customer {
         if (result != null) {
             return true;
         }
+        */
+
+        const sql = "SELECT email_address, passcode FROM Customer WHERE email_address = ? ;"
+        const userThere = await db.promise().query(sql, [user], (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+
+            console.log("Found user!")
+        });
+        
+
+        const result = userThere[0][0];
+        if (result == null) {
+            return false;
+        }
+
+
+        if (result != null) {
+            bcrypt.compare(pass, result.passcode).then((match) => {
+                if (!match) {
+                    return false; 
+             }
+                else {
+                    console.log("Login successful");
+                    return true;
+                }
+            });
+        } 
     }
 }
