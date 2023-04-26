@@ -7,6 +7,7 @@ const Staff = require('../relations/staff.js');
 router.post("/", (req, res) => {
     const user = req.body;
     const theUser = new Customer();
+    
     const isValid = theUser.getfromDB(user.email, user.pass);
     isValid.then(value => {
         if (value === false) {

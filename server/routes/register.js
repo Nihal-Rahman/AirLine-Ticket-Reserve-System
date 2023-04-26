@@ -7,10 +7,18 @@ const bcrypt = require("bcrypt");
 
 router.post("/", (req, res) => {
     const user = req.body;
+    /*
     const newUser = new Customer(user);
     newUser.insert();
     res.json('successs!');
     console.log('success!');
+    */
+    bcrypt.hash(user.pass, 10).then((hash) => {
+        user.pass = hash;
+        new Customer(user).insert();
+        res.json("SUCCESS");
+    });
+   
 });
 
 router.post("/staff", (req,res) => {
