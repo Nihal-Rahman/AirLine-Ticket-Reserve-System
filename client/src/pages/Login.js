@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
@@ -10,6 +11,8 @@ function Login() {
     pass: "",
   }
 
+  let history = useNavigate();
+
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("You must input a email!"),
     pass: Yup.string().required("You must input a passcode!"),
@@ -17,7 +20,14 @@ function Login() {
 
   const onSubmit = (data) => {
     axios.post("http://localhost:3001/login", data).then((response) => {
-      console.log(response.data);
+      if(response.data.error){
+        alert(response.data.error);
+      }
+      else{
+        sessionStorage.setItem("accessToken", response.data);
+        history("/customer/home");
+      }
+      
     });
   };
 

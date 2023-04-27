@@ -76,20 +76,20 @@ INSERT INTO customer (email_address, first_name, last_name, date_of_birth, passc
 ;
 
 INSERT INTO flight (flight_num, departure_date, departure_time, arrival_date, arrival_time, departure_airport, arrival_airport, airline_name, airplane_ID, flight_status) VALUES
-('886', '12-23-2022', '02:22:10', '12-23-2022', '08:32:20', 'ATL', 'LCY', 'Delta Air Lines', 'DZJ21', 'delayed'),
-('433', '06-19-2023', '06:10:35', '06-19-2023', '09:25:10', 'LGA', 'DTW', 'American Airlines', 'BNSR4', 'on-time'),
-('203', '07-11-2024', '12:23:00', '07-12-2024', '01:32:02', 'DFW', 'DXB', 'Emirates', 'SHFJ7', 'on-time'),
-('664', '09-22-2024', '15:04:12', '09-22-2024', '18:00:00', 'DFW', 'PVD', 'Spirit Airlines', 'AEKD2', 'on-time'),
-('594', '09-30-2020', '13:03:23', '09-30-2020', '19:35:23', 'JFK', 'DFW', 'Grey Bandit Airlines', 'YNH84', 'on-time'),
-('123', '01-22-2023', '13:23:44', '01-23-2023', '16:53:43', 'JFK', 'PVG', 'Jet Blue', 'DA440', 'delayed'),
-('456', '11-19-2023', '11:12:01', '11-19-2023', '13:28:34', 'JFK', 'PVG', 'Jet Blue', 'SA770', 'delayed'),
-('789', '06-11-2023', '14:56:59', '06-11-2023', '01:13:55', 'PVG', 'JFK', 'Jet Blue', 'UA150', 'on-time')
+('886', '2022-12-23', '02:22:10', '2022-12-23', '08:32:20', 'ATL', 'LCY', 'Delta Air Lines', 'DZJ21', 'delayed'),
+('433', '2023-06-19', '06:10:35', '2023-06-19', '09:25:10', 'LGA', 'DTW', 'American Airlines', 'BNSR4', 'on-time'),
+('203', '2024-07-11', '12:23:00', '2024-07-12', '01:32:02', 'DFW', 'DXB', 'Emirates', 'SHFJ7', 'on-time'),
+('664', '2024-09-22', '15:04:12', '2024-09-22', '18:00:00', 'DFW', 'PVD', 'Spirit Airlines', 'AEKD2', 'on-time'),
+('594', '2020-09-30', '13:03:23', '2020-09-30', '19:35:23', 'JFK', 'DFW', 'Grey Bandit Airlines', 'YNH84', 'on-time'),
+('123', '2023-01-22', '13:23:44', '2023-01-23', '16:53:43', 'JFK', 'PVG', 'Jet Blue', 'DA440', 'delayed'),
+('456', '2023-11-19', '11:12:01', '2023-11-19', '13:28:34', 'JFK', 'PVG', 'Jet Blue', 'SA770', 'delayed'),
+('789', '2023-06-11', '14:56:59', '2023-06-11', '01:13:55', 'PVG', 'JFK', 'Jet Blue', 'UA150', 'on-time')
 ;
 
 INSERT INTO review (email_address, flight_num, departure_date, departure_time, rating, comments) VALUES
-('rheas@gmail.com', '886', '12-23-2022', '02:22:10', 8, "Even though the flight was delayed, the first class flight experience was great! The service and staff were kind and very welcoming."),
-('rahulsur22@hotmail.com', '886', '12-23-2022', '02:22:10', 3, "The economy class seats were ripped. The staff did not care for their guests. I want my money back."),
-('jstone@yahoo.com', '594', '09-30-2020', '13:03:23', 9, 'Best flight experience ever. The food and drinks were amazing and the pilot was very nice to me. He even let me fly the plane.')
+('rheas@gmail.com', '886', '2022-12-23', '02:22:10', 8, "Even though the flight was delayed, the first class flight experience was great! The service and staff were kind and very welcoming."),
+('rahulsur22@hotmail.com', '886', '2022-12-23', '02:22:10', 3, "The economy class seats were ripped. The staff did not care for their guests. I want my money back."),
+('jstone@yahoo.com', '594', '2020-09-30', '13:03:23', 9, 'Best flight experience ever. The food and drinks were amazing and the pilot was very nice to me. He even let me fly the plane.')
 ;
 
 INSERT INTO staff_email_address (userName, email) VALUES
@@ -121,18 +121,18 @@ INSERT INTO staff_phone_number (userName, phone_number) VALUES
 ;
 
 INSERT INTO ticket (ticket_ID, price, flight_num, departure_date, departure_time, airline_name) VALUES
-('3956', 122.50, '123', '01-22-2023', '13:23:44', 'Jet Blue'),
-('3957', 122.50, '123', '01-22-2023', '13:23:44', 'Jet Blue'),
-('3958', 122.50, '123', '01-22-2023', '13:23:44', 'Jet Blue'),
-('2934', 97.46, '433', '06-19-2023', '06:10:35', 'American Airlines'),
-('1203', 99.77, '203', '07-11-2024', '12:23:00', 'Emirates'),
-('1204', 99.77, '203', '07-11-2024', '12:23:00', 'Emirates'),
-('4507', 58.62, '664', '09-22-2024', '15:04:12', 'Spirit Airlines'),
-('0943', 89.50, '594', '09-30-2020', '13:03:23', 'Grey Bandit Airlines'),
-('0944', 89.50, '594', '09-30-2020', '13:03:23', 'Grey Bandit Airlines'),
-('0213', 172.50, '123', '01-22-2023', '13:23:44', 'Jet Blue'),
-('5678', 97.46, '456', '11-19-2023', '11:12:01', 'Jet Blue'),
-('9302', 99.77, '789', '06-11-2023', '14:56:59', 'Jet Blue')
+('3956', 122.50, '123', '2023-01-22', '13:23:44', 'Jet Blue'),
+('3957', 122.50, '123', '2023-01-22-', '13:23:44', 'Jet Blue'),
+('3958', 122.50, '123', '2023-01-22', '13:23:44', 'Jet Blue'),
+('2934', 97.46, '433', '2023-06-19', '06:10:35', 'American Airlines'),
+('1203', 99.77, '203', '2024-07-11', '12:23:00', 'Emirates'),
+('1204', 99.77, '203', '2024-07-11', '12:23:00', 'Emirates'),
+('4507', 58.62, '664', '2024-09-22', '15:04:12', 'Spirit Airlines'),
+('0943', 89.50, '594', '2020-09-30', '13:03:23', 'Grey Bandit Airlines'),
+('0944', 89.50, '594', '2020-09-30', '13:03:23', 'Grey Bandit Airlines'),
+('0213', 172.50, '123', '2023-01-22', '13:23:44', 'Jet Blue'),
+('5678', 97.46, '456', '2023-11-19', '11:12:01', 'Jet Blue'),
+('9302', 99.77, '789', '2023-06-11', '14:56:59', 'Jet Blue')
 ;
 
 

@@ -43,24 +43,6 @@ module.exports = class Customer {
     }
 
     async getfromDB(user, pass) {
-        /*
-        const sql = "SELECT email_address, passcode FROM Customer WHERE email_address = ? AND passcode = ?;"
-        const userThere = await db.promise().query(sql, [user, pass], (err, result) => {
-            if (err) {
-                console.log(values);
-                throw err;
-            }
-            console.log("Found user!");
-        });
-        const result = userThere[0][0];
-        if (result == null) {
-            return false;
-        }
-        if (result != null) {
-            return true;
-        }
-        */
-
         const sql = "SELECT email_address, passcode FROM Customer WHERE email_address = ? ;"
         const userThere = await db.promise().query(sql, [user], (err, result) => {
             if (err) {
@@ -89,5 +71,20 @@ module.exports = class Customer {
                 }
             });
         } 
+    }
+
+    async getFlightsFromDB(email){
+        //const sql = "SELECT * FROM FLIGHT WHERE flight_num in (SELECT flight_num FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE < DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME < departure_time)));";
+        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE < DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME < departure_time));"
+        const flightInfo = await db.promise().query(sql, [email], (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+
+            console.log("Found all flight info!");
+        });
+        
+        return flightInfo[0];
     }
 }
