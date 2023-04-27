@@ -14,6 +14,10 @@ app.use("/register", register);
 const login = require('./routes/login');
 app.use("/login", login);
 
+
+const customer = require('./routes/customer');
+app.use("/customer", customer);
+
 app.listen(3001, () => { 
     console.log("Server running on port 3001");
 });

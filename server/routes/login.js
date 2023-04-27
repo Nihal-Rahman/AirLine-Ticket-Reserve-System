@@ -3,6 +3,8 @@ const router = express.Router();
 const Customer = require('../relations/customer.js');
 const Staff = require('../relations/staff.js');
 
+const {sign} = require('jsonwebtoken');
+
 
 router.post("/", (req, res) => {
     const user = req.body;
@@ -12,11 +14,12 @@ router.post("/", (req, res) => {
     isValid.then(value => {
         if (value === false) {
             console.log("User not found");
-            res.send("User not found yo");
+            res.json({error: "Incorrect login information "});
         }
         else {
             console.log("User found");
-            res.send("User found");
+            const accessToken = sign({userEmail: user.email, typeofUser: "customer"}, "ilovedatabases");
+            res.json(accessToken);
         }
     });
 });
@@ -29,11 +32,13 @@ router.post("/staff", (req, res) => {
     isValid.then(value => {
         if (value === false) {
             console.log("User not found");
-            res.send("User not found yo");
+            res.json({error: "Incorrect login information "});
+            
         }
         else {
             console.log("User found");
-            res.send("User found");
+            const accessToken = sign({userEmail: user.username, typeofUser: "flightStaff"}, "ilovedatabases");
+            res.json(accessToken);
         }
     });
 });
