@@ -1,9 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .App {
-  text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .registerPage {
-  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
   width: 100vw;
   height: 90vh;
   display: flex;
@@ -19,6 +24,7 @@
   padding: 20px;
   border: 5px solid dodgerblue;
   border-radius: 5px;
+  margin-top: 230px;
 }
 
 .formContainer #inputCreatePost {
@@ -47,4 +53,17 @@
 
 span{
   color: red;
+}
+
+.button{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
+
+h3{
+  margin-top: 200px;
+}
+
+.table{
+  margin-top: 200px;
 }

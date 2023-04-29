@@ -42,7 +42,7 @@ CREATE TABLE `Airline` (
 
 CREATE TABLE `Airline_Staff` (
   `userName` varchar(50) NOT NULL,
-  `passcode` varchar(50) NOT NULL,
+  `passcode` varchar(100) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `date_of_birth` char(10) NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE `Customer` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `date_of_birth` char(10) NOT NULL,
-  `passcode` varchar(50) NOT NULL,
+  `passcode` varchar(100) NOT NULL,
   `building_num` int(11) NOT NULL,
   `street` varchar(30) NOT NULL,
   `apt` varchar(10),
