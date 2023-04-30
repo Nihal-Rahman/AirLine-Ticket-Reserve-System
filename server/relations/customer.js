@@ -42,39 +42,7 @@ module.exports = class Customer {
 
     }
 
-    async getfromDB(user, pass) {
-        const sql = "SELECT email_address, passcode FROM Customer WHERE email_address = ? ;"
-        const userThere = await db.promise().query(sql, [user], (err, result) => {
-            if (err) {
-                console.log(values);
-                throw err;
-            }
-
-            console.log("Found user!")
-        });
-        
-
-        const result = userThere[0][0];
-        if (result == null) {
-            return false;
-        }
-
-
-        if (result != null) {
-            bcrypt.compare(pass, result.passcode).then((match) => {
-                if (!match) {
-                    return false; 
-             }
-                else {
-                    console.log("Login successful");
-                    return true;
-                }
-            });
-        } 
-    }
-
     async getFlightsFromDB(email){
-        //const sql = "SELECT * FROM FLIGHT WHERE flight_num in (SELECT flight_num FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE < DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME < departure_time)));";
         const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE < DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME < departure_time));"
         const flightInfo = await db.promise().query(sql, [email], (err, result) => {
             if (err) {
@@ -86,5 +54,44 @@ module.exports = class Customer {
         });
         
         return flightInfo[0];
+    }
+
+    async flightsToCancel(email){
+        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (departure_date > CURRENT_DATE) AND (departure_time > CURRENT_TIME);"
+        const flightInfo = await db.promise().query(sql, [email], (err, result)=>{
+            if(err){
+                console.log(values);
+                throw err;
+            }
+
+            console.log("Found flight info");
+        })
+
+        return flightInfo[0];
+    }
+
+    async searchFlights(departure, arrival, date){
+        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+
+        const ticketInfo = await db.promise().query(sql, [departure, arrival, date], (err, result) => {
+            if(err){
+                console.log(values);
+                throw err;
+            }
+        })
+
+        return ticketInfo[0];
+    }
+
+    cancel(ticket_ID){
+        const sql = "DELETE FROM Ticket_Bought_By WHERE ticket_id = ?"
+
+        db.query(sql, [ticket_ID], (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+            console.log("Delete Success");
+        })
     }
 }
