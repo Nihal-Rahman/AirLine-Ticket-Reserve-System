@@ -39,9 +39,11 @@ function StaffRegister() {
     };
 
     return (
-        <div mt-32 className='registerPage'>
+        <div className='registerPage'>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 <Form className='formContainer'>
+                    <label className='font-extrabold underline text-2xl'>Staff Registration</label>
+                    <br />
                     <ErrorMessage name="firstName" component="span" />
                     <Field placeholder='First Name' autoComplete="off" id="inputRegister" name="firstName" />
                     <br />
@@ -75,6 +77,8 @@ function StaffRegister() {
                     <br />
 
                     <button type='submit' className='button'>Register</button>
+                    <br />
+                    <a className='redirect' href='/user/register'>Not a staff member? Register here.</a>
                     <ToastContainer />
                 </Form>
             </Formik>

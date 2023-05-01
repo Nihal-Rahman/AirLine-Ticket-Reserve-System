@@ -75,7 +75,7 @@ module.exports = class Customer {
 
     async getFlightsFromDB(email){
         //const sql = "SELECT * FROM FLIGHT WHERE flight_num in (SELECT flight_num FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE < DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME < departure_time)));";
-        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE < DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME < departure_time));"
+        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM projectDB.Ticket NATURAL JOIN projectDB.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE < DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME < departure_time));"
         const flightInfo = await db.promise().query(sql, [email], (err, result) => {
             if (err) {
                 console.log(values);

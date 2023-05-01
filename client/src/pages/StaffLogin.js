@@ -6,12 +6,16 @@ import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 function StaffLogin() {
     const initialValues = {
         username: "",
         password: ""
     }
+
+    let history = useNavigate();
+
 
     const validationSchema = Yup.object().shape({
         username: Yup.string().required("Required field."),
@@ -20,7 +24,14 @@ function StaffLogin() {
 
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/login/staff", data).then((response) => {
-            console.log(response.data);
+            if (response.data.error) {
+                console.log("Here's the error: " + response.data.error)
+                alert(response.data.error);
+            }
+            else {
+                sessionStorage.setItem("accessToken", response.data);
+                history("/staff/home");
+            }
         });
     };
 
@@ -28,14 +39,18 @@ function StaffLogin() {
         <div className='registerPage'>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 <Form className='formContainer'>
+                    <label className='font-extrabold underline text-2xl'>Staff Login</label>
+                    <br />
                     <ErrorMessage name="username" component="span" />
-                    <Field placeholder='username' autoComplete="off" id="inputLogin" name="username" />
+                    <Field placeholder='Username' autoComplete="off" id="inputLogin" name="username" />
                     <br />
 
                     <ErrorMessage name="password" component="span" />
-                    <Field placeholder='password' autoComplete="off" id="inputLogin" name="password" type="password" />
+                    <Field placeholder='Password' autoComplete="off" id="inputLogin" name="password" type="password" />
 
                     <button type='submit' className='button'>Login</button>
+                    <br />
+                    <a className='redirect' href='/user/login'>Not a staff member? Login here.</a>
                     <ToastContainer />
                 </Form>
             </Formik>
