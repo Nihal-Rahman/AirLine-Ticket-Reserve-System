@@ -60,11 +60,9 @@ function StaffNavbar() {
                             </button>
                         </a>
                         
-                        <a href='/staff/home'>
                             <button onClick={logout} className='px-8 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-2xl text-white rounded-2xl hover:bg-violet-300'>
                                 Logout
                             </button>
-                        </a>
                     </div>
                 </div>
             </div>
