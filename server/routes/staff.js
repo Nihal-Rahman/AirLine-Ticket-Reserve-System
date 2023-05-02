@@ -16,10 +16,21 @@ router.post('/reviews', validateToken, (req, res) =>{
     const flight_num = req.body.flight_num;
     const departure_date = req.body.departure_date;
     const departure_time = req.body.departure_time;
-    let average_rating;
 
     const sqlSelect = "SELECT * FROM review WHERE (flight_num = ?) and (departure_date = ?) and (departure_time = ?)"
     db.query(sqlSelect, [flight_num, departure_date, departure_time], (err, result) => {
+        res.send(result);
+    });
+})
+
+router.post('/customers', validateToken, (req, res) =>{
+    const flight_num = req.body.flight_num;
+    const departure_date = req.body.departure_date;
+    const departure_time = req.body.departure_time;
+
+    const sqlSelect = "SELECT * FROM ticket_bought_by NATURAL JOIN ticket WHERE (flight_num = ?) and (departure_date = ?) and (departure_time = ?)"
+    db.query(sqlSelect, [flight_num, departure_date, departure_time], (err, result) => {
+        console.log(result)
         res.send(result);
     });
 })

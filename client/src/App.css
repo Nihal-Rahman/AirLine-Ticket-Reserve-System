@@ -6,6 +6,12 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+.toast-message {
+    background: rgb(33, 190, 164);
+    color: #fff;
+    font-size: 40px;
+}
+
 .card {
   width: 500px;
   height: 250px;

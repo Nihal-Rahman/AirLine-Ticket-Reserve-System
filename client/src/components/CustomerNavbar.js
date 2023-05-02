@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import '../App.css'
 
 
 function CustomerNavbar() {
@@ -7,7 +9,11 @@ function CustomerNavbar() {
 
     const logout = () => {
         sessionStorage.clear();
-        history("/")
+        toast('Goodbye!', {
+            position: toast.POSITION.BOTTOM_LEFT,
+            className: 'toast-message'
+        });
+        history("/user/login")
     };
 
     return (
