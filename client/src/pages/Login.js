@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 function Login() {
 
@@ -33,15 +34,19 @@ function Login() {
 
   return (
     <div className='registerPage'>
+      <Navbar />
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
         <Form className='formContainer'>
-          <label>Email:</label>
+          <label className='font-extrabold underline text-2xl'>Customer Login</label>
+          <br />
           <ErrorMessage name="email" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="email" placeholder="(Ex: joeode@nyu.edu)" />
-          <label>Password:</label>
+          <Field autoComplete="off" id="inputRegister" name="email" placeholder="Email Address" />
           <ErrorMessage name="pass" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="pass" />
+          <br/>
+          <Field autoComplete="off" id="inputRegister" name="pass" type='password' placeholder='Password'/>
           <button type='submit'>Login </button>
+          <br/>
+          <a className='redirect' href='/staff/login'>Airline Staff Member? Login here.</a>
         </Form>
       </Formik>
     </div>

@@ -3,6 +3,7 @@ const router = express.Router();
 const Customer = require('../relations/customer.js');
 const Review = require('../relations/review.js');
 const {validateToken} = require("../middleware/auth.js");
+const db = require('../connection');
 
 router.get("/viewFlights", validateToken, (req, res) => {
 
@@ -101,5 +102,42 @@ router.post("/buy", validateToken, (req, res)=>{
 
     res.send({succ: "success"});
 })
+
+router.post("/checkLogin", validateToken, (req, res) => {
+    if(req.userInfo.email){
+        res.send({succ: "success"});
+    }
+})
+
+router.get("/viewFlights/past", validateToken, (req,res)=>{
+
+    const email = req.userInfo.userEmail;
+
+    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE > DEPARTURE_DATE);"
+
+    db.query(sql, [email], (err, result) =>{
+        if(err){
+            console.log(values);
+            throw err;
+        }
+        res.send(result);
+    })
+})
+
+router.get("/viewFlights/today", validateToken, (req,res)=>{
+    const email = req.userInfo.userEmail;
+
+    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
+
+    db.query(sql, [email], (err, result) =>{
+        if(err){
+            console.log(values);
+            throw err;
+        }
+        res.send(result);
+    })
+})
+
+
 
 module.exports = router;

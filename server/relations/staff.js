@@ -77,13 +77,7 @@ module.exports = class Staff {
 
         if (result != null) {
             bcrypt.compare(pass, result.passcode).then((match) => {
-                if (!match) {
-                    return false; 
-             }
-                else {
-                    console.log("Login successful");
-                    return true;
-                }
+                return match;
             });
         } 
     }

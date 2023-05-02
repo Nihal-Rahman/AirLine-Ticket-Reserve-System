@@ -2,12 +2,27 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import {useState } from "react"; 
+import {useEffect, useState } from "react"; 
 import CustomerPayment from './CustomerPayment';
 import CustomerTicketInfo from './CustomerTicketInfos';
 import { useNavigate } from 'react-router-dom';
 
 function SearchFlights(){
+
+    useEffect(() => {
+        axios.get("http://localhost:3001/customer/checkLogin",
+          {
+            headers: {
+              accessToken: sessionStorage.getItem("accessToken"),
+            },
+          }
+        ).then((response) => {
+          if (response.data.error) {
+            alert("You are not logged in!");
+          }
+        });
+      }, []);
+
 
     const [listOfTickets, setListOfTickets] = useState([]);
     const [ticketsToBuy, setTicketsToBuy] = useState([]);
