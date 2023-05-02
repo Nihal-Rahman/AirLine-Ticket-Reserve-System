@@ -7,12 +7,14 @@ import StaffLogin from './pages/StaffLogin';
 import Navbar from './components/Navbar';
 import Login from './pages/Login'
 import CustomerHome from './pages/CustomerHome';
-import CancelFlights from './pages/CancelFlights';
-import SearchFlights from './pages/SearchFlights';
+import CancelFlights from './pages/CustomerCases/CancelFlights';
+import SearchFlights from './pages/CustomerCases/SearchFlights';
 import StaffHome from './pages/StaffHome';
 import CreateFlight from './pages/StaffCases/CreateFlight'
 import AddPlane from './pages/StaffCases/AddPlane'
 import AddAirport from './pages/StaffCases/AddAirport'
+import ViewReports from './pages/StaffCases/ViewReports';
+import FrequentCustomers from './pages/StaffCases/FrequentCustomers';
 
 function App() {
   return <div className="App">
@@ -31,6 +33,8 @@ function App() {
         <Route path='/staff/create-flight' exact element={<CreateFlight />} />
         <Route path='/staff/add-plane' exact element={<AddPlane />} />
         <Route path='/staff/add-airport' exact element={<AddAirport />} />
+        <Route path='/staff/FrequentCustomers' exact element={<FrequentCustomers/>}/>
+        <Route path='staff/viewReports' exact element={<ViewReports/>} />
       </Routes>
     </Router>
   </div>;

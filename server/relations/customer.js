@@ -114,4 +114,19 @@ module.exports = class Customer {
             console.log("Delete Success");
         })
     }
+
+
+    async getTodaysFlights(email){
+        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
+
+        const flightInfo = db.query(sql, [email], (err, result) =>{
+            if(err){
+                console.log(values);
+                throw err;
+            }
+        })
+
+        console.log(flightInfo[0]);
+        return flightInfo[0];
+    }
 }

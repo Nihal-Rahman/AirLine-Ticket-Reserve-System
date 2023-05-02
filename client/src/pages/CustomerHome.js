@@ -8,6 +8,54 @@ function CustomerHome() {
   const [listOfFlights, setListOfFlights] = useState([]);
 
   useEffect(() => {
+      axios.get("http://localhost:3001/customer/viewFlights",
+        {
+          headers: {
+            accessToken: sessionStorage.getItem("accessToken"),
+          },
+        }
+      ).then((response) => {
+        if (response.data.error) {
+          alert("You are not logged in!");
+        } else {
+          setListOfFlights(response.data);
+        }
+      });
+  }, []);
+
+  const viewPast = ()=>{
+    axios.get("http://localhost:3001/customer/viewFlights/past",
+      {
+        headers: {
+          accessToken: sessionStorage.getItem("accessToken"),
+        },
+      }
+    ).then((response) => {
+      if (response.data.error) {
+        alert("You are not logged in!");
+      } else {
+        setListOfFlights(response.data);
+      }
+    });
+  }
+
+  const viewPresent = ()=>{
+    axios.get("http://localhost:3001/customer/viewFlights/today",
+      {
+        headers: {
+          accessToken: sessionStorage.getItem("accessToken"),
+        },
+      }
+    ).then((response) => {
+      if (response.data.error) {
+        alert("You are not logged in!");
+      } else {
+        setListOfFlights(response.data);
+      }
+    });
+  }
+
+  const viewFuture = ()=>{
     axios.get("http://localhost:3001/customer/viewFlights",
       {
         headers: {
@@ -21,7 +69,7 @@ function CustomerHome() {
         setListOfFlights(response.data);
       }
     });
-  }, []);
+  }
 
   return (
     <div>
@@ -56,6 +104,9 @@ function CustomerHome() {
           })}
         </tbody>
       </table>
+      <button onClick={()=>{viewPresent()}}>View Today's Flights</button> 
+      <button onClick={()=>{viewPast()}}>View Previous Flights</button>
+      <button onClick={()=>{viewFuture()}}>View Future Flights</button>
     </section>
     </div>
   );

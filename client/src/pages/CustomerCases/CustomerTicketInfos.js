@@ -8,7 +8,7 @@ function CustomerTicketInfo({initialValues,onSubmit, validation, data}){
                         {data.map((value, key)=>{
                             return(
                                 <>
-                                    <label>Ticket#{key} Info</label>
+                                    <label><b>Ticket#{key+1} Info</b></label>
                                     <label>First Name:</label>
                                     <ErrorMessage name={"firstName"+key} component="span" />
                                     <Field autoComplete="off" id="inputRegister" name={"firstName"+ key} placeholder="(Ex: John)" />
