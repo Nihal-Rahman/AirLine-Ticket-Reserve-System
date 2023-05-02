@@ -16,26 +16,28 @@ import AddAirport from './pages/StaffCases/AddAirport'
 import Flight from './pages/StaffCases/Flight';
 
 function App() {
-  return <div className="App">
-    <Navbar relative flex absolute inset-y-0 />
-    <Router>
-      <Routes>
-        <Route path='/' exact element={<Home />} />
-        <Route path='/staff/register' exact element={<StaffRegister />} />
-        <Route path='/staff/login' exact element={<StaffLogin />} />
-        <Route path='/user/register' exact element={<Register />} />
-        <Route path='/user/login' exact element={<Login />} />
-        <Route path='/customer/home' exact element={<CustomerHome />} />
-        <Route path='/customer/cancelFlights' exact element={<CancelFlights />} />
-        <Route path='/customer/search' exact element={<SearchFlights />} />
-        <Route path='/staff/home' exact element={<StaffHome />} />
-        <Route path='/staff/create-flight' exact element={<CreateFlight />} />
-        <Route path='/staff/add-plane' exact element={<AddPlane />} />
-        <Route path='/staff/add-airport' exact element={<AddAirport />} />
-        <Route path='/flight/:flight_num/:departure_date/:departure_time' exact element={<Flight />} />
-      </Routes>
-    </Router>
-  </div>;
+  return( 
+    <div className="App">
+      <Navbar relative flex absolute inset-y-0 />
+      <Router>
+        <Routes>
+          <Route path='/' exact element={<Home />} />
+          <Route path='/staff/register' exact element={<StaffRegister />} />
+          <Route path='/staff/login' exact element={<StaffLogin />} />
+          <Route path='/user/register' exact element={<Register />} />
+          <Route path='/user/login' exact element={<Login />} />
+          <Route path='/customer/home' exact element={<CustomerHome />} />
+          <Route path='/customer/cancelFlights' exact element={<CancelFlights />} />
+          <Route path='/customer/search' exact element={<SearchFlights />} />
+          <Route path='/staff/home' exact element={<StaffHome />} />
+          <Route path='/staff/create-flight' exact element={<CreateFlight />} />
+          <Route path='/staff/add-plane' exact element={<AddPlane />} />
+          <Route path='/staff/add-airport' exact element={<AddAirport />} />
+          <Route path='/flight/:flight_num/:departure_date/:departure_time' exact element={<Flight />} />
+        </Routes>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

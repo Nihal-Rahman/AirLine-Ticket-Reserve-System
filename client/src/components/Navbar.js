@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 function Navbar() {
 
     return (
-        <nav className=' bg-slate-200 h-32 flex-wrap top-0 w-full fixed'>
+        <nav className=' bg-gradient-to-r from-green-300 to-blue-500 h-32 flex-wrap top-0 w-full fixed'>
             <div className='max-w-screen h-[100px]'>
                 <div className='px-10 flex justify-between relative flex items-center w-full h-full'>
                     <div className='relative mt-10 flex items-center ml-10 text-[#424B5A]'>

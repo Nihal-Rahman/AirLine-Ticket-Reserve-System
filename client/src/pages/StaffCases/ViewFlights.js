@@ -44,7 +44,7 @@ export default function ViewFlights() {
             <div className='ml-4 grid gap-4 grid-cols-4 mt-36 space-y-5 text-2xl'>
                 {flightsList.map((val) => {
                     return (
-                        <div className='max-w-xl p-6 bg-white border border-gray-200 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
+                        <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
                             <h1 onClick={() => { history(`/flight/${val.flight_num}/${val.departure_date}/${val.departure_time}`) }} className='w-42 mb-2 text-4xl font-black tracking-tight hover:underline hover:cursor-pointer hover:text-blue-400 text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
                             <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Departure: {val.departure_date} | {val.departure_time} </p>
                             <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Arrival: {val.arrival_date} | {val.arrival_time} </p>
