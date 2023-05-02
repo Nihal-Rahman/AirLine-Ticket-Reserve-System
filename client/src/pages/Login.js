@@ -25,10 +25,10 @@ function Login() {
         alert(response.data.error);
       }
       else{
+        console.log(response.data);
         sessionStorage.setItem("accessToken", response.data);
         history("/customer/home");
       }
-      
     });
   };
 
