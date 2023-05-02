@@ -16,12 +16,25 @@ router.post('/reviews', validateToken, (req, res) =>{
     const flight_num = req.body.flight_num;
     const departure_date = req.body.departure_date;
     const departure_time = req.body.departure_time;
+    let average_rating;
+
     const sqlSelect = "SELECT * FROM review WHERE (flight_num = ?) and (departure_date = ?) and (departure_time = ?)"
     db.query(sqlSelect, [flight_num, departure_date, departure_time], (err, result) => {
         res.send(result);
     });
 })
 
+router.post('/avgRating', validateToken, (req, res) =>{
+    const flight_num = req.body.flight_num;
+    const departure_date = req.body.departure_date;
+    const departure_time = req.body.departure_time;
+
+    const sqlSelect = "SELECT avg(rating) as average FROM review WHERE (flight_num = ?) and (departure_date = ?) and (departure_time = ?)"
+    db.query(sqlSelect, [flight_num, departure_date, departure_time], (err, result) => {
+        res.send(result[0].average);
+    });
+})
+ 
 router.post('/create-flight', validateToken, (req, res)=>{
     const flight_num = req.body.flight_num;
     const departure_date = req.body.departure_date;
