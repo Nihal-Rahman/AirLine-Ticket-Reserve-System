@@ -48,7 +48,6 @@ router.post("/cancelFlights", validateToken, (req, res)=> {
 });
 
 router.post("/search", validateToken, (req, res) =>{
-
     const departure = req.body.dair;
     const arrival = req.body.aair;
     const ddate = req.body.ddate;
@@ -91,5 +90,16 @@ router.get("/retrieveReviews", validateToken, (req, res) => {
 // router.get('/retrieveSpending', validateToken, async(req, res) => {
     
 // }); 
+router.post("/buy", validateToken, (req, res)=>{
+    const email = req.userInfo.userEmail;
+
+    const info = req.body;
+
+    const theUser = new Customer();
+
+    theUser.payForTickets(info, email);
+
+    res.send({succ: "success"});
+})
 
 module.exports = router;

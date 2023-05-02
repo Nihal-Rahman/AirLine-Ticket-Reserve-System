@@ -83,6 +83,26 @@ module.exports = class Customer {
         return ticketInfo[0];
     }
 
+    payForTickets(info, email){
+        const ticketInsert = info.map((data, key)=>{
+            return {ticket_ID: data.ticket_ID,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    dob: data.dob,
+                    card_type: data.card_type,
+                    card_num: data.card_num,
+                    name_on_card: data.name_on_card,
+                    expiration_date: data.expiration_date,
+                    email: email
+                }
+        });
+
+        const sql = "INSERT INTO Ticket_Bought_By VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE, CURRENT_TIME);"
+        ticketInsert.forEach((data)=>{
+            db.query(sql, [data.ticket_ID, data.email, data.firstName, data.lastName, data.dob, data.card_type, data.card_num, data.name_on_card, data.expiration_date, ])
+        })
+    }
+
     cancel(ticket_ID){
         const sql = "DELETE FROM Ticket_Bought_By WHERE ticket_id = ?"
 
