@@ -109,4 +109,13 @@ router.post('/flight', validateToken, (req, res) => {
     });
 });
 
+router.get('/flightsFromPastYear', validateToken, (req, res)=>{
+
+    console.log(req.userInfo.airline);
+    const sql = 'SELECT * FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE departure_date >= DATE_SUB(NOW(),INTERVAL 1 YEAR) AND airline_name = ?;'
+    db.query(sql, [req.userInfo.airline] ,(err, result)=>{
+        res.send(result);
+    });
+})
+
 module.exports = router;

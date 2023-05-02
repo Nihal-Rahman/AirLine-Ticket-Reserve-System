@@ -37,7 +37,7 @@ router.post("/staff", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    const sql = "SELECT userName, passcode FROM Airline_Staff WHERE userName = ?;"
+    const sql = "SELECT userName, passcode, airline_name FROM Airline_Staff WHERE userName = ?;"
 
     db.query(sql, [username], (err, result) => {
         if (err) {
@@ -47,9 +47,10 @@ router.post("/staff", (req, res) => {
         if (result.length > 0) {
             bcrypt.compare(password, result[0].passcode, (error, response) => {
                 if (response) {
-                    console.log("success!!!! logged in.")
+                    console.log("success!!!! logged in.");
+
                     const accessToken = sign(
-                        { username: username, typeofUser: "staff" }, 
+                        { username: username, typeofUser: "staff", airline: result[0].airline_name}, 
                         "ilovedatabases"
                     );
                     res.json(accessToken);
