@@ -2,11 +2,25 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useEffect, useState } from "react"; 
+import {useState } from "react"; 
+import CustomerPayment from './CustomerPayment';
+import CustomerTicketInfo from './CustomerTicketInfos';
+import { useNavigate } from 'react-router-dom';
 
 function SearchFlights(){
 
-    const initialValues = {
+    const [listOfTickets, setListOfTickets] = useState([]);
+    const [ticketsToBuy, setTicketsToBuy] = useState([]);
+    const [readytoPurchase, setReadyToPurchase] = useState(false);
+    const [page, setPage] = useState(0);
+    const [cexdate, setCexdate] = useState("");
+    const [cnum, setCnum] = useState("");
+    const [name, setName] = useState("");
+    const [ctype, setCtype] = useState("");
+
+    let history = useNavigate();
+
+    let initialValues = {
         diar: "",
         aair: "",
         ddate: "",
@@ -14,22 +28,21 @@ function SearchFlights(){
         cnum: "",
         ctype: "",
         name:""
-
     }
-
-    const [listOfTickets, setListOfTickets] = useState([]);
-    const [ticketsToBuy, setTicketsToBuy] = useState([]);
-    const [readytoPurchase, setReadyToPurchase] = useState(false);
 
     const validationSchema = Yup.object().shape({
         dair: Yup.string().required("You must input a destination airport!"),
         aair: Yup.string().required("You must input an arrival airport!"),
         ddate: Yup.string().required("You must a departure date!"),
+    })
+
+    const validationSchema2 = Yup.object().shape({
         cexdate: Yup.string().required("You must input an expiration date"),
         name: Yup.string().required("You must input a name"),
         ctype: Yup.string().required("You must input a card type"),
         cnum: Yup.string().required("You must input a card number")
     })
+
 
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/customer/search", data, {
@@ -43,8 +56,8 @@ function SearchFlights(){
             else{
                 console.log(response.data);
                 let tickets = response.data;
-                tickets.map((data) => {
-                    return {select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time:data.departure_time, airline_name: data.airline_name}
+                tickets.map((data, key) => {
+                    return {select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time:data.departure_time, airline_name: data.airline_name, firstName: data["firstName"+key], lastName: data["lastName"+key]}
                 })
                 setListOfTickets(tickets);
             }
@@ -58,12 +71,55 @@ function SearchFlights(){
             }
         }).filter(a => a != null);
 
+        wantToBuy.map((data, key)=>{
+            initialValues["firstName" + key] = "";
+            initialValues["lastName" + key] = "";
+            initialValues["date_of_birth" + key] = "";
+        })
+
+        console.log(initialValues);
+
         setTicketsToBuy(wantToBuy);
         setReadyToPurchase(true);
     };
 
-    const finalPurchase = () => {};
+    const submitPaymentInfo = (data) => {
+        setCexdate(data.cexdate);
+        setCnum(data.cnum);
+        setCtype(data.ctype);
+        setName(data.name);
 
+        setPage(1);
+    };
+
+    const final = (data) => {
+        const ticket_bought = ticketsToBuy.map((d,key) =>{
+            return {ticket_ID: d.ticket_ID, firstName: data["firstName"+key], lastName: data["lastName"+key], dob: data["dob"+key], card_type: ctype, card_num: cnum, name_on_card: name, expiration_date: cexdate}
+        });
+        console.log(ticket_bought);
+
+        axios.post("http://localhost:3001/customer/buy", ticket_bought, {
+            headers: {
+                accessToken: sessionStorage.getItem("accessToken"),
+            }
+        }).then((response) => {
+                if (response.data.error) {
+                    alert("You are not logged in!");
+                }
+                console.log("succesful purchase");
+                history("/customer/home");
+            })
+       
+    }
+
+    const FormDisplay = ()=>{
+        if(page === 0 ){
+            return <CustomerPayment initialValues={initialValues} onSubmit={submitPaymentInfo} validationSchema={validationSchema2} />;
+        }
+        if(page === 1){
+            return <CustomerTicketInfo initialValues={initialValues} onSubmit={final} data={ticketsToBuy}/>
+        }
+    }
 
 
     return(
@@ -81,7 +137,7 @@ function SearchFlights(){
                         <Field autoComplete="off" id="inputRegister" name="aair" placeholder="(Ex: PVG)" />
                         <label>Departure Date:</label>
                         <ErrorMessage name="ddate" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="ddate" placeholder="(Ex: DD-MM-YYYY)" />
+                        <Field autoComplete="off" id="inputRegister" name="ddate" placeholder="(Ex: YYYY-MM-DD)" />
                         <button type='submit'>Search </button>
                     </Form>
                     </Formik>
@@ -130,23 +186,7 @@ function SearchFlights(){
         ): (
             <>
                 <div className='registerPage'>
-                    <Formik initialValues={initialValues} onSubmit={finalPurchase} validationSchema={validationSchema}>
-                    <Form className='formContainer'>
-                        <label>Card Type:</label>
-                        <ErrorMessage name="ctype" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="ctype" placeholder="(Ex: Credit or Debit)" />
-                        <label>Card Number:</label>
-                        <ErrorMessage name="cnum" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="cnum" placeholder="(Ex: 123456789" />
-                        <label>Card Expiration:</label>
-                        <ErrorMessage name="cexdate" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="cexdate" placeholder="(Ex: DD-MM-YYYY)" />
-                        <label>Name on Card:</label>
-                        <ErrorMessage name="name" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="cexdate" placeholder="(Ex: John Doe)" />
-                        <button type='submit'>Pay! </button>
-                    </Form>
-                    </Formik>
+                    {FormDisplay()}
                 </div>
             </>
         )}
