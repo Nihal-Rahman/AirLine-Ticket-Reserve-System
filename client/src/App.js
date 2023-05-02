@@ -9,6 +9,10 @@ import Login from './pages/Login'
 import CustomerHome from './pages/CustomerHome';
 import CancelFlights from './pages/CancelFlights';
 import SearchFlights from './pages/SearchFlights';
+import StaffHome from './pages/StaffHome';
+import CreateFlight from './pages/StaffCases/CreateFlight'
+import AddPlane from './pages/StaffCases/AddPlane'
+import AddAirport from './pages/StaffCases/AddAirport'
 
 function App() {
   return <div className="App">
