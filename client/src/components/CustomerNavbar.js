@@ -30,7 +30,7 @@ function CustomerNavbar() {
                         </a>
                     </div>
                     <div className='hidden gap-4 md:flex pr-4 mr-10'>
-                        <a href='/customer/home'>
+                        <a href='/customer/search'>
                             <button className='px-8 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-3xl text-white rounded-2xl hover:bg-violet-300'>
                                 Search Flights
                             </button>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import StaffNavbar from "../../components/StaffNavbar";
 
 function FrequentCustomers(){
     const [customers, setCustomers] = useState([]);
@@ -59,6 +60,8 @@ function FrequentCustomers(){
     }
 
     return(
+        <div>
+            <StaffNavbar/>
             <section>
                 {!view ? (
                     <>
@@ -117,6 +120,7 @@ function FrequentCustomers(){
                 )
                 }
           </section>
+        </div>
     )
 
 

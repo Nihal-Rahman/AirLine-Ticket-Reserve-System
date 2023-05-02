@@ -13,7 +13,7 @@ function CustomerPayment({initialValues,onSubmit, validation}){
                 <Field autoComplete="off" id="inputRegister" name="cnum" placeholder="(Ex: 123456789" />
                 <label>Card Expiration:</label>
                 <ErrorMessage name="cexdate" component="span" />
-                <Field autoComplete="off" id="inputRegister" name="cexdate" placeholder="(Ex: DD-MM-YYYY)" />
+                <Field autoComplete="off" id="inputRegister" name="cexdate" placeholder="(Ex: YYYY-MM-DD)" />
                 <label>Name on Card:</label>
                 <ErrorMessage name="name" component="span" />
                 <Field autoComplete="off" id="inputRegister" name="name" placeholder="(Ex: John Doe)" />
