@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import CustomerHome from './pages/CustomerHome';
 import CancelFlights from './pages/CancelFlights';
 import SearchFlights from './pages/SearchFlights';
+import CustomerReview from './pages/CustomerReview';
 
 function App() {
   return <div className="App">
@@ -23,6 +24,7 @@ function App() {
         <Route path='/customer/home' exact element={<CustomerHome />} />
         <Route path='/customer/cancelFlights' exact element={<CancelFlights />} />
         <Route path='/customer/search' exact element={<SearchFlights />} />
+        <Route path='/customer/reviews' exact element={<CustomerReview />} />
       </Routes>
     </Router>
     </div>;

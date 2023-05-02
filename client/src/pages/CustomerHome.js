@@ -53,6 +53,7 @@ function CustomerHome(){
               })}
             </tbody>
           </table>
+          <button onClick={() => window.location.href = "http://localhost:3000/customer/reviews"}> Reviews Page </button>
         </section>
     );
 }

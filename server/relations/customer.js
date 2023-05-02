@@ -43,7 +43,7 @@ module.exports = class Customer {
     }
 
     async getFlightsFromDB(email){
-        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE < DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME < departure_time));"
+        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM air_ticket_res_db.Ticket NATURAL JOIN air_ticket_res_db.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE < DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME < departure_time));"
         const flightInfo = await db.promise().query(sql, [email], (err, result) => {
             if (err) {
                 console.log(values);
@@ -57,7 +57,7 @@ module.exports = class Customer {
     }
 
     async flightsToCancel(email){
-        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (departure_date > CURRENT_DATE) AND (departure_time > CURRENT_TIME);"
+        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM air_ticket_res_db.Ticket NATURAL JOIN air_ticket_res_db.Ticket_Bought_By WHERE email_address = ? AND (departure_date > CURRENT_DATE) AND (departure_time > CURRENT_TIME);"
         const flightInfo = await db.promise().query(sql, [email], (err, result)=>{
             if(err){
                 console.log(values);
@@ -94,4 +94,79 @@ module.exports = class Customer {
             console.log("Delete Success");
         })
     }
+
+    async getfromDB(user, pass) {
+        const sql = "SELECT email_address, passcode FROM Customer WHERE email_address = ? ;"
+        const userThere = await db.promise().query(sql, [user], (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+
+            console.log("Found user!")
+        });
+        
+
+        const result = userThere[0][0];
+        if (result == null) {
+            return false;
+        }
+
+
+        if (result != null) {
+            bcrypt.compare(pass, result.passcode).then((match) => {
+                if (!match) {
+                    return false; 
+             }
+                else {
+                    console.log("Login successful");
+                    return true;
+                }
+            });
+        } 
+    }
+
+
+    // async getTotalSpentOverRange(email, start, end) {
+    //     const customerTransactions = 
+    //     `
+    //     SELECT
+    //         tbb.email_address,
+    //         t.flight_num,
+    //         (t.price * (1 + 0.25 * ((fc.curr_capacity / a.num_of_seats) >= 0.8))) AS market_price,
+    //         tbb.purchase_date
+    //     FROM
+    //         Ticket t
+    //         JOIN Flight as f
+    //         JOIN Airplane as a
+    //         JOIN Ticket_bought_by as tbb
+    //         LEFT JOIN (
+    //             SELECT
+    //                 f.flight_num,
+    //                 COUNT(tb.ticket_id) AS curr_capacity
+    //             FROM
+    //                 Flight f
+    //                 JOIN Airplane a ON f.airplane_id = a.airplane_id
+    //                 JOIN Ticket t ON t.flight_num = f.flight_num
+    //                 JOIN Ticket_bought_by tb ON t.ticket_id = tb.ticket_id
+    //             GROUP BY
+    //                 f.flight_num
+    //         ) as fc ON t.flight_num = fc.flight_num
+    //     WHERE
+    //         tbb.email_address = 'email' and 
+    //         t.flight_num = f.flight_num and 
+    //         f.airplane_id = a.airplane_id and
+    //     `
+
+
+
+
+
+    //     const sql = 
+        
+
+        
+
+    // }
+        
 }
