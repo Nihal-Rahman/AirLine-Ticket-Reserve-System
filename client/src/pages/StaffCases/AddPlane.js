@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import StaffNavbar from '../../components/StaffNavbar';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 export default function AddPlane() {
@@ -72,7 +73,7 @@ export default function AddPlane() {
                     <br />
                     <br />
                     <button onClick={submitFlight} className="bg-[#424B5A] hover:bg-violet-300 text-white font-bold py-2 px-10 rounded-3xl">Submit</button>
-
+                    <ToastContainer />
                 </div>
             </div>
         </div>

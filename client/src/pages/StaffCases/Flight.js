@@ -31,6 +31,7 @@ function Flight(){
                 alert("You are not logged in!")
             }
             else {
+                console.log({flight_num, departure_date, departure_time});
                 setArrDate(response.data[0].arrival_date);
                 setArrTime(response.data[0].arrival_time);
                 setDepAirport(response.data[0].departure_airport);
@@ -76,7 +77,6 @@ function Flight(){
                                 <h1 className='w-42 mb-5 text-4xl font-black tracking-tight underline decoration-sky-500 text-gray-900 dark:text-white'>{val.rating} / 10</h1>
                                 <p className='mb-3 font-normal text-gray-700'>{val.comments} </p>
                                 <p className='mb-3 text-lg font-normal text-right text-gray-700'>- {val.email_address} </p>
-
                             </div>
                         )
                     })}

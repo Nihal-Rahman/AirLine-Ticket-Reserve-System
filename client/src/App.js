@@ -13,6 +13,7 @@ import StaffHome from './pages/StaffHome';
 import CreateFlight from './pages/StaffCases/CreateFlight'
 import AddPlane from './pages/StaffCases/AddPlane'
 import AddAirport from './pages/StaffCases/AddAirport'
+import Flight from './pages/StaffCases/Flight';
 
 function App() {
   return <div className="App">
@@ -31,6 +32,7 @@ function App() {
         <Route path='/staff/create-flight' exact element={<CreateFlight />} />
         <Route path='/staff/add-plane' exact element={<AddPlane />} />
         <Route path='/staff/add-airport' exact element={<AddAirport />} />
+        <Route path='/flight/:flight_num/:departure_date/:departure_time' exact element={<Flight />} />
       </Routes>
     </Router>
   </div>;

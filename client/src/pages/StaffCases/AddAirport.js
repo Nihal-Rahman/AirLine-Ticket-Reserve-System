@@ -40,6 +40,8 @@ export default function AddAirport() {
         }).then(() => {
             console.log("successful insert");
         });
+
+        setType("");
     };
 
     return (
