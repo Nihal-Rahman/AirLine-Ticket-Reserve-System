@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
+import CustomerNavbar from '../components/CustomerNavbar'
 
 function CustomerHome() {
 
@@ -23,6 +24,8 @@ function CustomerHome() {
   }, []);
 
   return (
+    <div>
+      <CustomerNavbar/>
     <section>
       <div>Your Upcoming Flights:</div>
       <table className="table">
@@ -54,6 +57,7 @@ function CustomerHome() {
         </tbody>
       </table>
     </section>
+    </div>
   );
 }
 
