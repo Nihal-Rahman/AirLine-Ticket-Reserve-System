@@ -19,6 +19,7 @@ function Flight(){
     const [rating, setRating] = useState("");
     const [comments, setComments] = useState("");
     const [reviewsList, setReviewsList] = useState([])
+    const [average, setAverage] = useState()
 
     useEffect(() => {
         axios.post("http://localhost:3001/staff/flight", { flight_num, departure_date, departure_time },
@@ -31,7 +32,6 @@ function Flight(){
                 alert("You are not logged in!")
             }
             else {
-                console.log({flight_num, departure_date, departure_time});
                 setArrDate(response.data[0].arrival_date);
                 setArrTime(response.data[0].arrival_time);
                 setDepAirport(response.data[0].departure_airport);
@@ -40,7 +40,7 @@ function Flight(){
                 setPlaneID(response.data[0].airplane_ID);
                 setStatus(response.data[0].flight_status);
             }
-        })
+        }) 
 
         axios.post("http://localhost:3001/staff/reviews", { flight_num, departure_date, departure_time },
             {
@@ -53,6 +53,20 @@ function Flight(){
                 }
                 else {
                     setReviewsList(response.data);
+                }
+            })
+            
+            axios.post("http://localhost:3001/staff/avgRating", { flight_num, departure_date, departure_time },
+            {
+                headers: {
+                    accessToken: sessionStorage.getItem("accessToken"),
+                },
+            }).then((response) => {
+                if (response.data.error) {
+                    alert("You are not logged in!")
+                }
+                else {
+                    setAverage(Math.round(response.data * 10) / 10);
                 }
             })
     }, [])
@@ -69,8 +83,9 @@ function Flight(){
                     <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{airplane_ID} | {airline_name} </p>
                     <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Status: {flight_status.toUpperCase()}</p>
                 </div>
-                <h1 className='w-42 mb-2 text-4xl font-black tracking-tight text-gray-900 dark:text-white underline'>Reviews</h1>
-                <div className='ml-4 grid gap-4 grid-cols-4 mt-10 space-y-5 text-2xl'>
+                <h1 className='w-42 text-4xl font-black tracking-tight text-gray-900 dark:text-white underline'>Reviews</h1>
+                <h1 className='w-42 text-4xl mr-10 font-black tracking-tight text-gray-900 dark:text-white text-right underline decoration-sky-400'>Average Rating : {average}</h1>
+                <div className='ml-4 grid gap-4 grid-cols-4 space-y-5 text-2xl'>
                     {reviewsList.map((val) => {
                         return (
                             <div className='max-w-xl p-6 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700'>
