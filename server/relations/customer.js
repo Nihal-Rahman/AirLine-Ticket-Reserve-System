@@ -146,6 +146,10 @@ module.exports = class Customer {
         } 
     }
 
+    // async getYearlyTotal(email) {
+    //     const 
+    // }
+
 
     // async getTotalSpentOverRange(email, start, end) {
     //     const customerTransactions = 

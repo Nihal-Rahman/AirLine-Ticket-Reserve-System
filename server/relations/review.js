@@ -39,10 +39,10 @@ module.exports = class Review {
     }
 
     async getCustomerReviews(email){
-        const sql = "SELECT flight_num, rating, comments FROM Review WHERE email_address = ?;"
+        const sql = "SELECT flight_num, rating, comments FROM Review WHERE email_address = ?;";
         const listOfReviews = await db.promise().query(sql, [email], (err, result) => {
             if (err) {
-                console.log(values);
+                console.log(email);
                 throw err;
             }
             console.log("Found all customer review info!");
@@ -50,6 +50,6 @@ module.exports = class Review {
 
         console.log("List of reviews: ", listOfReviews);
         
-        return listOfReviews;
+        return listOfReviews[0];
     }
 }

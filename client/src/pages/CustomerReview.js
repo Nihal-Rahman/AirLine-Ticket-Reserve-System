@@ -64,15 +64,20 @@ function CustomerReview(){
           if (response.data.error) {
             alert("You are not logged in!");
           } else {
-              let reviews = response.data;
-              console.log("Reviews: ", reviews);
-              setListOfReviews(reviews);
+              //let reviews = response.data;
+              //console.log(reviews);
+              //console.log(response.data);
+              setListOfReviews(response.data);
+              //console.log(listOfReviews);
           }
         });
       }, []);
 
-      console.log(listOfReviews);
-      console.log(listOfReviews[0][flightNum])
+
+
+
+      //console.log(listOfReviews);
+      // console.log(listOfReviews[0][flightNum])
       return(
         <div className = "customerReviewsPage">
           <div className = "viewPastReviews">
@@ -89,9 +94,9 @@ function CustomerReview(){
                   {listOfReviews.map((review, ind) => {
                     return ( 
                       <tr> 
-                        <td> {review[ind].flight_num} </td> 
-                        <td> {review[ind].rating} </td>
-                        <td> {review[ind].comments} </td> 
+                        <td> {review.flight_num} </td> 
+                        <td> {review.rating} </td>
+                        <td> {review.comments} </td> 
                       </tr>
                     );
                   })}

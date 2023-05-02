@@ -18,6 +18,7 @@ function CustomerHome(){
             alert("You are not logged in!");
           } else {
             setListOfFlights(response.data);
+            console.log(listOfFlights);
           }
         });
       }, []);
