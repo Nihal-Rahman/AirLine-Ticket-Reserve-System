@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react"; 
+import CustomerNavbar from '../components/CustomerNavbar'
 
 function CustomerHome(){
 
@@ -37,36 +38,39 @@ function CustomerHome(){
       }, []);
 
     return(
-        <section>
-             <h3>Your Upcoming Flights:</h3>
-      <table className="table">
-        <thead>
-          <th>Ticket ID</th>
-          <th>Airline Name</th>
-          <th>Flight Num</th>
-          <th>Departure Date</th>
-          <th>Departure Time</th>
-          <th>Airline Name</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-        </thead>
-        <tbody>
-          {listOfFlights.map((value,key) => {
-            return ( 
-              <tr> 
-                <td> {value.ticket_ID} </td> 
-                <td> {value.flight_num} </td> 
-                <td> {value.departure_date} </td> 
-                <td> {value.departure_time} </td>
-                <td> {value.airline_name} </td>
-                <td> {value.first_name} </td> 
-                <td> {value.last_name} </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-        </section>
+      <div>
+        <CustomerNavbar />
+          <section>
+              <h3>Your Upcoming Flights:</h3>
+        <table className="table">
+          <thead>
+            <th>Ticket ID</th>
+            <th>Airline Name</th>
+            <th>Flight Num</th>
+            <th>Departure Date</th>
+            <th>Departure Time</th>
+            <th>Airline Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+          </thead>
+          <tbody>
+            {listOfFlights.map((value,key) => {
+              return ( 
+                <tr> 
+                  <td> {value.ticket_ID} </td> 
+                  <td> {value.flight_num} </td> 
+                  <td> {value.departure_date} </td> 
+                  <td> {value.departure_time} </td>
+                  <td> {value.airline_name} </td>
+                  <td> {value.first_name} </td> 
+                  <td> {value.last_name} </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+          </section>
+      </div>
     );
 }
 

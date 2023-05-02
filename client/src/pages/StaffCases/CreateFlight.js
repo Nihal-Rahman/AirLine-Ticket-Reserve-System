@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import StaffNavbar from '../../components/StaffNavbar';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function CreateFlight() {
+        let history = useNavigate();
+
+
     const [flight_num, setFlightNum] = useState("");
     const [departure_date, setDepDate] = useState("");
     const [departure_time, setDepTime] = useState("");
@@ -13,6 +18,19 @@ export default function CreateFlight() {
     const [airline_name, setAirline] = useState("");
     const [airplane_ID, setPlaneID] = useState("");
     const [flight_status, setStatus] = useState("on-time");
+
+    useEffect(() => {
+        axios.get("http://localhost:3001/staff/flights", {
+            headers: {
+                accessToken: sessionStorage.getItem("accessToken"),
+            },
+        }).then((response) => {
+            if (response.data.error) {
+                alert("You are not logged in!")
+                history("/")
+            }
+        })
+    }, [])
 
     const submitFlight = () => {
         axios.post('http://localhost:3001/staff/create-flight', { 
@@ -38,7 +56,8 @@ export default function CreateFlight() {
 
   return (
       <div>
-          <div className='text-center mt-40'>
+          <StaffNavbar/>
+          <div className='text-center mt-60'>
             <h1 className='text-7xl underline'>Create New Flight</h1>
             <div className='text-3xl mt-24'>
                 <input type='text' name="flight_num" placeholder="Flight Number" onChange={(e) => setFlightNum(e.target.value)}/>

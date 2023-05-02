@@ -37,6 +37,7 @@ function StaffLogin() {
 
     return (
         <div className='registerPage'>
+            <Navbar/>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 <Form className='formContainer'>
                     <label className='font-extrabold underline text-2xl'>Staff Login</label>

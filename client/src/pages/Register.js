@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import Navbar from '../components/Navbar';
 
 function Register() {
 
@@ -47,6 +48,7 @@ function Register() {
 
   return (
     <div className='registerPage'>
+      <Navbar />
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
         <Form className='formContainer'>
           <label className='font-extrabold underline text-2xl'>Customer Registration</label>

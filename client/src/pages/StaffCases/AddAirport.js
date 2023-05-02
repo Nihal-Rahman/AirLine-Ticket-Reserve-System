@@ -1,13 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import StaffNavbar from '../../components/StaffNavbar';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function AddAirport() {
+    let history = useNavigate();
+
     const [airport_code, setCode] = useState("");
     const [airport_name, setName] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
     const [airport_type, setType] = useState("");
+
+    useEffect(() => {
+        axios.get("http://localhost:3001/staff/flights", {
+            headers: {
+                accessToken: sessionStorage.getItem("accessToken"),
+            },
+        }).then((response) => {
+            if (response.data.error) {
+                alert("You are not logged in!")
+                history("/")
+            }
+        })
+    }, [])
 
     const submit = () => {
         axios.post('http://localhost:3001/staff/add-airport', {
@@ -27,7 +44,8 @@ export default function AddAirport() {
 
     return (
         <div>
-            <div className='text-center mt-40'>
+            <StaffNavbar />
+            <div className='text-center mt-60'>
                 <h1 className='text-7xl underline'>Add Airport</h1>
                 <div className='text-3xl mt-24'>
                     <input className='w-1/5' type='text' name="airport_code" placeholder="Airport Code" onChange={(e) => setCode(e.target.value)} />

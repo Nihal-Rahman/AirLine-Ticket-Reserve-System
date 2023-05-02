@@ -1,13 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import StaffNavbar from '../../components/StaffNavbar';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function AddPlane() {
+    let history = useNavigate();
+
     const [airplane_ID, setID] = useState("");
     const [num_seats, setSeats] = useState("");
     const [manufactoring_comp, setComp] = useState("");
     const [manufactoring_date, setDate] = useState("");
     const [airline_name, setAirline] = useState("");
+
+    useEffect(() => {
+        axios.get("http://localhost:3001/staff/flights", {
+            headers: {
+                accessToken: sessionStorage.getItem("accessToken"),
+            },
+        }).then((response) => {
+            if (response.data.error) {
+                alert("You are not logged in!")
+                history("/")
+            }
+        })
+    }, [])
 
     const submitFlight = () => {
         const current = new Date();
@@ -33,7 +50,8 @@ export default function AddPlane() {
 
     return (
         <div>
-            <div className='text-center mt-40'>
+            <StaffNavbar />
+            <div className='text-center mt-60'>
                 <h1 className='text-7xl underline'>Add New Plane</h1>
                 <div className='text-3xl mt-24'>
                     <input className='w-96' type='text' name="airplane_id" placeholder="Airplane ID" onChange={(e) => setID(e.target.value)} />

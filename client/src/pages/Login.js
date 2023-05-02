@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 function Login() {
 
@@ -33,6 +34,7 @@ function Login() {
 
   return (
     <div className='registerPage'>
+      <Navbar />
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
         <Form className='formContainer'>
           <label className='font-extrabold underline text-2xl'>Customer Login</label>

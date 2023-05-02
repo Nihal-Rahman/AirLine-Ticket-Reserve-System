@@ -1,6 +1,5 @@
 import './App.css';
 import{BrowserRouter as Router, Route, Routes, Link} from "react-router-dom";
-import Home from './pages/Home';
 import Register from './pages/Register';
 import StaffRegister from './pages/StaffRegister';
 import StaffLogin from './pages/StaffLogin';
@@ -13,10 +12,10 @@ import ViewFlights from './pages/StaffCases/ViewFlights'
 import AddPlane from './pages/StaffCases/AddPlane'
 import AddAirport from './pages/StaffCases/AddAirport'
 import Flight from './pages/StaffCases/Flight';
+import Home from './pages/Home';
 
 function App() {
   return <div className="App">
-    <Navbar/>
     <Router> 
       <Routes>
         <Route path='/' exact element={<Home/>}/>
@@ -29,7 +28,6 @@ function App() {
         <Route path='/staff/create-flight' exact element={<CreateFlight />} />
         <Route path='/staff/add-plane' exact element={<AddPlane />} />
         <Route path='/staff/add-airport' exact element={<AddAirport />} />
-        <Route path='/staff/flights' exact element={<ViewFlights />} />
         
         <Route path='/flight/:flight_num/:departure_date/:departure_time' exact element={<Flight />} />
       </Routes>
