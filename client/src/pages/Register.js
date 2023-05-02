@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import Navbar from '../components/Navbar';
 
 function Register() {
 
@@ -47,51 +48,56 @@ function Register() {
 
   return (
     <div className='registerPage'>
+      <Navbar />
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
         <Form className='formContainer'>
-          <label>Email:</label>
-          <ErrorMessage name="email" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="email" placeholder="(Ex: joeode@nyu.edu)" />
-          <label>FirstName:</label>
+          <label className='font-extrabold underline text-2xl'>Customer Registration</label>
+          <br/>
+          <ErrorMessage name="email" component="span"/>
+          <Field autoComplete="off" id="inputRegister" name="email" placeholder="Email Address" />
+          <br/>
           <ErrorMessage name="first" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="first" />
-          <label>LastName:</label>
-          <ErrorMessage name="last" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="last" />
-          <label>Password:</label>
+          <Field autoComplete="off" placeholder='First Name' id="inputRegister" name="first" />
+          <br />
+          <ErrorMessage name="last"  component="span" />
+          <Field autoComplete="off" placeholder='Last Name' id="inputRegister" name="last" />
+          <br />
           <ErrorMessage name="pass" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="pass" />
-          <label>BuildingNum:</label>
+          <Field autoComplete="off" placeholder='Password' type="password" id="inputRegister" name="pass" />
+          <br />
           <ErrorMessage name="buildnum" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="buildnum" />
-          <label>Street:</label>
-          <ErrorMessage name="street" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="street" />
-          <label>Apt:</label>
+          <Field autoComplete="off" placeholder='Building Number' id="inputRegister" name="buildnum" />
+          <br />
+          <ErrorMessage name="street"  component="span" />
+          <Field autoComplete="off" placeholder='Street' id="inputRegister" name="street" />
+          <br />
           <ErrorMessage name="apt" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="apt" />
-          <label>City:</label>
+          <Field autoComplete="off" placeholder='Apartment No.' id="inputRegister" name="apt" />
+          <br />
           <ErrorMessage name="city" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="city" />
-          <label>State:</label>
-          <ErrorMessage name="state" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="state" />
-          <label>ZipCode:</label>
-          <ErrorMessage name="zip" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="zip" />
-          <label>PassNum:</label>
-          <ErrorMessage name="passnum" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="passnum" />
-          <label>PassCountry:</label>
+          <Field autoComplete="off" placeholder='City' id="inputRegister" name="city" />
+          <br />
+          <ErrorMessage name="state"  component="span" />
+          <Field autoComplete="off" placeholder='State' id="inputRegister" name="state" />
+          <br />
+          <ErrorMessage name="zip"  component="span" />
+          <Field autoComplete="off" placeholder='Zip Code' id="inputRegister" name="zip" />
+          <br />
+          <ErrorMessage name="passnum"  component="span" />
+          <Field autoComplete="off" placeholder='Passport Number' id="inputRegister" name="passnum" />
+          <br />
           <ErrorMessage name="passcountry" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="passcountry" />
-          <label>PassExpire</label>
+          <Field autoComplete="off" placeholder='Passport Country' id="inputRegister" name="passcountry" />
+          <br />
           <ErrorMessage name="passexpire" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="passexpire" />
-          <label>DOB:</label>
+          <Field autoComplete="off" placeholder='Passport Expiration Date' id="inputRegister" name="passexpire" />
+          <br />
           <ErrorMessage name="dob" component="span" />
-          <Field autoComplete="off" id="inputRegister" name="dob" />
+          <Field autoComplete="off" placeholder='Date of Birth' id="inputRegister" name="dob" />
+          <br />
           <button type='submit'>Register </button>
+          <br />
+          <a className='redirect' href='/staff/register'>Airline staff member? Register here.</a>
         </Form>
       </Formik>
     </div>

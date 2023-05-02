@@ -6,8 +6,13 @@ import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
+
 
 function StaffRegister() {
+
+    let history = useNavigate();
+
 
     const initialValues = {
         username: "",
@@ -33,15 +38,26 @@ function StaffRegister() {
 
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/register/staff", data).then((response) => {
-            console.log(response.data);
+            if (response.data.error) {
+                console.log("Here's the error: " + response.data.error)
+                alert(response.data.error);
+            }
+            else {
+                toast.success("You have been registered!")
+                sessionStorage.setItem("accessToken", response.data);
+                history("/staff/login");
+            }
         });
-        toast.success("You have been registered!")
+        
     };
 
     return (
-        <div mt-32 className='registerPage'>
+        <div className='registerPage'>
+            <Navbar/>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 <Form className='formContainer'>
+                    <label className='font-extrabold underline text-2xl'>Staff Registration</label>
+                    <br />
                     <ErrorMessage name="firstName" component="span" />
                     <Field placeholder='First Name' autoComplete="off" id="inputRegister" name="firstName" />
                     <br />
@@ -75,6 +91,8 @@ function StaffRegister() {
                     <br />
 
                     <button type='submit' className='button'>Register</button>
+                    <br />
+                    <a className='redirect' href='/user/register'>Not a staff member? Register here.</a>
                     <ToastContainer />
                 </Form>
             </Formik>

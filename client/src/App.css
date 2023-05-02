@@ -6,6 +6,14 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+.card {
+  width: 500px;
+  height: 250px;
+  border: 4px solid rgb(130, 100, 185);
+  border-radius: 15px;
+  text-align: center;
+}
+
 .registerPage {
   text-align: center;
   font-family: 'Montserrat', sans-serif;
@@ -15,6 +23,17 @@
   justify-content: center;
   align-items: center;
 }
+
+.title{
+  font-size: xx-large;
+  text-decoration-line: underline;
+}
+
+.redirect {
+  color: blue;
+  text-decoration-line: underline;
+}
+
 .formContainer {
   display: flex;
   flex-direction: column;

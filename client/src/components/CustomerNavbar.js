@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function Navbar() {
+function CustomerNavbar() {
 
     return (
         <nav className=' bg-slate-200 h-32 flex-wrap top-0 w-full fixed'>
@@ -15,16 +15,22 @@ function Navbar() {
                             />
                         </a>
                     </div>
-                    <div className='hidden md:flex pr-4 mr-10'>
-                        <a href='/user/register'>
-                            <button className='px-16 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-2xl hover:bg-violet-300 '>
-                                Register
+                    <div className='hidden gap-4 md:flex pr-4 mr-10'>
+                        <a href='/customer/home'>
+                            <button className='px-8 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-3xl text-white rounded-2xl hover:bg-violet-300'>
+                                Search Flights
+                            </button>
+                        </a>
+                        
+                        <a href='/customer/home'>
+                            <button className='px-8 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-3xl text-white rounded-2xl hover:bg-violet-300'>
+                                Track Spending
                             </button>
                         </a>
 
-                        <a href='/user/login'>
-                            <button className='px-16 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-2xl hover:bg-violet-300'>
-                                Login
+                        <a href='/'>
+                            <button className='px-8 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-3xl text-white rounded-2xl hover:bg-violet-300'>
+                                Logout
                             </button>
                         </a>
                     </div>
@@ -35,4 +41,4 @@ function Navbar() {
     )
 }
 
-export default Navbar
+export default CustomerNavbar
