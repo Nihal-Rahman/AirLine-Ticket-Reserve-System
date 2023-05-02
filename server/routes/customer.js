@@ -71,4 +71,10 @@ router.post("/buy", validateToken, (req, res)=>{
     res.send({succ: "success"});
 })
 
+router.post("/checkLogin", validateToken, (req, res) => {
+    if(req.userInfo.email){
+        res.send({succ: "success"});
+    }
+})
+
 module.exports = router;
