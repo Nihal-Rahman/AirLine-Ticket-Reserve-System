@@ -30,6 +30,14 @@
   align-items: center;
 }
 
+.searchFlights {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
 .title{
   font-size: xx-large;
   text-decoration-line: underline;

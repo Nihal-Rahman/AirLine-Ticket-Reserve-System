@@ -75,16 +75,16 @@ function CustomerHome() {
     <div>
       <CustomerNavbar />
       <div className='mt-40 text-center text-3xl space-x-5' >
-        <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-lg hover:bg-teal-800 focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewPresent() }}>Today's Flights</button>
-        <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-lg hover:bg-teal-800 focus:underline focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewPast() }}>Past Flights</button>
-        <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-lg hover:bg-teal-800 focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewFuture() }}>Future Flights</button>
+        <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-full hover:bg-teal-800 focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewPresent() }}>Today's Flights</button>
+        <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-full hover:bg-teal-800 focus:underline focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewPast() }}>Past Flights</button>
+        <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-full hover:bg-teal-800 focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewFuture() }}>Future Flights</button>
       </div>
       <div>
-        <div className='ml-4 mt-10 mr-4 grid gap-4 grid-cols-4 text-2xl'>
+        <div className='ml-4 mt-10 mr-4 grid gap-4 grid-cols-5 text-xl'>
           {listOfFlights.map((val) => {
             return (
               <div className='p-6 space-y-3 bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
-                <h1 className='w-42 mb-6 text-4xl font-black tracking-tight underline text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
+                <h1 className='w-42 mb-6 text-2xl font-black tracking-tight underline text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Date: {val.departure_date}</p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Time: {val.departure_time}</p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>{val.airline_name} </p>

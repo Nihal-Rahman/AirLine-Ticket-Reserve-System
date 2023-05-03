@@ -105,7 +105,7 @@ function Flight(){
                                 <h1 className='w-42 mb-5 text-4xl font-black tracking-tight underline decoration-sky-500 text-gray-900 dark:text-white'>{val.first_name} {val.last_name}</h1>
                                 <p className='mb-3 font-normal text-gray-700'>{val.email_address} </p>
                                 <p className='mb-3 font-normal text-gray-700'>Purchased: {val.purchase_date} | {val.purchase_time} | ${val.price}</p>
-                                <p className='text-gray-700'>Ticket #{val.ticket_ID}</p>
+                                <p className='text-gray-700'>Ticket No. {val.ticket_ID}</p>
                             </div>
                         )
                     })}

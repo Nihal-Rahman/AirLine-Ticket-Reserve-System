@@ -41,7 +41,9 @@ export default function ViewFlights() {
 
     return (
         <div>
-            <div className='ml-4 mr-4 grid gap-4 grid-cols-5 mt-36 text-2xl'>
+            <h1 className='w-42 text-center mt-40 mb-2 text-4xl font-black tracking-tight text-gray-900 dark:text-white'>Welcome.</h1>
+            <h1 className='w-42 text-center mb-6 text-4xl font-black tracking-tight underline text-gray-900 dark:text-white'>Here are the upcoming flights</h1>
+            <div className='ml-4 mr-4 grid gap-4 grid-cols-4 text-2xl'>
                 {flightsList.map((val) => {
                     return (
                         <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
