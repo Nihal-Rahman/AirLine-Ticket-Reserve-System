@@ -61,8 +61,6 @@ router.post("/search", validateToken, (req, res) =>{
     });
 });
 
-<<<<<<< Updated upstream
-=======
 router.post("/writeReview", validateToken, (req, res) => {
     const email = req.userInfo.userEmail;
     const flightNum = req.body.flightNum;
@@ -96,7 +94,6 @@ router.get('/retrieveYearlySpending', validateToken, async(req, res) => {
     const email = req.userInfo.userEmail;
 
 }); 
->>>>>>> Stashed changes
 router.post("/buy", validateToken, (req, res)=>{
     const email = req.userInfo.userEmail;
 

@@ -9,10 +9,7 @@ import Login from './pages/Login'
 import CustomerHome from './pages/CustomerHome';
 import CancelFlights from './pages/CustomerCases/CancelFlights';
 import SearchFlights from './pages/CustomerCases/SearchFlights';
-<<<<<<< Updated upstream
-=======
 import CustomerReview from './pages/CustomerCases/CustomerReview';
->>>>>>> Stashed changes
 import StaffHome from './pages/StaffHome';
 import CreateFlight from './pages/StaffCases/CreateFlight'
 import AddPlane from './pages/StaffCases/AddPlane'
@@ -33,6 +30,7 @@ function App() {
         <Route path='/customer/home' exact element={<CustomerHome />} />
         <Route path='/customer/cancelFlights' exact element={<CancelFlights />} />
         <Route path='/customer/search' exact element={<SearchFlights />} />
+        <Route path='/customer/reviews' exact element={<CustomerReview />} />
 
         <Route path='/staff/register' exact element={<StaffRegister />} />
         <Route path='/staff/login' exact element={<StaffLogin />} />
