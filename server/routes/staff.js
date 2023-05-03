@@ -100,11 +100,39 @@ router.post('/flight', validateToken, (req, res) => {
 
 router.get('/flightsFromPastYear', validateToken, (req, res)=>{
 
-    console.log(req.userInfo.airline);
     const sql = 'SELECT * FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE departure_date >= DATE_SUB(NOW(),INTERVAL 1 YEAR) AND airline_name = ?;'
     db.query(sql, [req.userInfo.airline] ,(err, result)=>{
         res.send(result);
     });
-})
+});
+
+router.get('/ticketSoldRevenue', validateToken, (req, res)=>{
+    const sql = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 YEAR) AND CURRENT_DATE';
+
+    db.query(sql, [req.userInfo.airline], (err, result1)=>{
+        //res.send({yearly: result});
+        if (err) console.log(err);
+        else{
+            const sql1 = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND CURRENT_DATE;'
+
+            db.query(sql1, [req.userInfo.airline], (err, result2)=>{
+                if (err) console.log(err);
+                res.send({monthly: result2, yearly:result1});
+    })
+        }
+    })
+
+});
+
+router.post('/ticketDateRange', validateToken, (req,res)=>{
+    const sql = 'SELECT purchase_date , COUNT(purchase_date) FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE airline_name = ? AND purchase_date BETWEEN ? AND ? GROUP BY purchase_date';
+
+    const dates = req.body;
+
+    db.query(sql, [req.userInfo.airline, dates.bdate, dates.edate], (err, results)=>{
+        if (err) console.log(err);
+        res.send(results);
+    })
+});
 
 module.exports = router;
