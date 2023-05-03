@@ -115,8 +115,6 @@ module.exports = class Customer {
         })
     }
 
-<<<<<<< Updated upstream
-=======
     async getfromDB(user, pass) {
         const sql = "SELECT email_address, passcode FROM Customer WHERE email_address = ? ;"
         const userThere = await db.promise().query(sql, [user], (err, result) => {
@@ -225,7 +223,6 @@ module.exports = class Customer {
     // }
         
 
->>>>>>> Stashed changes
 
     async getTodaysFlights(email){
         const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
