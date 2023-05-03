@@ -30,6 +30,7 @@ function App() {
         <Route path='/customer/home' exact element={<CustomerHome />} />
         <Route path='/customer/cancelFlights' exact element={<CancelFlights />} />
         <Route path='/customer/search' exact element={<SearchFlights />} />
+        <Route path='/customer/reviews' exact element={<CustomerReview />} />
 
         <Route path='/staff/register' exact element={<StaffRegister />} />
         <Route path='/staff/login' exact element={<StaffLogin />} />
