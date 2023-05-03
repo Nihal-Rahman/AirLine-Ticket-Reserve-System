@@ -3,6 +3,7 @@ const router = express.Router();
 const Customer = require('../relations/customer.js');
 const {validateToken} = require("../middleware/auth.js");
 const db = require('../connection');
+const e = require('express');
 
 router.get("/viewFlights", validateToken, (req, res) => {
 
@@ -125,7 +126,9 @@ router.get("/viewFlights/past", validateToken, (req,res)=>{
             //console.log(values);
             throw err;
         }
+        else{
         res.send(result);
+        }
     })
 })
 

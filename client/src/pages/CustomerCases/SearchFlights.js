@@ -6,6 +6,7 @@ import {useEffect, useState } from "react";
 import CustomerPayment from './CustomerPayment';
 import CustomerTicketInfo from './CustomerTicketInfos';
 import { useNavigate } from 'react-router-dom';
+import CustomerNavbar from '../../components/CustomerNavbar'
 
 function SearchFlights(){
 
@@ -141,7 +142,8 @@ function SearchFlights(){
     <section>
     {!readytoPurchase ? (
             <>
-                <div className='registerPage'>
+            <CustomerNavbar/>
+                <div className='searchFlights'>
                     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                     <Form className='formContainer'>
                         <label>Departure Airport:</label>
@@ -157,46 +159,35 @@ function SearchFlights(){
                     </Form>
                     </Formik>
                 </div>
-
-                <table className="Tickettable">
-                    <thead>
-                        <tr>
-                            <th>Ticket ID</th>
-                            <th>Flight Num</th>
-                            <th>Departure Date</th>
-                            <th>Departure Time</th>
-                            <th>Airline Name</th>
-                            <th>Buy?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <h1 className='w-42 mt-20 mb-6 text-5xl text-center font-black underline tracking-tight text-gray-900 dark:text-white'>Available Tickets</h1>
+                <div>
+                <div className='ml-4 mr-4 grid gap-4 grid-cols-4 text-xl'>
                     {listOfTickets.map((value,key) => {
-                        return ( 
-                        <tr> 
-                            <td> {value.ticket_ID} </td> 
-                            <td> {value.flight_num} </td> 
-                            <td> {value.departure_date} </td> 
-                            <td> {value.departure_time} </td>
-                            <td> {value.airline_name} </td>
-                            <td>
-                                <input onChange = {(event)=>{
-                                let checked = event.target.checked;
-                                setListOfTickets(
-                                    listOfTickets.map(data => {
-                                    if(data.ticket_ID === value.ticket_ID){
-                                        data.select = checked;
-                                    }
-                                    return data;
-                                    })
-                                );
-                                }}type="checkbox" checked={value.select}/>
-                            </td>
-                        </tr>
-                        );
+                        return (
+                            <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
+                                <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
+                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
+                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
+                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
+                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
+                                <input className='hover:cursor-pointer' onChange={(event) => {
+                                    let checked = event.target.checked;
+                                    setListOfTickets(
+                                        listOfTickets.map(data => {
+                                            if (data.ticket_ID === value.ticket_ID) {
+                                                data.select = checked;
+                                            }
+                                            return data;
+                                        })
+                                    );
+                                }}  style={{transform: "scale(2)"}} type="checkbox" checked={value.select} />  
+                              </div>
+                        )
                     })}
-                    </tbody>
-                </table>
-                <button onClick={purchaseTickets}> Submit </button>
+                    </div>
+                    <button className='mt-10 ml-4 flex flex-col items-center mb-20 px-8 py-8 text-2xl text-center text-white bg-blue-400 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800' onClick={purchaseTickets}> Complete Purchase </button>
+                </div>
+
             </>
         ): (
             <>
