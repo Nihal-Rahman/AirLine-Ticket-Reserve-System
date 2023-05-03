@@ -17,7 +17,7 @@ function CustomerTicketInfo({initialValues,onSubmit, validation, data}){
                                     <Field autoComplete="off" id="inputRegister" name={"lastName"+key}  placeholder="(Ex: Doe)" />
                                     <label>Date of Birth:</label>
                                     <ErrorMessage name={"dob"+key}  component="span" />
-                                    <Field autoComplete="off" id="inputRegister" name={"dob"+key}  placeholder="(Ex: DD-MM-YYYY)" />
+                                    <Field autoComplete="off" id="inputRegister" name={"dob" + key} placeholder="(Ex: YYYY-MM-DD)" />
                                 </>
                             )
                         })}

@@ -27,7 +27,7 @@ export default function AddPlane() {
         })
     }, [])
 
-    const submitFlight = () => {
+    const submit = () => {
         const current = new Date();
         const curr_year = Number(`${current.getFullYear()}`);
         const age = curr_year - Number(manufactoring_date.substring(0, 4));
@@ -72,7 +72,7 @@ export default function AddPlane() {
                     <br />
                     <br />
                     <br />
-                    <button onClick={submitFlight} className="bg-[#424B5A] hover:bg-violet-300 text-white font-bold py-2 px-10 rounded-3xl">Submit</button>
+                    <button onClick={submit} className="bg-[#424B5A] hover:bg-violet-300 text-white font-bold py-2 px-10 rounded-3xl">Submit</button>
                     <ToastContainer />
                 </div>
             </div>

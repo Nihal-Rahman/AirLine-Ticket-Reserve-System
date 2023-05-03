@@ -115,6 +115,8 @@ module.exports = class Customer {
         })
     }
 
+<<<<<<< Updated upstream
+=======
     async getfromDB(user, pass) {
         const sql = "SELECT email_address, passcode FROM Customer WHERE email_address = ? ;"
         const userThere = await db.promise().query(sql, [user], (err, result) => {
@@ -146,8 +148,37 @@ module.exports = class Customer {
         } 
     }
 
+    insertNewReview(values) {
+        const sql = "INSERT INTO Review VALUES (?,?,?,?,?,?);";
+
+
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+            console.log("Insert Success");
+        });
+
+    }
+
+    async getCustomerReviews(email){
+        const sql = "SELECT flight_num, rating, comments FROM Review WHERE email_address = ?;";
+        const listOfReviews = await db.promise().query(sql, [email], (err, result) => {
+            if (err) {
+                console.log(email);
+                throw err;
+            }
+            console.log("Found all customer review info!");
+        });
+
+        console.log("List of reviews: ", listOfReviews);
+        
+        return listOfReviews[0];
+    }
+
     // async getYearlyTotal(email) {
-    //     const 
+        
     // }
 
 
@@ -194,9 +225,10 @@ module.exports = class Customer {
     // }
         
 
+>>>>>>> Stashed changes
 
     async getTodaysFlights(email){
-        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
+        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
 
         const flightInfo = db.query(sql, [email], (err, result) =>{
             if(err){
