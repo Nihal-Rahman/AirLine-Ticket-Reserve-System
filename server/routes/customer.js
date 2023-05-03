@@ -60,6 +60,42 @@ router.post("/search", validateToken, (req, res) =>{
     });
 });
 
+<<<<<<< Updated upstream
+=======
+router.post("/writeReview", validateToken, (req, res) => {
+    const email = req.userInfo.userEmail;
+    const flightNum = req.body.flightNum;
+    const departure_date = req.body.departure_date;
+    const departure_time = req.body.departure_time;
+    const rating = req.body.rating;
+    const comment = req.body.comment;
+
+    //res.console.log([email, flightNum, departure_date, departure_time, rating, comment]);
+    const newReview = [email, flightNum, departure_date, departure_time, rating, comment]
+    const theUser = new Customer();  //creates review relation object
+    //console.log(review);
+    theUser.insert(newReview);  // inserts the review info into the database
+
+    res.json("Thank you for your feedback!");
+});
+
+router.get("/retrieveReviews", validateToken, (req, res) => {
+    //console.log("Hello World");
+    const email = req.userInfo.userEmail;
+    const theUser = new Customer();
+    const listOfReviews = theUser.getCustomerReviews(email);
+
+    listOfReviews.then( values => {
+        res.send(values)
+    });
+    console.log("Successfully retrieved the past customer reviews");
+});
+
+router.get('/retrieveYearlySpending', validateToken, async(req, res) => {
+    const email = req.userInfo.userEmail;
+
+}); 
+>>>>>>> Stashed changes
 router.post("/buy", validateToken, (req, res)=>{
     const email = req.userInfo.userEmail;
 
@@ -82,11 +118,11 @@ router.get("/viewFlights/past", validateToken, (req,res)=>{
 
     const email = req.userInfo.userEmail;
 
-    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE > DEPARTURE_DATE);"
+    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE > DEPARTURE_DATE);"
 
     db.query(sql, [email], (err, result) =>{
         if(err){
-            console.log(values);
+            //console.log(values);
             throw err;
         }
         res.send(result);
@@ -96,11 +132,11 @@ router.get("/viewFlights/past", validateToken, (req,res)=>{
 router.get("/viewFlights/today", validateToken, (req,res)=>{
     const email = req.userInfo.userEmail;
 
-    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
+    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
 
     db.query(sql, [email], (err, result) =>{
         if(err){
-            console.log(values);
+            //console.log(values);
             throw err;
         }
         res.send(result);

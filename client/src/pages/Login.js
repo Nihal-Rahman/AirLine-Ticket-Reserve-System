@@ -30,6 +30,8 @@ function Login() {
         history("/customer/home");
       }
     });
+
+    console.log(data);
   };
 
   return (
