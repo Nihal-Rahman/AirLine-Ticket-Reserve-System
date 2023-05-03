@@ -47,7 +47,7 @@ function CustomerNavbar() {
                                 Flight Reviews
                             </button>
                         </a>
-                        <button onClick={logout} className='px-8 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-3xl text-white rounded-2xl hover:bg-violet-300'>
+                        <button onClick={logout} className='px-8 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-3xl text-white rounded-full hover:bg-violet-300'>
                             Logout
                         </button>
                     </div>

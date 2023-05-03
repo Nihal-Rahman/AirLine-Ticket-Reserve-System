@@ -87,7 +87,6 @@ router.get("/retrieveReviews", validateToken, (req, res) => {
     listOfReviews.then( values => {
         res.send(values)
     });
-    console.log("Successfully retrieved the past customer reviews");
 });
 
 router.get('/retrieveYearlySpending', validateToken, async(req, res) => {

@@ -170,7 +170,6 @@ module.exports = class Customer {
             console.log("Found all customer review info!");
         });
 
-        console.log("List of reviews: ", listOfReviews);
         
         return listOfReviews[0];
     }
