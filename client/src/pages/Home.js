@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar'
 
@@ -13,6 +13,20 @@ function Home() {
   const [returnFlights, setReturnFlights] = useState([]);
 
   let history = useNavigate();
+  useEffect(() => {
+    axios.get("http://localhost:3001/staff/navbar", {
+      headers: {
+        accessToken: sessionStorage.getItem("accessToken"),
+      },
+    }).then((response) => {
+      const user = response.data
+      if (user == "customer") {
+        history('/customer/home')
+      } else if (user == "staff") {
+        history('/staff/home')
+      }
+    })
+  }, [])
 
   let initialValues = {
     diar: "",

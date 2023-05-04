@@ -3,22 +3,24 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 function CustomerTicketInfo({initialValues,onSubmit, validation, data}){
     return(
-        <div>
+        <div className="searchFlights">
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     <Form className='formContainer'>
                         {data.map((value, key)=>{
                             return(
                                 <>
-                                    <label><b>Ticket#{key+1} Info</b></label>
-                                    <label>First Name:</label>
+                                    <label className=' underline text-4xl mb-4'><b>Passenger Info for Ticket #{key + 1}</b></label>
+                                    <label className='italic text-2xl mb-10'><b>Flight #{value.flight_num} | {value.departure_date} | Ticket No. {value.ticket_ID}</b></label>
+                                    <label className='text-4xl'>First Name:</label>
                                     <ErrorMessage name={"firstName"+key} component="span" />
                                     <Field required autoComplete="off" id="inputRegister" name={"firstName"+ key} placeholder="(Ex: John)" />
-                                    <label>Last Name:</label>
+                                    <label className='text-4xl'>Last Name:</label>
                                     <ErrorMessage name={"lastName"+key} component="span" />
                                     <Field required autoComplete="off" id="inputRegister" name={"lastName"+key}  placeholder="(Ex: Doe)" />
-                                    <label>Date of Birth:</label>
+                                    <label className='text-4xl'>Date of Birth:</label>
                                     <ErrorMessage name={"dob"+key}  component="span" />
                                     <Field required autoComplete="off" id="inputRegister" name={"dob" + key} placeholder="(Ex: YYYY-MM-DD)" />
+                                    <label>------------------------------------------------------------------------------------------------------------------------------------------------------</label>
                                 </>
                             )
                         })}

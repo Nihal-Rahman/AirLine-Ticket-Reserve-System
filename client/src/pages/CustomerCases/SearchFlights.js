@@ -12,6 +12,9 @@ function SearchFlights(){
     const [status, setStatus] = useState("Round Trip")
 
     const [listOfTickets, setListOfTickets] = useState([]);
+    const [returnTickets, setReturnTickets] = useState([]);
+
+
     const [ticketsToBuy, setTicketsToBuy] = useState([]);
     const [readytoPurchase, setReadyToPurchase] = useState(false);
     const [page, setPage] = useState(0);
@@ -81,7 +84,8 @@ function SearchFlights(){
                         return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
                     });
 
-                    setListOfTickets([...s1, ...s2]);
+                    setListOfTickets([...s1]);
+                    setReturnTickets([...s2]);
                 }
             }
         })
@@ -89,12 +93,21 @@ function SearchFlights(){
 
 
 
+
     const purchaseTickets = () => {
-        const wantToBuy = listOfTickets.map((data)=>{
+        let wantToBuy = listOfTickets.map((data)=>{
             if(data.select){
                 return data;
             }
         }).filter(a => a != null);
+
+        wantToBuy = [...wantToBuy, ...returnTickets.map((data) => {
+            if (data.select) {
+                return data;
+            }
+        }).filter(a => a != null)];
+
+        console.log("HERE", wantToBuy);
 
         wantToBuy.map((data, key)=>{
             initialValues["firstName" + key] = "";
@@ -146,10 +159,6 @@ function SearchFlights(){
         }
     }
 
-    const handleChange = value => {
-        this.props.onChange("topic", value);
-    };
-
 
     return(
     <section>
@@ -187,30 +196,92 @@ function SearchFlights(){
                 <h1 className='w-42 mt-20 mb-6 text-5xl text-center font-black underline tracking-tight text-gray-900 dark:text-white'>Available Tickets</h1>
                 <div>
                 <button className='mt-10 ml-4 flex flex-col items-center mb-10 px-8 py-8 text-2xl text-center text-white bg-blue-400 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800' onClick={purchaseTickets}> Checkout </button>
-                <div className='ml-4 mr-4 grid gap-4 grid-cols-4 text-xl'>
-                    {listOfTickets.map((value,key) => {
-                        return (
-                            <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
-                                <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
-                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
-                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
-                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
-                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
-                                <input className='hover:cursor-pointer' onChange={(event) => {
-                                    let checked = event.target.checked;
-                                    setListOfTickets(
-                                        listOfTickets.map(data => {
-                                            if (data.ticket_ID === value.ticket_ID) {
-                                                data.select = checked;
-                                            }
-                                            return data;
+                        <section>{status == "One Way" ? (<>
+                            <h1 className='text-4xl mt-20 mb-4 ml-10'>Outgoing:</h1>
+                            < div className='mb-20 ml-4 mr-4 grid gap-4 grid-cols-4 text-xl' >
+                                {
+                                    listOfTickets.map((value, key) => {
+                                        return (
+                                            <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
+                                                <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
+                                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
+                                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
+                                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
+                                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
+                                                <input className='hover:cursor-pointer' onChange={(event) => {
+                                                    let checked = event.target.checked;
+                                                    setListOfTickets(
+                                                        listOfTickets.map(data => {
+                                                            if (data.ticket_ID === value.ticket_ID) {
+                                                                data.select = checked;
+                                                            }
+                                                            return data;
+                                                        })
+                                                    );
+                                                }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select} />
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div >
+                        </>) : (<>
+                            <h1 className='text-4xl mt-20 mb-4 ml-10'>Outgoing:</h1>
+                                < div className='mb-20 ml-4 mr-4 grid gap-4 grid-cols-4 text-xl' >
+                                    {
+                                        listOfTickets.map((value, key) => {
+                                            return (
+                                                <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
+                                                    <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
+                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
+                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
+                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
+                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
+                                                    <input className='hover:cursor-pointer' onChange={(event) => {
+                                                        let checked = event.target.checked;
+                                                        setListOfTickets(
+                                                            listOfTickets.map(data => {
+                                                                if (data.ticket_ID === value.ticket_ID) {
+                                                                    data.select = checked;
+                                                                }
+                                                                return data;
+                                                            })
+                                                        );
+                                                    }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select} />
+                                                </div>
+                                            )
                                         })
-                                    );
-                                }}  style={{transform: "scale(2)"}} type="checkbox" checked={value.select} />  
-                              </div>
-                        )
-                    })}
-                    </div>
+                                    }
+                                </div >
+
+                            <h1 className='text-4xl mb-4 ml-10'>Returning:</h1>
+                                < div className='mb-20 ml-4 mr-4 grid gap-4 grid-cols-4 text-xl' >
+                                    {
+                                        returnTickets.map((value, key) => {
+                                            return (
+                                                <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
+                                                    <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
+                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
+                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
+                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
+                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
+                                                    <input className='hover:cursor-pointer' onChange={(event) => {
+                                                        let checked = event.target.checked;
+                                                        setReturnTickets(
+                                                            returnTickets.map(data => {
+                                                                if (data.ticket_ID === value.ticket_ID) {
+                                                                    data.select = checked;
+                                                                }
+                                                                return data;
+                                                            })
+                                                        );
+                                                    }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select} />
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div >
+                        </>)}
+                        </section>
                 </div>
 
             </>
