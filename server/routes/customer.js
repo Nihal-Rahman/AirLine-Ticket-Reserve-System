@@ -141,11 +141,17 @@ router.post("/writeReview", validateToken, (req, res) => {
     const rating = req.body.rating;
     const comment = req.body.comment;
 
-    //res.console.log([email, flightNum, departure_date, departure_time, rating, comment]);
     const newReview = [email, flightNum, departure_date, departure_time, rating, comment]
-    const theUser = new Customer();  //creates review relation object
-    //console.log(review);
-    theUser.insert(newReview);  // inserts the review info into the database
+
+    const sql = "INSERT INTO Review VALUES (?,?,?,?,?,?);";
+
+    db.query(sql, newReview, (err, result) => {
+        if (err) {
+            console.log(values);
+            throw err;
+        }
+        console.log("Insert Success");
+    });
 
     res.json("Thank you for your feedback!");
 });

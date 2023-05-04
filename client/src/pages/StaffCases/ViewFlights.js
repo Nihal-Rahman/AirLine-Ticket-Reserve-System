@@ -50,7 +50,7 @@ export default function ViewFlights() {
             <div onChange={event => {setSearchField(event.target.value)}} className='ml-4 text-gray text-4xl grid gap-80 grid-cols-2'>
                 <input className='mr-40 border border-slate-400 rounded-2xl px-4 py-4' onChange={event => {setSearchTerm(event.target.value)}} type="text" placeholder='Search...' />
             </div>  
-            <div className='ml-4 mr-4 mt-4 grid gap-4 grid-cols-4 text-2xl'>
+            <div className='ml-4 mr-4 mt-4 grid gap-4 grid-cols-5 text-2xl'>
                 {flightsList.filter((val) => {
                     if (searchTerm === ""){
                         return val
