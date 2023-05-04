@@ -144,20 +144,20 @@ function SearchFlights(){
             <>
             <CustomerNavbar/>
                 <div className='searchFlights'>
-                    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                    <Form className='formContainer'>
-                        <label>Departure Airport:</label>
-                        <ErrorMessage name="dair" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="dair" placeholder="(Ex: JFK)" />
-                        <label>Arrival Airport:</label>
-                        <ErrorMessage name="aair" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="aair" placeholder="(Ex: PVG)" />
-                        <label>Departure Date:</label>
-                        <ErrorMessage name="ddate" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="ddate" placeholder="(Ex: YYYY-MM-DD)" />
-                        <button type='submit'>Search </button>
-                    </Form>
-                    </Formik>
+                        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+                            <Form className='formContainer'>
+                                <label className='text-4xl'>Departure Airport:</label>
+                                <ErrorMessage name="dair" component="span" />
+                                <Field autoComplete="off" id="inputRegister" name="dair" placeholder="(Ex: JFK)" />
+                                <label className='text-4xl'>Arrival Airport:</label>
+                                <ErrorMessage name="aair" component="span" />
+                                <Field autoComplete="off" id="inputRegister" name="aair" placeholder="(Ex: PVG)" />
+                                <label className='text-4xl'>Departure Date:</label>
+                                <ErrorMessage name="ddate" component="span" />
+                                <Field autoComplete="off" id="inputRegister" name="ddate" placeholder="(Ex: YYYY-MM-DD)" />
+                                <button className='px-16 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'>Search </button>
+                            </Form>
+                        </Formik>
                 </div>
                 <h1 className='w-42 mt-20 mb-6 text-5xl text-center font-black underline tracking-tight text-gray-900 dark:text-white'>Available Tickets</h1>
                 <div>

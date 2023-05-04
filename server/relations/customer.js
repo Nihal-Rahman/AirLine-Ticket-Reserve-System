@@ -174,54 +174,6 @@ module.exports = class Customer {
         return listOfReviews[0];
     }
 
-    // async getYearlyTotal(email) {
-        
-    // }
-
-
-    // async getTotalSpentOverRange(email, start, end) {
-    //     const customerTransactions = 
-    //     `
-    //     SELECT
-    //         tbb.email_address,
-    //         t.flight_num,
-    //         (t.price * (1 + 0.25 * ((fc.curr_capacity / a.num_of_seats) >= 0.8))) AS market_price,
-    //         tbb.purchase_date
-    //     FROM
-    //         Ticket t
-    //         JOIN Flight as f
-    //         JOIN Airplane as a
-    //         JOIN Ticket_bought_by as tbb
-    //         LEFT JOIN (
-    //             SELECT
-    //                 f.flight_num,
-    //                 COUNT(tb.ticket_id) AS curr_capacity
-    //             FROM
-    //                 Flight f
-    //                 JOIN Airplane a ON f.airplane_id = a.airplane_id
-    //                 JOIN Ticket t ON t.flight_num = f.flight_num
-    //                 JOIN Ticket_bought_by tb ON t.ticket_id = tb.ticket_id
-    //             GROUP BY
-    //                 f.flight_num
-    //         ) as fc ON t.flight_num = fc.flight_num
-    //     WHERE
-    //         tbb.email_address = 'email' and 
-    //         t.flight_num = f.flight_num and 
-    //         f.airplane_id = a.airplane_id and
-    //     `
-
-
-
-
-
-    //     const sql = 
-        
-
-        
-
-    // }
-        
-
 
     async getTodaysFlights(email){
         const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"

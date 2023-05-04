@@ -61,6 +61,19 @@ router.post("/search", validateToken, (req, res) =>{
     });
 });
 
+router.post("/home", (req, res) =>{
+    const departure = req.body.dair;
+    const arrival = req.body.aair;
+    const ddate = req.body.ddate;
+
+    const theUser = new Customer();
+    const ticketInfo = theUser.searchFlights(departure, arrival, ddate);
+
+    ticketInfo.then( values => {
+        res.send(values);
+    });
+});
+
 router.post("/writeReview", validateToken, (req, res) => {
     const email = req.userInfo.userEmail;
     const flightNum = req.body.flightNum;

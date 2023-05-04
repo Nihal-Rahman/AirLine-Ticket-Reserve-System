@@ -14,7 +14,7 @@ module.exports = class Staff {
             this.email = newStaff.email;
             this.phoneNum = newStaff.phoneNum;
         }
-    } 
+    }  
 
     getInfo() {
         console.log(this.userName, this.passcode);

@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 export default function ViewFlights() {
     let history = useNavigate();
 
+    const [searchTerm, setSearchTerm] = useState('')
+    const [searchField, setSearchField] = useState("Flight Number")
+
     const [flightsList, setFlightsList] = useState([])
 
     const [flight_status, setStatus] = useState('on-time')
@@ -43,11 +46,20 @@ export default function ViewFlights() {
         <div>
             <h1 className='w-42 text-center mt-40 mb-2 text-4xl font-black tracking-tight text-gray-900 dark:text-white'>Welcome.</h1>
             <h1 className='w-42 text-center mb-6 text-4xl font-black tracking-tight underline text-gray-900 dark:text-white'>Here are the upcoming flights</h1>
-            <div className='ml-4 mr-4 grid gap-4 grid-cols-4 text-2xl'>
-                {flightsList.map((val) => {
+            <div onChange={event => {setSearchField(event.target.value)}} className='ml-4 text-gray text-4xl grid gap-80 grid-cols-2'>
+                <input className='mr-40 border border-slate-400 rounded-2xl px-4 py-4' onChange={event => {setSearchTerm(event.target.value)}} type="text" placeholder='Search...' />
+            </div>  
+            <div className='ml-4 mr-4 mt-4 grid gap-4 grid-cols-4 text-2xl'>
+                {flightsList.filter((val) => {
+                    if (searchTerm === ""){
+                        return val
+                    } else if (([val.flight_num, val.departure_date, val.departure_time, val.departure_airport, val.arrival_airport, val.arrival_date, val.arrival_time, val.airline_name].join(',').toLowerCase()).includes(searchTerm)){
+                        return val
+                    }
+                }).map((val) => {
                     return (
                         <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
-                            <h1 onClick={() => { history(`/flight/${val.flight_num}/${val.departure_date}/${val.departure_time}`) }} className='w-42 mb-2 text-4xl font-black tracking-tight hover:underline hover:cursor-pointer hover:text-blue-400 text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
+                            <h1 onClick={() => { history(`/flight/${val.flight_num}/${val.departure_date}/${val.departure_time}`) }} className='w-42 underline mb-2 text-4xl font-black tracking-tight hover:underline hover:cursor-pointer hover:text-blue-400 text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
                             <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Departure: {val.departure_date} | {val.departure_time} </p>
                             <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Arrival: {val.arrival_date} | {val.arrival_time} </p>
                             <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{val.departure_airport} → {val.arrival_airport} </p>

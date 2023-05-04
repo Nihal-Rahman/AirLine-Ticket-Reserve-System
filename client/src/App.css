@@ -38,6 +38,15 @@
   justify-content: center;
 }
 
+.searchReports {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .title{
   font-size: xx-large;
   text-decoration-line: underline;
@@ -52,36 +61,68 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 500px;
+  width: 1500px;
   height: auto;
-  padding: 20px;
+  padding: 40px;
   border: 5px solid dodgerblue;
   border-radius: 5px;
   margin-top: 230px;
+  font-size: x-large;
+  line-height: 50px;
+}
+
+.formContainer2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1000px;
+  height: auto;
+  padding: 40px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-top: 230px;
+  font-size: x-large;
+  line-height: 50px;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+.column2 {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+  height: auto;
+  padding: 40px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-top: 20px;
+  font-size: x-large;
+  line-height: 50px;
 }
 
 .formContainer #inputCreatePost {
   height: 40px;
   margin-top: 10px;
   margin-bottom: 10px;
-  border: 2px solid grey;
+  border: 5px solid dodgerblue;
   border-radius: 5px;
   padding-left: 10px;
   font-size: 20px;
-}
-
-.formContainer button {
-  margin-top: 15px;
-  height: 40px;
-  border: none;
-  background-color: lightskyblue;
-  border-radius: 5px;
-  color: white;
-}
-
-.formContainer button:hover {
-  cursor: pointer;
-  background-color: dodgerblue;
 }
 
 span{
