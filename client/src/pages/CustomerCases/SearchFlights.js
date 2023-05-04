@@ -161,6 +161,7 @@ function SearchFlights(){
                 </div>
                 <h1 className='w-42 mt-20 mb-6 text-5xl text-center font-black underline tracking-tight text-gray-900 dark:text-white'>Available Tickets</h1>
                 <div>
+                <button className='mt-10 ml-4 flex flex-col items-center mb-10 px-8 py-8 text-2xl text-center text-white bg-blue-400 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800' onClick={purchaseTickets}> Checkout </button>
                 <div className='ml-4 mr-4 grid gap-4 grid-cols-4 text-xl'>
                     {listOfTickets.map((value,key) => {
                         return (
@@ -185,7 +186,6 @@ function SearchFlights(){
                         )
                     })}
                     </div>
-                    <button className='mt-10 ml-4 flex flex-col items-center mb-20 px-8 py-8 text-2xl text-center text-white bg-blue-400 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800' onClick={purchaseTickets}> Complete Purchase </button>
                 </div>
 
             </>

@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect } from 'react'
+
 
 function Navbar() {
+
     return (
         <nav className=' bg-gradient-to-r from-green-300 to-blue-500 h-32 flex-wrap top-0 w-full fixed'>
             <div className='max-w-screen h-[100px]'>

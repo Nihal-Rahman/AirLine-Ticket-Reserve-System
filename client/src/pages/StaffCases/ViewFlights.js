@@ -30,6 +30,7 @@ export default function ViewFlights() {
         axios.get("http://localhost:3001/staff/flights", {
             headers: {
                 accessToken: sessionStorage.getItem("accessToken"),
+                user: sessionStorage.typeofUser,
             },
         }).then((response) => {
             if (response.data.error){

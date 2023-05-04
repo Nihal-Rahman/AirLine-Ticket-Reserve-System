@@ -1,12 +1,28 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react";
 import Navbar from '../components/Navbar'
 
 function SearchFlights() {
+  let history = useNavigate();
 
+  useEffect(() => {
+    axios.get("http://localhost:3001/staff/navbar", {
+      headers: {
+        accessToken: sessionStorage.getItem("accessToken"),
+      },
+    }).then((response) => {
+      const user = response.data
+      if (user == "customer") {
+        history('/customer/home')
+      } else if (user == "staff") {
+        history('/staff/home')
+      }
+    })
+  }, [])
 
   const [listOfTickets, setListOfTickets] = useState([]);
 
