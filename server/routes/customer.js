@@ -147,14 +147,13 @@ router.post("/writeReview", validateToken, (req, res) => {
 
     db.query(sql, newReview, (err, result) => {
         if (err) {
-            console.log(values);
             throw err;
         }
         console.log("Insert Success");
-    });
+    }); 
 
     res.json("Thank you for your feedback!");
-});
+}); 
 
 router.get("/retrieveReviews", validateToken, (req, res) => {
     //console.log("Hello World");

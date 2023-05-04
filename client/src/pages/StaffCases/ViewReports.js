@@ -65,7 +65,7 @@ function ViewReports() {
         <div className="searchFlights">
             <StaffNavbar/>
             <section>
-                <div className=" text-6xl">
+                <div className=" text-4xl">
                     <table className="table">
                         <thead>
                             <tr>
@@ -95,11 +95,11 @@ function ViewReports() {
                         <Form className='formContainer'>
                             <label className="text-4xl">Begin Date:</label>
                             <ErrorMessage name="bdate" component="span" />
-                            <Field autoComplete="off" id="inputRegister" name="bdate" placeholder="(Ex: YYYY-MM-DD)" />
+                            <Field className='text-2xl' autoComplete="off" id="inputRegister" name="bdate" placeholder="(Ex: YYYY-MM-DD)" />
                             <br/>
                             <label className="text-4xl">End Date:</label>
                             <ErrorMessage name="edate" component="span" />
-                            <Field autoComplete="off" id="inputRegister" name="edate" placeholder="(Ex: YYYY-MM-DD)" />
+                            <Field className='text-2xl' autoComplete="off" id="inputRegister" name="edate" placeholder="(Ex: YYYY-MM-DD)" />
                             <button className='px-16 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'>Search </button>
                         </Form>
                     </Formik>

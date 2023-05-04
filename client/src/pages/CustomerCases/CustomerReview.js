@@ -82,15 +82,15 @@ function CustomerReview(){
       return(
         <div className = "customerReviewsPage">
           <CustomerNavbar />
-          <div className='text-6xl text-center mt-48'>
-            <h1 className='text-8xl underline mb-20'>Flight Reviews</h1>
+          <div className='text-4xl text-center mt-48'>
+            <h1 className='text-6xl underline mb-10'>Flight Reviews</h1>
             <div className = "viewPastReviews">
 
                     <div className='ml-10 mr-4 mt-4 grid grid-cols-5 gap-5 space-y-5'>
                       {listOfReviews.map((val) => {
                         return (
-                          <div className='max-w-xl text-4xl p-6 bg-white border border-slate-300 rounded-lg dark:bg-gray-800 dark:border-gray-700'>
-                            <h1 className='w-42 mb-5 text-5xl font-black tracking-tight underline decoration-sky-500 text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
+                          <div className='max-w-xl text-2xl p-6 bg-white border border-slate-300 rounded-lg dark:bg-gray-800 dark:border-gray-700'>
+                            <h1 className='w-42 mb-5 text-3xl font-black tracking-tight underline decoration-sky-500 text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
                             <p className='mb-3 font-normal text-gray-700'>{val.rating} / 10</p>
                             <p className='mb-3 font-normal text-gray-700'>{val.comments} </p>
                           </div>
@@ -99,15 +99,15 @@ function CustomerReview(){
                     </div>
             </div> 
           </div> 
-          <div className='mt-28 space-y-8 text-4xl text-center'>
-            <h1 className='text-7xl underline mb-4'>Review Flight</h1>
-              <input type="text" name="flight_num" placeholder='Flight Number' onChange={(e) => setFlightNum(e.target.value)}/>
+          <div className='mt-28 mb-20 space-y-8 text-3xl text-center'>
+            <h1 className='text-5xl underline mb-4'>Review Flight</h1>
+              <input type="text" name="flight_num" placeholder='Flight Number' required onChange={(e) => setFlightNum(e.target.value)}/>
               <br />
-              <input type="text" name="departure_date" placeholder='Departure Date' onChange={(e) => setDepartureDate(e.target.value)} />
+              <input type="text" name="departure_date" placeholder='Departure Date' required onChange={(e) => setDepartureDate(e.target.value)} />
               <br/>
-              <input type="text" name="departure_time" placeholder='Departure Time' onChange={(e) => setDepartureTime(e.target.value)}/>
+              <input type="text" name="departure_time" placeholder='Departure Time' required onChange={(e) => setDepartureTime(e.target.value)}/>
               <br />
-              <input type="number" name="rating" placeholder='Rating' onChange={(e) => setRating(e.target.value)} />
+              <input type="number" name="rating" placeholder='Rating' required onChange={(e) => setRating(e.target.value)} />
               <br />
               <textarea name="comment" rows="6" onChange={(e) => setComment(e.target.value)} className="block p-2.5 w-full text-2xl text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
               <br />  
