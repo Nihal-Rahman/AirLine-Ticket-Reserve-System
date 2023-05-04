@@ -2,8 +2,11 @@ import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CustomerNavbar from '../components/CustomerNavbar'
+import { useNavigate } from 'react-router-dom';
+
 
 function CustomerHome() {
+  let history = useNavigate();
 
   const [listOfFlights, setListOfFlights] = useState([]);
 
@@ -17,6 +20,7 @@ function CustomerHome() {
     ).then((response) => {
       if (response.data.error) {
         alert("You are not logged in!");
+        history("/")
       } else {
         setListOfFlights(response.data);
       }
@@ -88,6 +92,7 @@ function CustomerHome() {
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Date: {val.departure_date}</p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Time: {val.departure_time}</p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>{val.airline_name} </p>
+                <p className='font-normal text-gray-700 dark:text-gray-400'>{val.flight_status} </p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Ticket No. {val.ticket_ID} </p>
 
               </div>

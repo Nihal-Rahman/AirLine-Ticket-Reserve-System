@@ -48,17 +48,77 @@ router.post("/cancelFlights", validateToken, (req, res)=> {
     res.send({succ: "success"});
 });
 
-router.post("/search", validateToken, (req, res) =>{
+router.post("/search", validateToken, (req, res) => {
     const departure = req.body.dair;
     const arrival = req.body.aair;
     const ddate = req.body.ddate;
+    const rdate = req.body.rdate;
+    const roundone = req.body.roundone
+    console.log(roundone) 
 
-    const theUser = new Customer();
-    const ticketInfo = theUser.searchFlights(departure, arrival, ddate);
+    if (roundone === "One Way") {
+        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        db.query(sql, [departure, arrival, ddate], (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+            res.send({ tickets: result });
+        });
+    }
+    else {
+        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        const sql2 = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        db.query(sql, [departure, arrival, ddate], (err, result1) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+            db.query(sql2, [arrival, departure, rdate], (err, result2) => {
+                if (err) {
+                    console.log(values);
+                    throw err;
+                }
+                res.send({ departure1: result1, departure2: result2 });
+            })
+        });
+    }
+});
 
-    ticketInfo.then( values => {
-        res.send(values);
-    });
+router.post("/homeSearch", (req, res) => {
+    const departure = req.body.dair;
+    const arrival = req.body.aair;
+    const ddate = req.body.ddate;
+    const rdate = req.body.rdate;
+    const roundone = req.body.roundone
+
+    if (roundone === "One Way") {
+        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        db.query(sql, [departure, arrival, ddate], (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+            res.send({ tickets: result });
+        });
+    }
+    else {
+        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        const sql2 = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        db.query(sql, [departure, arrival, ddate], (err, result1) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+            db.query(sql2, [arrival, departure, rdate], (err, result2) => {
+                if (err) {
+                    console.log(values);
+                    throw err;
+                }
+                res.send({ departure1: result1, departure2: result2 });
+            })
+        });
+    }
 });
 
 router.post("/home", (req, res) =>{

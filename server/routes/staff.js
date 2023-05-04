@@ -164,13 +164,13 @@ router.post('/ticketDateRange', validateToken, (req, res) => {
 });
 
 router.get('/navbar', validateToken, (req, res) => {
-    if (req.userInfo.userEmail) {
+    if (req.userInfo.userEmail){
         res.send("customer");
     }
-    else if (req.userInfo.username) {
+    else if (req.userInfo.username){
         res.send("staff");
     }
-    else {
+    else{
         res.send("none");
     }
 })

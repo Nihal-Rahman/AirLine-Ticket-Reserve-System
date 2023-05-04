@@ -71,6 +71,16 @@
   line-height: 50px;
 }
 
+.returnDate {
+  line-height: 50px;
+  width: 1410px;
+}
+
+.returnDate2 {
+  line-height: 50px;
+  width: 910px;
+}
+
 .formContainer2 {
   display: flex;
   flex-direction: column;

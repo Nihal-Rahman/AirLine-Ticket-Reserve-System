@@ -9,21 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomerNavbar from '../../components/CustomerNavbar'
 
 function SearchFlights(){
-
-    useEffect(() => {
-        axios.get("http://localhost:3001/customer/checkLogin",
-          {
-            headers: {
-              accessToken: sessionStorage.getItem("accessToken"),
-            },
-          }
-        ).then((response) => {
-          if (response.data.error) {
-            alert("You are not logged in!");
-          }
-        });
-      }, []);
-
+    const [status, setStatus] = useState("Round Trip")
 
     const [listOfTickets, setListOfTickets] = useState([]);
     const [ticketsToBuy, setTicketsToBuy] = useState([]);
@@ -40,16 +26,19 @@ function SearchFlights(){
         diar: "",
         aair: "",
         ddate: "",
+        rdate: "",
+        roundone:"Round Trip",
         cexdate: "",
         cnum: "",
         ctype: "",
-        name:""
+        name: ""
     }
 
     const validationSchema = Yup.object().shape({
         dair: Yup.string().required("You must input a destination airport!"),
         aair: Yup.string().required("You must input an arrival airport!"),
-        ddate: Yup.string().required("You must a departure date!"),
+        ddate: Yup.string().required("You must input a departure date!"),
+        rdate: Yup.string().required("You must input a return date!"),
     })
 
     const validationSchema2 = Yup.object().shape({
@@ -61,24 +50,44 @@ function SearchFlights(){
 
 
     const onSubmit = (data) => {
+        data.roundone = status
         axios.post("http://localhost:3001/customer/search", data, {
             headers: {
                 accessToken: sessionStorage.getItem("accessToken"),
             }
-        }).then( (response) => {
+        }).then((response) => {
+
             if (response.data.error) {
                 alert("You are not logged in!");
             }
-            else{
-                console.log(response.data);
-                let tickets = response.data;
-                tickets.map((data, key) => {
-                    return {select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time:data.departure_time, airline_name: data.airline_name, firstName: data["firstName"+key], lastName: data["lastName"+key]}
-                })
-                setListOfTickets(tickets);
+            else {
+                if (status == "One Way") {
+                    let tickets = response.data.tickets;
+                    tickets.map((data, key) => {
+                        return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
+                    })
+                    setListOfTickets(tickets);
+                }
+                else {
+                    let set1 = response.data.departure1;
+                    let set2 = response.data.departure2;
+
+
+                    const s1 = set1.map((data, key) => {
+                        return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
+                    });
+
+                    const s2 = set2.map((data, key) => {
+                        return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
+                    });
+
+                    setListOfTickets([...s1, ...s2]);
+                }
             }
         })
     };
+
+
 
     const purchaseTickets = () => {
         const wantToBuy = listOfTickets.map((data)=>{
@@ -137,6 +146,10 @@ function SearchFlights(){
         }
     }
 
+    const handleChange = value => {
+        this.props.onChange("topic", value);
+    };
+
 
     return(
     <section>
@@ -155,6 +168,18 @@ function SearchFlights(){
                                 <label className='text-4xl'>Departure Date:</label>
                                 <ErrorMessage name="ddate" component="span" />
                                 <Field autoComplete="off" id="inputRegister" name="ddate" placeholder="(Ex: YYYY-MM-DD)" />
+                                <section>{status == "One Way" ? (<></>): (<>
+                                    <label className='text-4xl'>Return Date:</label>
+                                    <br/>
+                                    <ErrorMessage name="rdate" component="span" />
+                                    <Field className='returnDate' autoComplete="off" id="inputRegister" name="rdate" placeholder="(Ex: YYYY-MM-DD)" />
+                                </>)}</section>
+
+                                <select onChange={(e) => { setStatus(e.target.value) }} className='inline-flex items-center mt-5 px-3 py-2 text-center border border-slate-300 text-4xl rounded-lg'>
+                                    <option>Round Trip</option>                                    
+                                    <option>One Way</option>
+                                </select>
+
                                 <button className='px-16 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'>Search </button>
                             </Form>
                         </Formik>
