@@ -149,6 +149,7 @@ module.exports = class Customer {
     insertNewReview(values) {
         const sql = "INSERT INTO Review VALUES (?,?,?,?,?,?);";
 
+        //values.unshift(this.email);
 
         db.query(sql, values, (err, result) => {
             if (err) {
@@ -157,6 +158,8 @@ module.exports = class Customer {
             }
             console.log("Insert Success");
         });
+
+        return values;
 
     }
 
@@ -175,53 +178,107 @@ module.exports = class Customer {
         return listOfReviews[0];
     }
 
-    // async getYearlyTotal(email) {
-        
-    // }
+    async getYearlyTotal(email) {
+        const customerYearPurchasesQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats as total_capacity, COUNT(all(tbb.ticket_id)) as num_of_tickets_sold FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID WHERE email_address = ? AND tbb.purchase_date BETWEEN DATE_SUB(current_date(), INTERVAL 1 YEAR) AND current_date() GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
 
+        const customerYearPurchases = await db.promise().query(customerYearPurchasesQuery, [email], (err, result) => {
+            if(err) {
+                console.log(err);
+                throw err;
+            } else {
+                console.log("Found all the flight purchases a customer has made");
+            }
+        });
 
-    // async getTotalSpentOverRange(email, start, end) {
-    //     const customerTransactions = 
-    //     `
-    //     SELECT
-    //         tbb.email_address,
-    //         t.flight_num,
-    //         (t.price * (1 + 0.25 * ((fc.curr_capacity / a.num_of_seats) >= 0.8))) AS market_price,
-    //         tbb.purchase_date
-    //     FROM
-    //         Ticket t
-    //         JOIN Flight as f
-    //         JOIN Airplane as a
-    //         JOIN Ticket_bought_by as tbb
-    //         LEFT JOIN (
-    //             SELECT
-    //                 f.flight_num,
-    //                 COUNT(tb.ticket_id) AS curr_capacity
-    //             FROM
-    //                 Flight f
-    //                 JOIN Airplane a ON f.airplane_id = a.airplane_id
-    //                 JOIN Ticket t ON t.flight_num = f.flight_num
-    //                 JOIN Ticket_bought_by tb ON t.ticket_id = tb.ticket_id
-    //             GROUP BY
-    //                 f.flight_num
-    //         ) as fc ON t.flight_num = fc.flight_num
-    //     WHERE
-    //         tbb.email_address = 'email' and 
-    //         t.flight_num = f.flight_num and 
-    //         f.airplane_id = a.airplane_id and
-    //     `
-
-
-
-
-
-    //     const sql = 
-        
+        // let numPurchases = customerYearPurchases.length;
+        // for (let purchaseInd = 0; purchaseInd < numPurchases; purchaseInd++) {
+        //     console.log(customerYearPurchases[purchaseInd]);
+        // }
+        let sum = 0;
+        for (let ind = 0; ind < customerYearPurchases.length; ind++) {
+            for(let ind2 = 0; ind2 < customerYearPurchases[ind].length; ind2++) {
+                if (customerYearPurchases[ind][ind2].market_price != null) {
+                    sum = sum + Number(customerYearPurchases[ind][ind2].market_price);
+                }
+            }
+        }
 
         
+        //for (int ind = 0; ind < )
+        return sum.toFixed(2).toString();
+    }
 
-    // }
+    async getCustomerReviews(email){
+        const sql = "SELECT flight_num, rating, comments FROM Review WHERE email_address = ?;";
+        const listOfReviews = await db.promise().query(sql, [email], (err, result) => {
+            if (err) {
+                console.log(email);
+                throw err;
+            }
+            console.log("Found all customer review info!");
+        });
+
+        console.log("List of reviews: ", listOfReviews);
         
+        return listOfReviews[0];
+    }
+
+    async getSixMonthSpending(email) {
+        // const customerSixMonthPurchasesQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats as total_capacity, COUNT(all(tbb.ticket_id)) as num_of_tickets_sold FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID WHERE email_address = ? AND tbb.purchase_date BETWEEN DATE_SUB(current_date(), INTERVAL 6 MONTH) AND current_date() GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
+        const customerSixMonthPurchasesQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, tbb.purchase_date, MONTH(tbb.purchase_date) as purchase_month FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID  WHERE email_address = 'maanavsavani239@gmail.com' AND tbb.purchase_date BETWEEN DATE_SUB(current_date(), INTERVAL 6 MONTH) AND current_date() GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
+
+        const customerSixMonthlyPurchases = await db.promise().query(customerSixMonthPurchasesQuery, [email], (err, result) => {
+            if(err) {
+                console.log(err);
+                throw err;
+            } else {
+                console.log("Found all the flight purchases a customer has made");
+            }
+        });
+
+        const monthlySums = {'Jan': 0, 'Feb': 0, 'Mar': 0, 'Apr': 0, 'May': 0, 'Jun': 0, 'Jul': 0, 'Aug': 0, 'Sept': 0, 'Oct': 0, 'Nov': 0, 'Dec': 0};
+        const ind2MonthMap = {1: "Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"May", 6:"Jun", 7:"Jul", 8:"Aug", 9:"Sept", 10: "Oct", 11:"Nov", 12:"Dec"}
+        for (let ind = 0; ind < customerSixMonthlyPurchases.length; ind++) {
+            for(let ind2 = 0; ind2 < customerSixMonthlyPurchases[ind].length; ind2++) {
+                if (customerSixMonthlyPurchases[ind][ind2].market_price != null) {
+                    const purchaseMonth = Number(customerSixMonthlyPurchases[ind][ind2].purchase_month);
+                    const purchaseMonthStr = ind2MonthMap[purchaseMonth];
+                    monthlySums[purchaseMonthStr] = monthlySums[purchaseMonthStr] + Number(customerSixMonthlyPurchases[ind][ind2].market_price).toFixed(2);
+                }
+            }
+        }
+
+        // for (let month in monthlySums) {
+        //     monthlySums[month] = monthlySums[month].toString();
+        // }
+
+        return monthlySums;
+    }
+
+
+    async getSpendingOverRange(email, start, end) {
+        const customerMonthlyPurchasesOverRangeQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats as total_capacity, COUNT(all(tbb.ticket_id)) as num_of_tickets_sold FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID WHERE email_address = ? AND tbb.purchase_date BETWEEN ? AND ? GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
+
+        const customerMonthlyPurchases = await db.promise().query(customerMonthlyPurchasesOverRangeQuery, [email, start, end], (err, result) => {
+            if(err) {
+                console.log(err);
+                throw err;
+            } else {
+                console.log("Found all the flight purchases a customer has made");
+            }
+        });
+
+        const monthlySums = [];
+        for (let ind = 0; ind < customerMonthlyPurchases.length; ind++) {
+            for(let ind2 = 0; ind2 < customerMonthlyPurchases[ind].length; ind2++) {
+                if (customerMonthlyPurchases[ind][ind2].market_price != null) {
+                    monthlySums.push(Number(customerMonthlyPurchases[ind][ind2].market_price).toFixed(2).toString());
+                }
+            }
+        }
+
+        return monthlySums;
+    }
 
 
     async getTodaysFlights(email){

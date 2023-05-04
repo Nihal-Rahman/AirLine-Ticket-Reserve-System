@@ -64,17 +64,16 @@ router.post("/search", validateToken, (req, res) =>{
 
 router.post("/writeReview", validateToken, (req, res) => {
     const email = req.userInfo.userEmail;
-    const flightNum = req.body.flightNum;
-    const departure_date = req.body.departure_date;
-    const departure_time = req.body.departure_time;
+    const flight_num = req.body.flightNum;
+    const departureDate = req.body.departure_date;
+    const departureTime = req.body.departure_time;
     const rating = req.body.rating;
     const comment = req.body.comment;
-
     //res.console.log([email, flightNum, departure_date, departure_time, rating, comment]);
-    const newReview = [email, flightNum, departure_date, departure_time, rating, comment]
+    const newReview = [email, flight_num, departureDate, departureTime, rating, comment];
+    res.json(newReview);
     const theUser = new Customer();  //creates review relation object
-    //console.log(review);
-    theUser.insert(newReview);  // inserts the review info into the database
+    theUser.insertNewReview(newReview);  // inserts the review info into the database
 
     res.json("Thank you for your feedback!");
 });
@@ -86,15 +85,50 @@ router.get("/retrieveReviews", validateToken, (req, res) => {
     const listOfReviews = theUser.getCustomerReviews(email);
 
     listOfReviews.then( values => {
-        res.send(values)
+        res.send(values);
     });
     console.log("Successfully retrieved the past customer reviews");
 });
 
 router.get('/retrieveYearlySpending', validateToken, async(req, res) => {
     const email = req.userInfo.userEmail;
+    const theUser = new Customer();
+    const yearlyPurchases = theUser.getYearlyTotal(email);
+
+    yearlyPurchases.then(values => {
+        res.send(values);
+    });
+    console.log("Successfully retrieved customer's yearly spending");
 
 }); 
+
+router.get('/retrieveSixMonthSpending', validateToken, async(req, res) => {
+    const email = req.userInfo.userEmail;
+    const theUser = new Customer();
+    const sixMonthPurchases = theUser.getSixMonthSpending(email);
+
+    sixMonthPurchases.then(values => {
+        res.send(values);
+    });
+    console.log("Successfully retrieved customer's yearly spending");
+}); 
+
+
+router.get('/retrieveSpendingOverRange', validateToken, async(req, res) => {
+    const email = req.userInfo.userEmail;
+    const start = req.body.start;
+    const end = req.body.end;
+    const theUser = new Customer();
+    const purchasesOverRange = theUser.getSpendingOverRange(email, start, end);
+
+    sixMonthPurchases.then(values => {
+        res.send(values);
+    });
+    console.log("Successfully retrieved customer's yearly spending");
+}); 
+
+
+
 router.post("/buy", validateToken, (req, res)=>{
     const email = req.userInfo.userEmail;
 

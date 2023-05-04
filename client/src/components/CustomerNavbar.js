@@ -36,7 +36,7 @@ function CustomerNavbar() {
                             </button>
                         </a>
                         
-                        <a href='/customer/home'>
+                        <a href='/customer/spending'>
                             <button className='px-8 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-3xl text-white rounded-full hover:bg-violet-300'>
                                 Track Spending
                             </button>
