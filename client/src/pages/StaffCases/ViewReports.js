@@ -65,13 +65,13 @@ function ViewReports() {
         <div className="searchFlights">
             <StaffNavbar/>
             <section>
-                <div className=" text-4xl">
+                <div className=" text-6xl">
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>Type of Report</th>
-                                <th>Number of Tickets Sold</th>
-                                <th>Total Revenue</th>
+                                <th className="underline">Type of Report</th>
+                                <th className="underline">Number of Tickets Sold</th>
+                                <th className="underline">Total Revenue</th>
                             </tr>
                         </thead>
                         <br/>
@@ -93,23 +93,24 @@ function ViewReports() {
                 <div classname='searchReports'>
                     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                         <Form className='formContainer'>
-                            <label>Begin Date:</label>
+                            <label className="text-4xl">Begin Date:</label>
                             <ErrorMessage name="bdate" component="span" />
                             <Field autoComplete="off" id="inputRegister" name="bdate" placeholder="(Ex: YYYY-MM-DD)" />
-                            <label>End Date:</label>
+                            <br/>
+                            <label className="text-4xl">End Date:</label>
                             <ErrorMessage name="edate" component="span" />
                             <Field autoComplete="off" id="inputRegister" name="edate" placeholder="(Ex: YYYY-MM-DD)" />
-                            <button type='submit'>Search</button>
+                            <button className='px-16 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'>Search </button>
                         </Form>
                     </Formik>
                 </div>
 
-                <div className="ml-52 text-4xl">
+                <div className="ml-52 text-6xl">
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Number of Tickets Sold</th>
+                                <th className="underline">Date</th>
+                                <th className="underline">Number of Tickets Sold</th>
                             </tr>
                         </thead>
                         <tbody>
