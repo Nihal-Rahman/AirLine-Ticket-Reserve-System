@@ -93,7 +93,7 @@ router.post("/homeSearch", (req, res) => {
     const roundone = req.body.roundone
 
     if (roundone === "One Way") {
-        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        const sql = "SELECT * FROM flight WHERE departure_airport = ? and arrival_airport = ? and departure_date = ?;";
         db.query(sql, [departure, arrival, ddate], (err, result) => {
             if (err) {
                 console.log(values);
@@ -103,14 +103,13 @@ router.post("/homeSearch", (req, res) => {
         });
     }
     else {
-        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
-        const sql2 = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        const sql = "SELECT * FROM flight WHERE departure_airport = ? and arrival_airport = ? and departure_date = ?;";
         db.query(sql, [departure, arrival, ddate], (err, result1) => {
             if (err) {
                 console.log(values);
                 throw err;
             }
-            db.query(sql2, [arrival, departure, rdate], (err, result2) => {
+            db.query(sql, [arrival, departure, rdate], (err, result2) => {
                 if (err) {
                     console.log(values);
                     throw err;

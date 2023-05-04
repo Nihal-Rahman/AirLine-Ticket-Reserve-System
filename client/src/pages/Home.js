@@ -9,7 +9,8 @@ import Navbar from '../components/Navbar'
 function Home() {
   const [status, setStatus] = useState("Round Trip")
 
-  const [listOfTickets, setListOfTickets] = useState([]);
+  const [goingFlights, setgoingFlights] = useState([]);
+  const [returnFlights, setReturnFlights] = useState([]);
 
   let history = useNavigate();
 
@@ -42,26 +43,14 @@ function Home() {
       }
       else {
         if (status == "One Way") {
-          let tickets = response.data.tickets;
-          tickets.map((data, key) => {
-            return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
-          })
-          setListOfTickets(tickets);
+          setgoingFlights(response.data.tickets);
         }
         else {
           let set1 = response.data.departure1;
           let set2 = response.data.departure2;
 
-
-          const s1 = set1.map((data, key) => {
-            return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
-          });
-
-          const s2 = set2.map((data, key) => {
-            return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
-          });
-
-          setListOfTickets([...s1, ...s2]);
+          setgoingFlights([...set1]);
+          setReturnFlights([...set2]);
         }
       }
     })
@@ -103,34 +92,63 @@ function Home() {
               </Form>
             </Formik>
           </div>
-          <h1 className='w-42 mt-20 mb-6 text-5xl text-center font-black underline tracking-tight text-gray-900 dark:text-white'>Available Tickets</h1>
-          <div>
-            <div className='ml-4 mr-4 grid gap-4 grid-cols-4 text-xl'>
-              {listOfTickets.map((value, key) => {
-                return (
-                  <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
-                    <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
-                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
-                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
-                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
-                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
-                    <input className='hover:cursor-pointer' onChange={(event) => {
-                      let checked = event.target.checked;
-                      setListOfTickets(
-                        listOfTickets.map(data => {
-                          if (data.ticket_ID === value.ticket_ID) {
-                            data.select = checked;
-                          }
-                          return data;
-                        })
-                      );
-                    }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select} />
-                  </div>
-                )
-              })}
-            </div>
-          </div>
 
+          
+          <h1 className='w-42 mt-20 mb-6 text-5xl text-center font-black underline tracking-tight text-gray-900 dark:text-white'>Upcoming Flights</h1>
+
+          <section>{status == "One Way" ? (<>
+          <h1 className='text-4xl mt-20 mb-4 ml-10'>Outgoing:</h1>
+          <div className='mb-20 ml-10 mr-4 grid gap-4 grid-cols-4 text-xl'>
+            {goingFlights.map((val, key) => {
+              return (
+                    <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
+                      <h1 className='w-42 underline mb-2 text-4xl font-black tracking-tight underline text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
+                      <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Departure: {val.departure_date} | {val.departure_time} </p>
+                      <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Arrival: {val.arrival_date} | {val.arrival_time} </p>
+                      <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{val.departure_airport} → {val.arrival_airport} </p>
+                      <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{val.airplane_ID} | {val.airline_name} </p>
+                      <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Status: {val.flight_status.toUpperCase()}</p>
+                    </div>
+
+              )
+            })}
+            </div>
+          </>) : (<>
+          <h1 className='text-4xl mt-20 mb-4 ml-10'>Outgoing:</h1>
+          <div className='mb-10 ml-10 mr-4 grid gap-4 grid-cols-4 text-xl'>
+            {goingFlights.map((val, key) => {
+              return (
+                <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
+                  <h1 className='w-42 underline mb-2 text-4xl font-black tracking-tight underline text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Departure: {val.departure_date} | {val.departure_time} </p>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Arrival: {val.arrival_date} | {val.arrival_time} </p>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{val.departure_airport} → {val.arrival_airport} </p>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{val.airplane_ID} | {val.airline_name} </p>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Status: {val.flight_status.toUpperCase()}</p>
+                </div>
+
+              )
+            })}
+          </div>
+          
+          <h1 className='text-4xl mb-4 ml-10'>Returning:</h1>
+          <div className='mb-20 ml-10 mr-4 grid gap-4 grid-cols-4 text-xl'>
+            {returnFlights.map((val, key) => {
+              return (
+                <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
+                  <h1 className='w-42 underline mb-2 text-4xl font-black tracking-tight underline text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Departure: {val.departure_date} | {val.departure_time} </p>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Arrival: {val.arrival_date} | {val.arrival_time} </p>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{val.departure_airport} → {val.arrival_airport} </p>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{val.airplane_ID} | {val.airline_name} </p>
+                  <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Status: {val.flight_status.toUpperCase()}</p>
+                </div>
+
+              )
+            })}
+          </div>
+          </>)}
+          </section>
         </>
   );
 }
