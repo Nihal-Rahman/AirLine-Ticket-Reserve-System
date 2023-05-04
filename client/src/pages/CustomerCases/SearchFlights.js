@@ -39,6 +39,7 @@ function SearchFlights(){
         diar: "",
         aair: "",
         ddate: "",
+        roundone: "",
         cexdate: "",
         cnum: "",
         ctype: "",
@@ -49,6 +50,7 @@ function SearchFlights(){
         dair: Yup.string().required("You must input a destination airport!"),
         aair: Yup.string().required("You must input an arrival airport!"),
         ddate: Yup.string().required("You must a departure date!"),
+        roundone: Yup.string().required("You must choose roundtrip or oneway")
     })
 
     const validationSchema2 = Yup.object().shape({
@@ -69,33 +71,49 @@ function SearchFlights(){
                 alert("You are not logged in!");
             }
             else{
-                console.log(response.data);
-                let tickets = response.data;
-                tickets.map((data, key) => {
-                    return {select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time:data.departure_time, airline_name: data.airline_name, firstName: data["firstName"+key], lastName: data["lastName"+key]}
-                })
-                setListOfTickets(tickets);
+                if(data.roundone==="OneWay"){
+                    let tickets = response.data.tickets;
+                    tickets.map((data, key) => {
+                        return {select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time:data.departure_time, airline_name: data.airline_name, firstName: data["firstName"+key], lastName: data["lastName"+key]}
+                    })
+                    setListOfTickets(tickets);
+                }
+                else{
+                    console.log("Im here");
+                    let set1 = response.data.departure1;
+                    let set2 = response.data.departure2;
+
+
+                    const s1 = set1.map((data, key) => {
+                        return {select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time:data.departure_time, airline_name: data.airline_name, firstName: data["firstName"+key], lastName: data["lastName"+key]}
+                    });
+
+                    const s2 = set2.map((data, key) => {
+                        return {select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time:data.departure_time, airline_name: data.airline_name, firstName: data["firstName"+key], lastName: data["lastName"+key]}
+                    });
+
+                    setListOfTickets([...s1, ...s2]);
+                }
             }
         })
     };
 
-    const purchaseTickets = () => {
-        const wantToBuy = listOfTickets.map((data)=>{
-            if(data.select){
-                return data;
-            }
-        }).filter(a => a != null);
 
-        wantToBuy.map((data, key)=>{
-            initialValues["firstName" + key] = "";
-            initialValues["lastName" + key] = "";
-            initialValues["date_of_birth" + key] = "";
-        })
 
-        console.log(initialValues);
-
-        setTicketsToBuy(wantToBuy);
-        setReadyToPurchase(true);
+    const purchaseTickets = (data) => {
+            const wantToBuy = listOfTickets.map((data)=>{
+                if(data.select){
+                    return data;
+                }
+            }).filter(a => a != null);
+    
+            wantToBuy.map((d, key)=>{
+                initialValues["firstName" + key] = "";
+                initialValues["lastName" + key] = "";
+                initialValues["date_of_birth" + key] = "";
+            })
+            setTicketsToBuy(wantToBuy);
+            setReadyToPurchase(true);
     };
 
     const submitPaymentInfo = (data) => {
@@ -128,7 +146,7 @@ function SearchFlights(){
     }
 
     const FormDisplay = ()=>{
-        if(page === 0 ){
+        if(page === 0){
             return <CustomerPayment initialValues={initialValues} onSubmit={submitPaymentInfo} validationSchema={validationSchema2} />;
         }
         if(page === 1){
@@ -143,18 +161,21 @@ function SearchFlights(){
             <>
                 <div className='registerPage'>
                     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                    <Form className='formContainer'>
-                        <label>Departure Airport:</label>
-                        <ErrorMessage name="dair" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="dair" placeholder="(Ex: JFK)" />
-                        <label>Arrival Airport:</label>
-                        <ErrorMessage name="aair" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="aair" placeholder="(Ex: PVG)" />
-                        <label>Departure Date:</label>
-                        <ErrorMessage name="ddate" component="span" />
-                        <Field autoComplete="off" id="inputRegister" name="ddate" placeholder="(Ex: YYYY-MM-DD)" />
-                        <button type='submit'>Search </button>
-                    </Form>
+                        <Form className='formContainer'>
+                            <label>Departure Airport:</label>
+                            <ErrorMessage name="dair" component="span" />
+                            <Field autoComplete="off" id="inputRegister" name="dair" placeholder="(Ex: JFK)" />
+                            <label>Arrival Airport:</label>
+                            <ErrorMessage name="aair" component="span" />
+                            <Field autoComplete="off" id="inputRegister" name="aair" placeholder="(Ex: PVG)" />
+                            <label>Departure Date:</label>
+                            <ErrorMessage name="ddate" component="span" />
+                            <Field autoComplete="off" id="inputRegister" name="ddate" placeholder="(Ex: YYYY-MM-DD)" />
+                            <label>Roundtrip or Oneway:</label>
+                            <ErrorMessage name="roundone" component="span" />
+                            <Field autoComplete="off" id="inputRegister" name="roundone" placeholder="(Ex: Roundtrip or Oneway)" />
+                            <button type='submit'>Search </button>
+                        </Form>
                     </Formik>
                 </div>
 

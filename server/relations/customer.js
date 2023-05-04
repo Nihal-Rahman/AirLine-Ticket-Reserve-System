@@ -70,18 +70,35 @@ module.exports = class Customer {
         return flightInfo[0];
     }
 
-    async searchFlights(departure, arrival, date){
-        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+    /*
+    async searchFlights(departure, arrival, date, roundone){
+        if(roundone === "Oneway"){
+            const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+            const ticketInfo = await db.promise().query(sql, [departure, arrival, date], (err, result) => {
+                if(err){
+                    console.log(values);
+                    throw err;
+                }
+            })
+        }
+        else{
+            const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+            const sql2 = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
 
-        const ticketInfo = await db.promise().query(sql, [departure, arrival, date], (err, result) => {
-            if(err){
-                console.log(values);
-                throw err;
-            }
-        })
+            const ticketInfo = await db.promise().query(sql, [departure, arrival, date], (err, result) => {
+                if(err){
+                    console.log(values);
+                    throw err;
+                }
+                else{
+                    db.query()
+                }
+            })
 
-        return ticketInfo[0];
+            console.log(ticketInfo);
+        }
     }
+    */
 
     payForTickets(info, email){
         const ticketInsert = info.map((data, key)=>{
@@ -117,7 +134,7 @@ module.exports = class Customer {
 
 
     async getTodaysFlights(email){
-        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
+        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
 
         const flightInfo = db.query(sql, [email], (err, result) =>{
             if(err){

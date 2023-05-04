@@ -51,13 +51,44 @@ router.post("/search", validateToken, (req, res) =>{
     const departure = req.body.dair;
     const arrival = req.body.aair;
     const ddate = req.body.ddate;
+    const roundone = req.body.roundone
 
+    /*
     const theUser = new Customer();
-    const ticketInfo = theUser.searchFlights(departure, arrival, ddate);
+    const ticketInfo = theUser.searchFlights(departure, arrival, ddate, roundone);
 
     ticketInfo.then( values => {
         res.send(values);
     });
+    */
+
+    if(roundone === "Oneway"){
+        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        db.query(sql, [departure, arrival, ddate], (err, result) => {
+            if(err){
+                console.log(values);
+                throw err;
+            }
+            res.send({tickets: result});
+        });
+    }
+    else{
+        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        const sql2 = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date > ?);";
+        db.query(sql, [departure, arrival, ddate], (err, result1) => {
+            if(err){
+                console.log(values);
+                throw err;
+            }
+            db.query(sql2, [arrival, departure, ddate], (err, result2) =>{
+                if(err){
+                    console.log(values);
+                    throw err;
+                }
+                res.send({departure1:result1, departure2:result2});
+            })
+        });
+    }
 });
 
 router.post("/buy", validateToken, (req, res)=>{
@@ -82,7 +113,7 @@ router.get("/viewFlights/past", validateToken, (req,res)=>{
 
     const email = req.userInfo.userEmail;
 
-    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE > DEPARTURE_DATE);"
+    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE > DEPARTURE_DATE);"
 
     db.query(sql, [email], (err, result) =>{
         if(err){
@@ -96,7 +127,7 @@ router.get("/viewFlights/past", validateToken, (req,res)=>{
 router.get("/viewFlights/today", validateToken, (req,res)=>{
     const email = req.userInfo.userEmail;
 
-    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM DBProject.Ticket NATURAL JOIN DBProject.Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
+    const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"
 
     db.query(sql, [email], (err, result) =>{
         if(err){

@@ -47,7 +47,7 @@ router.post('/create-flight', validateToken, (req, res)=>{
     const airplane_ID = req.body.airplane_ID;
     const flight_status = req.body.flight_status;
     
-    const sqlInsert = "INSERT INTO projectDB.flight VALUES (?,?,?,?,?,?,?,?,?,?)"
+    const sqlInsert = "INSERT INTO flight VALUES (?,?,?,?,?,?,?,?,?,?)"
     db.query(sqlInsert, [flight_num, departure_date, departure_time, 
         arrival_date, arrival_time, departure_airport, arrival_airport, 
         airline_name, airplane_ID, flight_status], (err, result)=>{})
@@ -61,7 +61,7 @@ router.post('/add-plane', validateToken, (req, res) => {
     const age = req.body.age;
     const airline_name = req.body.airline_name;
 
-    const sqlInsert = "INSERT INTO projectDB.airplane VALUES (?,?,?,?,?,?)"
+    const sqlInsert = "INSERT INTO airplane VALUES (?,?,?,?,?,?)"
     db.query(sqlInsert, [airplane_ID, num_of_seats, manufactoring_comp, manufactoring_date, age, airline_name], (err, result) => { })
 }); 
 
@@ -72,7 +72,7 @@ router.post('/add-airport', validateToken, (req, res) => {
     const country = req.body.country;
     const airport_type = req.body.airport_type;
 
-    const sqlInsert = "INSERT INTO projectDB.airport VALUES (?,?,?,?,?)"
+    const sqlInsert = "INSERT INTO airport VALUES (?,?,?,?,?)"
     db.query(sqlInsert, [airport_code, airport_name, city, country, airport_type], (err, result) => { })
 }); 
 
@@ -82,7 +82,7 @@ router.put('/update-status', validateToken, (req, res) => {
     const departure_time = req.body.departure_time;
     const flight_status = req.body.flight_status;
     
-    const sqlUpdate = "UPDATE projectDB.flight SET flight_status = ? WHERE (flight_num = ?) and (departure_date = ?) and (departure_time = ?)"
+    const sqlUpdate = "UPDATE flight SET flight_status = ? WHERE (flight_num = ?) and (departure_date = ?) and (departure_time = ?)"
     db.query(sqlUpdate, [flight_status, flight_num, departure_date, departure_time], (err, result) => {
         if (err) console.log(err);
     });
@@ -110,7 +110,6 @@ router.get('/ticketSoldRevenue', validateToken, (req, res)=>{
     const sql = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 YEAR) AND CURRENT_DATE';
 
     db.query(sql, [req.userInfo.airline], (err, result1)=>{
-        //res.send({yearly: result});
         if (err) console.log(err);
         else{
             const sql1 = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND CURRENT_DATE;'
