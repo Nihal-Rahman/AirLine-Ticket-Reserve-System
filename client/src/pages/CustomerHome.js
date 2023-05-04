@@ -2,28 +2,32 @@ import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CustomerNavbar from '../components/CustomerNavbar'
+import { useNavigate } from 'react-router-dom';
+
 
 function CustomerHome() {
+  let history = useNavigate();
 
   const [listOfFlights, setListOfFlights] = useState([]);
 
   useEffect(() => {
-      axios.get("http://localhost:3001/customer/viewFlights",
-        {
-          headers: {
-            accessToken: sessionStorage.getItem("accessToken"),
-          },
-        }
-      ).then((response) => {
-        if (response.data.error) {
-          alert("You are not logged in!");
-        } else {
-          setListOfFlights(response.data);
-        }
-      });
+    axios.get("http://localhost:3001/customer/viewFlights",
+      {
+        headers: {
+          accessToken: sessionStorage.getItem("accessToken"),
+        },
+      }
+    ).then((response) => {
+      if (response.data.error) {
+        alert("You are not logged in!");
+        history("/")
+      } else {
+        setListOfFlights(response.data);
+      }
+    });
   }, []);
 
-  const viewPast = ()=>{
+  const viewPast = () => {
     axios.get("http://localhost:3001/customer/viewFlights/past",
       {
         headers: {
@@ -39,7 +43,7 @@ function CustomerHome() {
     });
   }
 
-  const viewPresent = ()=>{
+  const viewPresent = () => {
     axios.get("http://localhost:3001/customer/viewFlights/today",
       {
         headers: {
@@ -55,7 +59,7 @@ function CustomerHome() {
     });
   }
 
-  const viewFuture = ()=>{
+  const viewFuture = () => {
     axios.get("http://localhost:3001/customer/viewFlights",
       {
         headers: {
@@ -73,41 +77,29 @@ function CustomerHome() {
 
   return (
     <div>
-      <CustomerNavbar/>
-    <section>
-      <div>Your Upcoming Flights:</div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Ticket ID</th>
-            <th>Flight Num</th>
-            <th>Departure Date</th>
-            <th>Departure Time</th>
-            <th>Airline Name</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listOfFlights.map((value, key) => {
+      <CustomerNavbar />
+      <div className='mt-40 text-center text-3xl space-x-5' >
+        <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-full hover:bg-teal-800 focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewPresent() }}>Today's Flights</button>
+        <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-full hover:bg-teal-800 focus:underline focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewPast() }}>Past Flights</button>
+        <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-full hover:bg-teal-800 focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewFuture() }}>Future Flights</button>
+      </div>
+      <div>
+        <div className='ml-4 mt-10 mr-4 grid gap-4 grid-cols-5 text-xl'>
+          {listOfFlights.map((val) => {
             return (
-              <tr>
-                <td> {value.ticket_ID} </td>
-                <td> {value.flight_num} </td>
-                <td> {value.departure_date} </td>
-                <td> {value.departure_time} </td>
-                <td> {value.airline_name} </td>
-                <td> {value.first_name} </td>
-                <td> {value.last_name} </td>
-              </tr>
-            );
+              <div className='p-6 space-y-3 bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
+                <h1 className='w-42 mb-6 text-2xl font-black tracking-tight underline text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
+                <p className='font-normal text-gray-700 dark:text-gray-400'>Date: {val.departure_date}</p>
+                <p className='font-normal text-gray-700 dark:text-gray-400'>Time: {val.departure_time}</p>
+                <p className='font-normal text-gray-700 dark:text-gray-400'>{val.airline_name} </p>
+                <p className='font-normal text-gray-700 dark:text-gray-400'>{val.flight_status} </p>
+                <p className='font-normal text-gray-700 dark:text-gray-400'>Ticket No. {val.ticket_ID} </p>
+
+              </div>
+            )
           })}
-        </tbody>
-      </table>
-      <button onClick={()=>{viewPresent()}}>View Today's Flights</button> 
-      <button onClick={()=>{viewPast()}}>View Previous Flights</button>
-      <button onClick={()=>{viewFuture()}}>View Future Flights</button>
-    </section>
+        </div>
+      </div>
     </div>
   );
 }

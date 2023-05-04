@@ -57,7 +57,7 @@ export default function CreateFlight() {
   return (
       <div>
           <StaffNavbar/>
-          <div className='text-center mt-60'>
+          <div className='text-center px-10 py-10 mt-60'>
             <h1 className='text-7xl underline'>Create New Flight</h1>
             <div className='text-3xl mt-24'>
                 <input type='text' name="flight_num" placeholder="Flight Number" onChange={(e) => setFlightNum(e.target.value)}/>

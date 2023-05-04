@@ -132,6 +132,65 @@ module.exports = class Customer {
         })
     }
 
+    async getfromDB(user, pass) {
+        const sql = "SELECT email_address, passcode FROM Customer WHERE email_address = ? ;"
+        const userThere = await db.promise().query(sql, [user], (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+
+            console.log("Found user!")
+        });
+        
+
+        const result = userThere[0][0];
+        if (result == null) {
+            return false;
+        }
+
+
+        if (result != null) {
+            bcrypt.compare(pass, result.passcode).then((match) => {
+                if (!match) {
+                    return false; 
+             }
+                else {
+                    console.log("Login successful");
+                    return true;
+                }
+            });
+        } 
+    }
+
+    insertNewReview(values) {
+        const sql = "INSERT INTO Review VALUES (?,?,?,?,?,?);";
+
+
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+            console.log("Insert Success");
+        });
+
+    }
+
+    async getCustomerReviews(email){
+        const sql = "SELECT flight_num, rating, comments FROM Review WHERE email_address = ?;";
+        const listOfReviews = await db.promise().query(sql, [email], (err, result) => {
+            if (err) {
+                console.log(email);
+                throw err;
+            }
+            console.log("Found all customer review info!");
+        });
+
+        
+        return listOfReviews[0];
+    }
+
 
     async getTodaysFlights(email){
         const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (CURRENT_DATE = DEPARTURE_DATE);"

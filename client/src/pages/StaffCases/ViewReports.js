@@ -2,37 +2,38 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import StaffNavbar from '../../components/StaffNavbar'
 
-function ViewReports(){
-    const[ticketsSoldRevenue, setTicketsSoldRevenue] = useState([]);
-    const[searchDates, setSearchDates] = useState([]);
+function ViewReports() {
+    const [ticketsSoldRevenue, setTicketsSoldRevenue] = useState([]);
+    const [searchDates, setSearchDates] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         axios.get("http://localhost:3001/staff/ticketSoldRevenue",
-        {
-          headers: {
-            accessToken: sessionStorage.getItem("accessToken"),
-          },
-        }
-      ).then((response)=>{
-        const month = response.data.monthly;
-        const year = response.data.yearly;
-
-  
-        const m = month.map((data)=>{
-            return{type: "Monthly Report", totalTickets: data['COUNT(ticket_ID)'], totalRevenue: data['SUM(price)']};
-        })[0];
-
-        const y = year.map((data)=>{
-            return{type: "Yearly", totalTickets: data['COUNT(ticket_ID)'], totalRevenue: data['SUM(price)']};
-        })[0];
+            {
+                headers: {
+                    accessToken: sessionStorage.getItem("accessToken"),
+                },
+            }
+        ).then((response) => {
+            const month = response.data.monthly;
+            const year = response.data.yearly;
 
 
-        
-        setTicketsSoldRevenue([m, y]);
+            const m = month.map((data) => {
+                return { type: "Monthly Report", totalTickets: data['COUNT(ticket_ID)'], totalRevenue: data['SUM(price)'] };
+            })[0];
 
-        
-      })
+            const y = year.map((data) => {
+                return { type: "Yearly", totalTickets: data['COUNT(ticket_ID)'], totalRevenue: data['SUM(price)'] };
+            })[0];
+
+
+
+            setTicketsSoldRevenue([m, y]);
+
+
+        })
     });
 
     let initialValues = {
@@ -45,77 +46,86 @@ function ViewReports(){
         edate: Yup.string().required("You must input an end range date!"),
     })
 
-    const onSubmit = (data)=>{
+    const onSubmit = (data) => {
         axios.post("http://localhost:3001/staff/ticketDateRange", data, {
             headers: {
                 accessToken: sessionStorage.getItem("accessToken"),
             }
-        }).then( (response) => {
+        }).then((response) => {
             if (response.data.error) {
                 alert("You are not logged in!");
             }
-            else{
+            else {
                 setSearchDates(response.data);
             }
         })
     }
+    return (
+        <div className="searchFlights">
+            <StaffNavbar/>
+            <section>
+                <div className=" text-4xl">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Type of Report</th>
+                                <th>Number of Tickets Sold</th>
+                                <th>Total Revenue</th>
+                            </tr>
+                        </thead>
+                        <br/>
+                        <tbody>
+                            {ticketsSoldRevenue.map((value, key) => {
+                                return (
+                                    <tr>
+                                        <td>{value.type}</td>
+                                        <td> {value.totalTickets} </td>
+                                        <td> {value.totalRevenue != null ? value.totalRevenue : 0} </td>
+                                    </tr>
+                                );
+                            })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div classname='searchReports'>
+                    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+                        <Form className='formContainer'>
+                            <label>Begin Date:</label>
+                            <ErrorMessage name="bdate" component="span" />
+                            <Field autoComplete="off" id="inputRegister" name="bdate" placeholder="(Ex: YYYY-MM-DD)" />
+                            <label>End Date:</label>
+                            <ErrorMessage name="edate" component="span" />
+                            <Field autoComplete="off" id="inputRegister" name="edate" placeholder="(Ex: YYYY-MM-DD)" />
+                            <button type='submit'>Search</button>
+                        </Form>
+                    </Formik>
+                </div>
 
-    return(
-        <section>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Type of Report</th>
-                        <th>Number of Tickets Sold</th>
-                        <th>Total Revenue</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {ticketsSoldRevenue.map((value, key)=>{
-                            return(
-                                <tr>
-                                    <td>{value.type}</td>
-                                    <td> {value.totalTickets} </td>
-                                    <td> {value.totalRevenue != null ? value.totalRevenue : 0} </td>
-                                </tr>
-                            );
-                        })
-                    }
-                </tbody>
-            </table>
-
-            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                <Form className='formContainer'>
-                    <label>Begin Date:</label>
-                    <ErrorMessage name="bdate" component="span" />
-                    <Field autoComplete="off" id="inputRegister" name="bdate" placeholder="(Ex: YYYY-MM-DD)" />
-                    <label>End Date:</label>
-                    <ErrorMessage name="edate" component="span" />
-                    <Field autoComplete="off" id="inputRegister" name="edate" placeholder="(Ex: YYYY-MM-DD)" />
-                    <button type='submit'>Search</button>
-                </Form>
-            </Formik>
-
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Number of Tickets Sold</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {searchDates.map((value, key)=>{
-                            return(
-                                <tr>
-                                    <td>{value['purchase_date']}</td>
-                                    <td> {value['COUNT(purchase_date)'] != null ? value['COUNT(purchase_date)'] : 0} </td>
-                                </tr>
-                            );
-                        })
-                    }
-                </tbody>
-            </table>
-      </section>
+                <div className="ml-52 text-4xl">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Number of Tickets Sold</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {searchDates.map((value, key) => {
+                                return (
+                                    <tr>
+                                        <td>{value['purchase_date']}</td>
+                                        <td> {value['COUNT(purchase_date)'] != null ? value['COUNT(purchase_date)'] : 0} </td>
+                                    </tr>
+                                );
+                            })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
 
     )
 }

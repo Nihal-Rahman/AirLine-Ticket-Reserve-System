@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import CustomerHome from './pages/CustomerHome';
 import CancelFlights from './pages/CustomerCases/CancelFlights';
 import SearchFlights from './pages/CustomerCases/SearchFlights';
+import CustomerReview from './pages/CustomerCases/CustomerReview';
 import StaffHome from './pages/StaffHome';
 import CreateFlight from './pages/StaffCases/CreateFlight'
 import AddPlane from './pages/StaffCases/AddPlane'
@@ -23,13 +24,16 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' exact element={<Home />} />
-        <Route path='/staff/register' exact element={<StaffRegister />} />
-        <Route path='/staff/login' exact element={<StaffLogin />} />
+
         <Route path='/user/register' exact element={<Register />} />
         <Route path='/user/login' exact element={<Login />} />
         <Route path='/customer/home' exact element={<CustomerHome />} />
         <Route path='/customer/cancelFlights' exact element={<CancelFlights />} />
         <Route path='/customer/search' exact element={<SearchFlights />} />
+        <Route path='/customer/reviews' exact element={<CustomerReview />} />
+
+        <Route path='/staff/register' exact element={<StaffRegister />} />
+        <Route path='/staff/login' exact element={<StaffLogin />} />
         <Route path='/staff/home' exact element={<StaffHome />} />
         <Route path='/staff/create-flight' exact element={<CreateFlight />} />
         <Route path='/staff/add-plane' exact element={<AddPlane />} />

@@ -16,10 +16,21 @@ router.post('/reviews', validateToken, (req, res) =>{
     const flight_num = req.body.flight_num;
     const departure_date = req.body.departure_date;
     const departure_time = req.body.departure_time;
-    let average_rating;
 
     const sqlSelect = "SELECT * FROM review WHERE (flight_num = ?) and (departure_date = ?) and (departure_time = ?)"
     db.query(sqlSelect, [flight_num, departure_date, departure_time], (err, result) => {
+        res.send(result);
+    });
+})
+
+router.post('/customers', validateToken, (req, res) =>{
+    const flight_num = req.body.flight_num;
+    const departure_date = req.body.departure_date;
+    const departure_time = req.body.departure_time;
+
+    const sqlSelect = "SELECT * FROM ticket_bought_by NATURAL JOIN ticket WHERE (flight_num = ?) and (departure_date = ?) and (departure_time = ?)"
+    db.query(sqlSelect, [flight_num, departure_date, departure_time], (err, result) => {
+        console.log(result)
         res.send(result);
     });
 })
@@ -46,6 +57,23 @@ router.post('/create-flight', validateToken, (req, res)=>{
     const airline_name = req.body.airline_name;
     const airplane_ID = req.body.airplane_ID;
     const flight_status = req.body.flight_status;
+    let seats;
+    let price;
+    let ticket_ID;
+
+    const sqlSelect = "SELECT num_of_seats FROM Airplane WHERE airplane_ID = ?"
+    db.query(sqlSelect, airplane_ID, (err, result) => {
+        seats = result[0].num_of_seats
+        price = Math.floor(((Math.random() * (300 - 50)) + 50) * 100) / 100;
+
+        const insertTickets = "INSERT INTO ticket VALUES (?,?,?,?,?,?)";
+        for (let index = 0; index < seats; index++) {
+            ticket_ID = String(Math.floor(Math.random() * 10000000000000000));
+            db.query(insertTickets, [ticket_ID, price, flight_num, departure_date, departure_time, airline_name], (err, result) => {
+                if (err) console.log(err);
+            });
+        }
+    })
     
     const sqlInsert = "INSERT INTO flight VALUES (?,?,?,?,?,?,?,?,?,?)"
     db.query(sqlInsert, [flight_num, departure_date, departure_time, 
@@ -98,40 +126,54 @@ router.post('/flight', validateToken, (req, res) => {
     });
 });
 
-router.get('/flightsFromPastYear', validateToken, (req, res)=>{
+router.get('/flightsFromPastYear', validateToken, (req, res) => {
 
     const sql = 'SELECT * FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE departure_date >= DATE_SUB(NOW(),INTERVAL 1 YEAR) AND airline_name = ?;'
-    db.query(sql, [req.userInfo.airline] ,(err, result)=>{
+    db.query(sql, [req.userInfo.airline], (err, result) => {
         res.send(result);
     });
 });
 
-router.get('/ticketSoldRevenue', validateToken, (req, res)=>{
+router.get('/ticketSoldRevenue', validateToken, (req, res) => {
     const sql = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 YEAR) AND CURRENT_DATE';
 
-    db.query(sql, [req.userInfo.airline], (err, result1)=>{
+    db.query(sql, [req.userInfo.airline], (err, result1) => {
+        //res.send({yearly: result});
         if (err) console.log(err);
-        else{
+        else {
             const sql1 = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND CURRENT_DATE;'
 
-            db.query(sql1, [req.userInfo.airline], (err, result2)=>{
+            db.query(sql1, [req.userInfo.airline], (err, result2) => {
                 if (err) console.log(err);
-                res.send({monthly: result2, yearly:result1});
-    })
+                res.send({ monthly: result2, yearly: result1 });
+            })
         }
     })
 
 });
 
-router.post('/ticketDateRange', validateToken, (req,res)=>{
+router.post('/ticketDateRange', validateToken, (req, res) => {
     const sql = 'SELECT purchase_date , COUNT(purchase_date) FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE airline_name = ? AND purchase_date BETWEEN ? AND ? GROUP BY purchase_date';
 
     const dates = req.body;
-
-    db.query(sql, [req.userInfo.airline, dates.bdate, dates.edate], (err, results)=>{
+    db.query(sql, [req.userInfo.airline, dates.bdate, dates.edate], (err, results) => {
         if (err) console.log(err);
+        console.log(results)
         res.send(results);
     })
 });
 
-module.exports = router;
+router.get('/navbar', validateToken, (req, res) => {
+    if (req.userInfo.userEmail){
+        res.send("customer");
+    }
+    else if (req.userInfo.username){
+        res.send("staff");
+    }
+    else{
+        res.send("none");
+    }
+})
+
+
+module.exports = router; 

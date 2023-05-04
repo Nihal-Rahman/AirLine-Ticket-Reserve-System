@@ -1,0 +1,44 @@
+.customerReviewsPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .viewPastReviews {
+    flex: 1;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+  
+  .createNewReview {
+    flex: 1;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    padding: 20px;
+  }
+  
+  .createNewReview input {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .createNewReview button {
+    display: block;
+    margin-top: 10px;
+    margin-left: auto;
+  }
+
+  .table th,
+.table td {
+  padding: 10px 20px;
+}
+
+.table th:not(:last-child),
+.table td:not(:last-child) {
+  padding-right: 30px;
+}
+
+  
+  
