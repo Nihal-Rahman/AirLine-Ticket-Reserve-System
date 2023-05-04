@@ -70,18 +70,35 @@ module.exports = class Customer {
         return flightInfo[0];
     }
 
-    async searchFlights(departure, arrival, date){
-        const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+    /*
+    async searchFlights(departure, arrival, date, roundone){
+        if(roundone === "Oneway"){
+            const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+            const ticketInfo = await db.promise().query(sql, [departure, arrival, date], (err, result) => {
+                if(err){
+                    console.log(values);
+                    throw err;
+                }
+            })
+        }
+        else{
+            const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+            const sql2 = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
 
-        const ticketInfo = await db.promise().query(sql, [departure, arrival, date], (err, result) => {
-            if(err){
-                console.log(values);
-                throw err;
-            }
-        })
+            const ticketInfo = await db.promise().query(sql, [departure, arrival, date], (err, result) => {
+                if(err){
+                    console.log(values);
+                    throw err;
+                }
+                else{
+                    db.query()
+                }
+            })
 
-        return ticketInfo[0];
+            console.log(ticketInfo);
+        }
     }
+    */
 
     payForTickets(info, email){
         const ticketInsert = info.map((data, key)=>{

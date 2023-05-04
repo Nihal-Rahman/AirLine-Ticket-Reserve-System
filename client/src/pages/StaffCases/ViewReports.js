@@ -60,7 +60,6 @@ function ViewReports() {
             }
         })
     }
-
     return (
         <div className="searchFlights">
             <StaffNavbar/>

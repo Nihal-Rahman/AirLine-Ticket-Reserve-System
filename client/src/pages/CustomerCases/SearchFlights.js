@@ -88,7 +88,6 @@ function SearchFlights(){
     };
 
 
-
     const purchaseTickets = () => {
         const wantToBuy = listOfTickets.map((data)=>{
             if(data.select){
@@ -102,10 +101,21 @@ function SearchFlights(){
             initialValues["date_of_birth" + key] = "";
         })
 
-        console.log(initialValues);
 
-        setTicketsToBuy(wantToBuy);
-        setReadyToPurchase(true);
+    const purchaseTickets = (data) => {
+            const wantToBuy = listOfTickets.map((data)=>{
+                if(data.select){
+                    return data;
+                }
+            }).filter(a => a != null);
+    
+            wantToBuy.map((d, key)=>{
+                initialValues["firstName" + key] = "";
+                initialValues["lastName" + key] = "";
+                initialValues["date_of_birth" + key] = "";
+            })
+            setTicketsToBuy(wantToBuy);
+            setReadyToPurchase(true);
     };
 
     const submitPaymentInfo = (data) => {
@@ -138,7 +148,7 @@ function SearchFlights(){
     }
 
     const FormDisplay = ()=>{
-        if(page === 0 ){
+        if(page === 0){
             return <CustomerPayment initialValues={initialValues} onSubmit={submitPaymentInfo} validationSchema={validationSchema2} />;
         }
         if(page === 1){
