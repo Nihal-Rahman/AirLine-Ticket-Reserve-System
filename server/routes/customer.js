@@ -235,7 +235,6 @@ router.post("/writeReview", validateToken, (req, res) => {
 });
 
 router.get("/retrieveReviews", validateToken, (req, res) => {
-    //console.log("Hello World");
     const email = req.userInfo.userEmail;
     const theUser = new Customer();
     const listOfReviews = theUser.getCustomerReviews(email);
@@ -272,7 +271,6 @@ router.get("/viewFlights/past", validateToken, (req, res) => {
 
     db.query(sql, [email], (err, result) => {
         if (err) {
-            //console.log(values);
             throw err;
         }
         else {
@@ -288,7 +286,6 @@ router.get("/viewFlights/today", validateToken, (req, res) => {
 
     db.query(sql, [email], (err, result) => {
         if (err) {
-            //console.log(values);
             throw err;
         }
         res.send(result);
@@ -316,7 +313,6 @@ router.get('/retrieveSixMonthSpending', validateToken, (req, res) => {
         res.send(values);
     });
     console.log("Successfully retrieved customer's spending over the past six months");
-    //console.log(sixMonthPurchases);
 });
 
 
