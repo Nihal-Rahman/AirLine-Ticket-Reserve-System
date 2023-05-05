@@ -1,8 +1,6 @@
 import React from 'react'
-//import {BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import axios from "axios";
-//import '../../CustomerSpending.css'
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 import CustomerNavbar from '../../components/CustomerNavbar';
 import * as Yup from "yup";
 import { Formik, Form, Field} from "formik";
@@ -10,11 +8,6 @@ import { ErrorMessage } from 'formik';
 
 function CustomerSpending() {
   const [yearlyTotal, setYearlyTotal] = useState([]);
-  //const [sixMonthPurchaseTotals, setSixMonthPurchaseTotals] = useState([]);
-  //const [rangePurchaseTotals, setRangePurchaseTotals] = useState([]);
-  //const [start, setStartDate] = useState([]);
-  //const [end, setEndDate] = useState([]);
-  //const [tableStatus, setTableStatus] = useState(0);
   let [monthlyPurchases, setMonthlyPurchases] = useState([]);
 
 
@@ -53,9 +46,8 @@ function CustomerSpending() {
         console.log(response.data.error);
         alert("You are not logged in!");
       } else {
-          console.log(response.data);
-          //setSixMonthPurchaseTotals(response.data);
-          setMonthlyPurchases(response.data);
+        console.log(response.data);
+        setMonthlyPurchases(response.data);
       }
     });
   }, []);
@@ -74,10 +66,8 @@ function CustomerSpending() {
         console.log(response.data.error);
         alert("You are not logged in!");
       } else {
-          console.log(response.data);
-          //setRangePurchaseTotals(response.data);
-          //setTableStatus(1);
-          setMonthlyPurchases(response.data);
+        console.log(response.data);
+        setMonthlyPurchases(response.data);
       }
     });
   }

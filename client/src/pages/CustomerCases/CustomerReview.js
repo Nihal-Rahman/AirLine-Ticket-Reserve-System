@@ -1,7 +1,6 @@
 import React from 'react';
 import '../../CustomerReview.css'
 import axios from "axios";
-//import * as Yup from 'yup';  //allows us to vaidate our forms (ex: passwords have specific lengths/characters)
 import { useEffect, useState } from "react"; 
 import CustomerNavbar from '../../components/CustomerNavbar';
 
@@ -12,15 +11,6 @@ function CustomerReview(){
     const [departure_time, setDepartureTime] = useState([]);
     const [rating, setRating] = useState([]);
     const [comment, setComment] = useState([]);
-
-    // const initialValues = {
-    //   email: "",
-    //   flightNum: "",
-    //   departure_date: "",
-    //   departure_time: "",
-    //   rating: 0,
-    //   comment: ""
-    // }
 
     useEffect(() => {
       axios.get("http://localhost:3001/customer/retrieveReviews",
@@ -35,11 +25,7 @@ function CustomerReview(){
           console.log(response.data.error);
           alert("You are not logged in!");
         } else {
-            //let reviews = response.data;
-            //console.log(reviews);
-            //console.log(response.data);
             setListOfReviews(response.data);
-            //console.log(listOfReviews);
         }
       });
     }, []);
@@ -68,20 +54,6 @@ function CustomerReview(){
       });
     }
 
-    // const validationSchema = Yup.object().shape({
-    //   email: Yup.string().required("You must input a Title!"),
-    //   flightNum: Yup.string().required("You must input a Title!"),
-    //   departure_date: Yup.string().required("Required field (YYYY-MM-DD)."),
-    //   departure_time: Yup.string().required("You must input a departure time!"),
-    //   rating: Yup.number().required("You must input a rating out of 10"),
-    //   comment: Yup.string().required("You must input a comment!")
-    // });
-
-
-
-
-      //console.log(listOfReviews);
-      // console.log(listOfReviews[0][flightNum])
       return(
         <div className = "customerReviewsPage">
           <CustomerNavbar />

@@ -54,15 +54,38 @@ router.post("/search", validateToken, (req, res) => {
     const ddate = req.body.ddate;
     const rdate = req.body.rdate;
     const roundone = req.body.roundone
-    console.log(roundone) 
 
     if (roundone === "One Way") {
         const sql = "SELECT * FROM ticket where ticket_id not in (SELECT ticket_id FROM ticket_bought_by) AND flight_num IN (SELECT flight_num FROM flight where departure_airport = ? and arrival_airport = ? and departure_date = ?);";
+        const unsoldSql = "select flight_num, count(*) as unsold, num_of_seats from flight natural join airplane natural join ticket where(departure_airport = ? and arrival_airport = ? and departure_date = ?) and(ticket_id not in (select ticket_id from ticket_bought_by)) group by flight_num"
+        let percentFull;
+        let ticket_id
+
+        db.query(unsoldSql, [departure, arrival, ddate], (err, result) => {
+            if (err){
+                console.log(err)
+                throw err
+            }
+            else{
+                percentFull = (result[0].unsold / result[0].num_of_seats) * 100
+            }
+        })
+
         db.query(sql, [departure, arrival, ddate], (err, result) => {
             if (err) {
                 console.log(values);
                 throw err;
             }
+            
+            if (percentFull >= 80){
+                result.forEach(ticket => {
+                    let new_price = String(Number(ticket.price) * 1.25)
+                    ticket.price = new_price;
+                    const updateSql = "UPDATE ticket SET price = ? WHERE (ticket_ID = ?) and (flight_num = ?) and (departure_date = ?) and (departure_time = ?)"
+                    db.query(updateSql, [new_price, ticket.ticket_ID, ticket.flight_num, ddate, ticket.departure_time], (err, result1) => {
+                        if(err) throw err;
+                    })
+            });}
             res.send({ tickets: result });
         });
     }
@@ -79,6 +102,7 @@ router.post("/search", validateToken, (req, res) => {
                     console.log(values);
                     throw err;
                 }
+
                 res.send({ departure1: result1, departure2: result2 });
             })
         });
@@ -252,16 +276,15 @@ router.get("/viewFlights/today", validateToken, (req,res)=>{
 })
 
 router.get('/retrieveYearlySpending', validateToken, (req, res) => {
-    console.log("Im here");
     const email = req.userInfo.userEmail;
-    console.log("Im here");
     const theUser = new Customer();
     const yearlyPurchases = theUser.getYearlyTotal(email);
 
     yearlyPurchases.then(value => {
         res.send(value);
-        console.log("Successfully retrieved customer's yearly spending");
     });
+    console.log("Successfully retrieved customer's yearly spending");
+
 });
 
 router.get('/retrieveSixMonthSpending', validateToken, (req, res) => {
@@ -271,9 +294,8 @@ router.get('/retrieveSixMonthSpending', validateToken, (req, res) => {
 
     sixMonthPurchases.then(values => {
         res.send(values);
-        console.log("Successfully retrieved customer's spending over the past six months");
     });
-    
+    console.log("Successfully retrieved customer's spending over the past six months");
     //console.log(sixMonthPurchases);
 });
 
