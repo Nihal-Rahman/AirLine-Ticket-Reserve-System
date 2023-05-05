@@ -159,7 +159,6 @@ router.get('/ticketSoldRevenue', validateToken, (req, res) => {
     const sql = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 YEAR) AND CURRENT_DATE';
 
     db.query(sql, [req.userInfo.airline], (err, result1) => {
-        //res.send({yearly: result});
         if (err) console.log(err);
         else {
             const sql1 = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND CURRENT_DATE;'

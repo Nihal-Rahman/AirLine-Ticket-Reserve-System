@@ -191,7 +191,6 @@ module.exports = class Customer {
     }
 
     async getSixMonthSpending(email) {
-        // const customerSixMonthPurchasesQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats as total_capacity, COUNT(all(tbb.ticket_id)) as num_of_tickets_sold FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID WHERE email_address = ? AND tbb.purchase_date BETWEEN DATE_SUB(current_date(), INTERVAL 6 MONTH) AND current_date() GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
         const customerSixMonthPurchasesQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, tbb.purchase_date, MONTH(tbb.purchase_date) as purchase_month, YEAR(tbb.purchase_date) as purchase_year FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID  WHERE email_address = ? AND tbb.purchase_date BETWEEN DATE_SUB(current_date(), INTERVAL 6 MONTH) AND current_date() GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
 
         const customerSixMonthlyPurchases = await db.promise().query(customerSixMonthPurchasesQuery, [email], (err, result) => {
@@ -203,7 +202,6 @@ module.exports = class Customer {
             }
         });
 
-        //first need to initialize the dictionary with the keys and initial value of 0
         let monthlySums = {};
         const ind2MonthMap = { 1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sept", 10: "Oct", 11: "Nov", 12: "Dec" }
         for (let ind = 0; ind < customerSixMonthlyPurchases.length; ind++) {
@@ -217,7 +215,6 @@ module.exports = class Customer {
             }
         }
 
-        //const ind2MonthMap = {1: "Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"May", 6:"Jun", 7:"Jul", 8:"Aug", 9:"Sept", 10: "Oct", 11:"Nov", 12:"Dec"}
         for (let ind = 0; ind < customerSixMonthlyPurchases.length; ind++) {
             for (let ind2 = 0; ind2 < customerSixMonthlyPurchases[ind].length; ind2++) {
                 const flight_purchase_info = customerSixMonthlyPurchases[ind][ind2];
@@ -249,7 +246,6 @@ module.exports = class Customer {
             }
         });
 
-        //first need to initialize the dictionary with the keys and initial value of 0
         let monthlySums = {};
         const ind2MonthMap = { 1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sept", 10: "Oct", 11: "Nov", 12: "Dec" }
         for (let ind = 0; ind < customerMonthlyPurchases.length; ind++) {
@@ -263,7 +259,6 @@ module.exports = class Customer {
             }
         }
 
-        //const ind2MonthMap = {1: "Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"May", 6:"Jun", 7:"Jul", 8:"Aug", 9:"Sept", 10: "Oct", 11:"Nov", 12:"Dec"}
         for (let ind = 0; ind < customerMonthlyPurchases.length; ind++) {
             for (let ind2 = 0; ind2 < customerMonthlyPurchases[ind].length; ind2++) {
                 const flight_purchase_info = customerMonthlyPurchases[ind][ind2];
@@ -295,10 +290,6 @@ module.exports = class Customer {
             }
         });
 
-        // let numPurchases = customerYearPurchases.length;
-        // for (let purchaseInd = 0; purchaseInd < numPurchases; purchaseInd++) {
-        //     console.log(customerYearPurchases[purchaseInd]);
-        // }
         let sum = 0;
         for (let ind = 0; ind < customerYearPurchases.length; ind++) {
             for (let ind2 = 0; ind2 < customerYearPurchases[ind].length; ind2++) {
@@ -309,7 +300,7 @@ module.exports = class Customer {
             }
         }
 
-        return sum.toString();  // cannot do res.send(values) with a string
+        return sum.toString(); 
     }
 }
 
