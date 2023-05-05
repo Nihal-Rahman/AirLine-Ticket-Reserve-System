@@ -20,7 +20,7 @@ router.get('/flights/current', validateToken, (req, res) =>{
 })
 
 router.get('/flights/future', validateToken, (req, res) =>{
-    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND departure_date > CURRENT_DATE";
+    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND ((departure_date > CURRENT_DATE) OR (departure_date = CURRENT_DATE AND departure_time > CURRENT_TIME))";
     db.query(sqlSelect, req.userInfo.airline, (err, result) =>{
         res.send(result);
     });

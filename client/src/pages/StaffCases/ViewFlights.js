@@ -60,6 +60,22 @@ export default function ViewFlights() {
             }
         });
     }
+    
+    const viewDefault = () => {
+        axios.get("http://localhost:3001/staff/flights",
+            {
+                headers: {
+                    accessToken: sessionStorage.getItem("accessToken"),
+                },
+            }
+        ).then((response) => {
+            if (response.data.error) {
+                alert("You are not logged in!");
+            } else {
+                setFlightsList(response.data);
+            }
+        });
+    }
 
     const update = (flight_num, departure_date, departure_time) => {
         axios.put("http://localhost:3001/staff/update-status", {
@@ -93,8 +109,7 @@ export default function ViewFlights() {
     return (
         <div>
             <h1 className='w-42 text-center mt-40 mb-2 text-4xl font-black tracking-tight text-gray-900 dark:text-white'>Welcome.</h1>
-            <h1 className='w-42 text-center mb-6 text-4xl font-black tracking-tight underline text-gray-900 dark:text-white'>Upcoming flights</h1>
-
+            <h1 onClick={() => { viewDefault() }} className='w-42 hover:cursor-pointer hover:text-sky-300 text-center mb-6 text-4xl font-black tracking-tight underline text-gray-900 dark:text-white'>Upcoming flights</h1>
             <div className='mt-10 text-center text-3xl space-x-5' >
                 <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-full hover:bg-teal-800 focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewPresent() }}>Today's Flights</button>
                 <button className='ml-2 px-8 py-4 inline-flex items-center text-4xl text-center text-white bg-teal-400 rounded-full hover:bg-teal-800 focus:underline focus:underline focus:ring-[10px] focus:bg-teal-600 focus:outline-none focus:ring-slate-400 dark:focus:ring-blue-800' onClick={() => { viewPast() }}>Past Flights</button>

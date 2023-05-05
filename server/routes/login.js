@@ -14,7 +14,7 @@ router.post("/", (req, res) => {
     db.query(sql, [email], (err, result) => {
         if (err) {
             res.send({ error: err });
-        }
+        } 
 
         if (result.length > 0) {
             bcrypt.compare(pass, result[0].passcode, (error, response) => {
