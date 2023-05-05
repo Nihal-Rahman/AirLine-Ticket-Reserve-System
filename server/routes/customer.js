@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Customer = require('../relations/customer.js');
-const Review = require('../relations/review.js');
 const {validateToken} = require("../middleware/auth.js");
 const db = require('../connection');
 const e = require('express');
@@ -95,8 +94,8 @@ router.get('/retrieveYearlySpending', validateToken, async(req, res) => {
     const theUser = new Customer();
     const yearlyPurchases = theUser.getYearlyTotal(email);
 
-    yearlyPurchases.then(values => {
-        res.send(values);
+    yearlyPurchases.then(value => {
+        res.send(value);
     });
     console.log("Successfully retrieved customer's yearly spending");
 
@@ -110,21 +109,24 @@ router.get('/retrieveSixMonthSpending', validateToken, async(req, res) => {
     sixMonthPurchases.then(values => {
         res.send(values);
     });
-    console.log("Successfully retrieved customer's yearly spending");
+    console.log("Successfully retrieved customer's spending over the past six months");
+    //console.log(sixMonthPurchases);
 }); 
 
 
 router.get('/retrieveSpendingOverRange', validateToken, async(req, res) => {
     const email = req.userInfo.userEmail;
-    const start = req.body.start;
-    const end = req.body.end;
+    const start = req.query.data.start;
+    const end = req.query.data.end;
+    console.log(req.query.data.start);
+    console.log(req.query.data.end);
     const theUser = new Customer();
     const purchasesOverRange = theUser.getSpendingOverRange(email, start, end);
 
-    sixMonthPurchases.then(values => {
+    purchasesOverRange.then(values => {
         res.send(values);
     });
-    console.log("Successfully retrieved customer's yearly spending");
+    console.log("Successfully retrieved customer's spending over the range given");
 }); 
 
 
