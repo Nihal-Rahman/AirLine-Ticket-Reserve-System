@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import CustomerNavbar from '../../components/CustomerNavbar';
 import * as Yup from "yup";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field} from "formik";
 import { ErrorMessage } from 'formik';
 
 function CustomerSpending() {
@@ -14,7 +14,7 @@ function CustomerSpending() {
 
   useEffect(() => {
     axios.get("http://localhost:3001/customer/retrieveYearlySpending",
-      {
+      { 
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },
@@ -25,16 +25,17 @@ function CustomerSpending() {
         console.log(response.data.error);
         alert("You are not logged in!");
       } else {
-        const yearTotal = response.data;
-        console.log("Year total: ", yearTotal)
-        const formattedTotal = yearTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-        console.log(formattedTotal);
-        setYearlyTotal(formattedTotal);
-      } 
+          const yearTotal = response.data;
+          console.log(yearTotal)
+          const formattedTotal = yearTotal.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+          console.log(formattedTotal);
+          setYearlyTotal(formattedTotal);
+      }
     });
 
+
     axios.get("http://localhost:3001/customer/retrieveSixMonthSpending",
-      {
+      { 
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },
@@ -54,8 +55,7 @@ function CustomerSpending() {
 
   const getSpendingOverRange = (data) => {
     axios.get("http://localhost:3001/customer/retrieveSpendingOverRange",
-      {
-        params: { data },
+      { params: {data},
         headers: {
           accessToken: sessionStorage.getItem("accessToken")
         }
@@ -74,8 +74,8 @@ function CustomerSpending() {
 
 
   let initialValues = {
-    start: "",
-    end: ""
+    start: "YYYY-MM-DD",
+    end: "YYYY-MM-DD"
   }
 
   const validationSchema = Yup.object().shape({
@@ -85,52 +85,47 @@ function CustomerSpending() {
 
 
   return (
-    <div className='text-4xl'>
-      <div className="customerSpendingPage">
-        <CustomerNavbar />
-        <section className='ml-96 text-center'>
-          <h1>Monthly Spending Breakdown</h1>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Month</th>
-                <th>Total Spent</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(monthlyPurchases).map(([date, totalSpent]) => {
-                return (
-                  <tr key={date}>
-                    <td>{date}</td>
-                    <td>{totalSpent}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </section>
-
-        <br />
-        <div className="totalPurchases">
-          <p className='ml-96'>Total Spent this Year: {yearlyTotal}</p>
-        </div>
-        <br />
-        <div className='searchFlights'>
-          <div className="text-center">
-            <Formik initialValues={initialValues} onSubmit={getSpendingOverRange} validationSchema={validationSchema}>
-              <Form className="formContainer">
-                <label className='text-4xl'>Start Date: </label>
-                <ErrorMessage name="start" component="span" />
-                <Field className='text-3xl' autoComplete="off" id="inputStartDate" name="start" placeholder="YYYY-MM-DD" />
-                <br/>
-                <label className='text-4xl'>End Date: </label>
-                <ErrorMessage name="end" component="span" />
-                <Field className='text-3xl' autoComplete="off" id="inputEndDate" name="end" placeholder="YYYY-MM-DD" />
-                <button className='px-16 mb-10 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'> Change Dates </button>
-              </Form>
-            </Formik>
-          </div>
-        </div>
+    <div className = "customerSpendingPage">
+      <CustomerNavbar />
+      <section>
+        <h1>Monthly Spending Breakdown</h1>
+        <table className = "table">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Total Spent</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(monthlyPurchases).map(([date, totalSpent]) => {
+              return (
+                <tr key={date}>
+                  <td>{date}</td>
+                  <td>{totalSpent}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </section>
+      
+      <br />
+      <div className = "totalPurchases">
+        <p>Total Spent this Year: {yearlyTotal}</p>
+      </div>
+      <br />
+      <div className = "">
+        <Formik initialValues={initialValues} onSubmit={getSpendingOverRange} validationSchema={validationSchema}>
+          <Form className = "formContainer">
+            <label>Start Date: </label>
+            <ErrorMessage name="start" component="span" />
+            <Field autoComplete="off" id="inputStartDate" name="start" placeholder="YYYY-MM-DD"/>
+            <label>End Date: </label>
+            <ErrorMessage name="end" component="span" />
+            <Field autoComplete="off" id="inputEndDate" name="end" placeholder="YYYY-MM-DD"/>
+            <button type='submit'> Change Dates </button>
+          </Form>
+        </Formik>
       </div>
     </div>
   );

@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const db = require('../connection');
 const bcrypt = require("bcrypt");
-const { sign } = require('jsonwebtoken');
+const Customer = require('../relations/customer.js');
+const Staff = require('../relations/staff.js');
+
+const {sign} = require('jsonwebtoken');
 
 
 router.post("/", (req, res) => {
@@ -34,8 +37,8 @@ router.post("/", (req, res) => {
 });
 
 router.post("/staff", (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
+    const user = req.body;
+    const theUser = new Staff();
 
     const sql = "SELECT userName, passcode, airline_name FROM Airline_Staff WHERE userName = ?;"
 
@@ -65,7 +68,5 @@ router.post("/staff", (req, res) => {
         }
     })
 });
-
-
 
 module.exports = router;

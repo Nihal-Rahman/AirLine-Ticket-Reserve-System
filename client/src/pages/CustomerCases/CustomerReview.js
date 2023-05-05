@@ -17,7 +17,7 @@ function CustomerReview(){
         { 
           headers: {
             accessToken: sessionStorage.getItem("accessToken"),
-          },
+          }
         }
       ).then((response) => {
         if (response.data.error) {
@@ -32,14 +32,17 @@ function CustomerReview(){
 
     const submitReview = () => {
       axios.post("http://localhost:3001/customer/writeReview", {
-        flightNum,
-        departure_date,
-        departure_time,
-        rating,
-        comment
-      }, {
-        headers: { accessToken: sessionStorage.getItem("accessToken"), },
-      }).then((response) => {
+        flightNum: flightNum,
+        departure_date: departure_date,
+        departure_time: departure_time,
+        rating: rating,
+        comment: comment
+      },{
+        headers: {
+          accessToken: sessionStorage.getItem("accessToken"),
+        }
+      }
+      ).then((response) => {
         if(response.data.error){
           console.log("Writing Reviews Error");
           console.log(response.data.error);

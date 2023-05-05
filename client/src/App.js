@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import CustomerHome from './pages/CustomerHome';
 import SearchFlights from './pages/CustomerCases/SearchFlights';
 import CustomerReview from './pages/CustomerCases/CustomerReview';
+import CustomerSpending from './pages/CustomerCases/CustomerSpending';
 import StaffHome from './pages/StaffHome';
 import CreateFlight from './pages/StaffCases/CreateFlight'
 import AddPlane from './pages/StaffCases/AddPlane'
@@ -44,6 +45,8 @@ function App() {
         <Route path='/flight/:flight_num/:departure_date/:departure_time' exact element={<Flight />} />
         <Route path='/staff/FrequentCustomers' exact element={<FrequentCustomers/>}/>
         <Route path='staff/viewReports' exact element={<ViewReports/>} />
+        <Route path='/customer/reviews' exact element={<CustomerReview />} />
+        <Route path='/customer/spending' exact element={<CustomerSpending />} />
       </Routes>
     </Router>
   </div>;
