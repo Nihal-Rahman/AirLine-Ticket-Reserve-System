@@ -6,8 +6,29 @@ const cors = require("cors")
 const {validateToken} = require("../middleware/auth");
 
 router.get('/flights', validateToken, (req, res) =>{
-    const sqlSelect = "SELECT * FROM flight";
-    db.query(sqlSelect, (err, result) =>{
+    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND departure_date BETWEEN CURRENT_DATE AND DATE_ADD(NOW(),INTERVAL 1 MONTH)";
+    db.query(sqlSelect, req.userInfo.airline, (err, result) =>{
+        res.send(result);
+    });
+})
+
+router.get('/flights/current', validateToken, (req, res) =>{
+    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND departure_date = CURRENT_DATE";
+    db.query(sqlSelect, req.userInfo.airline, (err, result) =>{
+        res.send(result);
+    });
+})
+
+router.get('/flights/future', validateToken, (req, res) =>{
+    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND ((departure_date > CURRENT_DATE) OR (departure_date = CURRENT_DATE AND departure_time > CURRENT_TIME))";
+    db.query(sqlSelect, req.userInfo.airline, (err, result) =>{
+        res.send(result);
+    });
+})
+
+router.get('/flights/past', validateToken, (req, res) =>{
+    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND departure_date < CURRENT_DATE";
+    db.query(sqlSelect, req.userInfo.airline, (err, result) =>{
         res.send(result);
     });
 })
@@ -126,12 +147,53 @@ router.post('/flight', validateToken, (req, res) => {
     });
 });
 
-router.get('/flightsFromPastYear', validateToken, (req, res)=>{
+router.get('/flightsFromPastYear', validateToken, (req, res) => {
 
     const sql = 'SELECT * FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE departure_date >= DATE_SUB(NOW(),INTERVAL 1 YEAR) AND airline_name = ?;'
-    db.query(sql, [req.userInfo.airline] ,(err, result)=>{
+    db.query(sql, [req.userInfo.airline], (err, result) => {
         res.send(result);
     });
+});
+
+router.get('/ticketSoldRevenue', validateToken, (req, res) => {
+    const sql = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 YEAR) AND CURRENT_DATE';
+
+    db.query(sql, [req.userInfo.airline], (err, result1) => {
+        //res.send({yearly: result});
+        if (err) console.log(err);
+        else {
+            const sql1 = 'SELECT COUNT(ticket_ID), SUM(price) FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND CURRENT_DATE;'
+
+            db.query(sql1, [req.userInfo.airline], (err, result2) => {
+                if (err) console.log(err);
+                res.send({ monthly: result2, yearly: result1 });
+            })
+        }
+    })
+
+});
+
+router.post('/ticketDateRange', validateToken, (req, res) => {
+    const sql = 'SELECT purchase_date , COUNT(purchase_date) FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE airline_name = ? AND purchase_date BETWEEN ? AND ? GROUP BY purchase_date';
+    const dates = req.body;
+    db.query(sql, [req.userInfo.airline, dates.bdate, dates.edate], (err, results) => {
+        if (err) console.log(err);
+        console.log(results)
+        res.send(results);
+    })
+});
+
+router.get('/navbar', validateToken, (req, res) => {
+    if (req.userInfo.userEmail){
+        res.send("customer");
+    }
+    else if (req.userInfo.username){
+        res.send("staff");
+    }
+    else{
+        res.send("none");
+    }
 })
 
-module.exports = router;
+
+module.exports = router; 

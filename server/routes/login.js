@@ -17,7 +17,7 @@ router.post("/", (req, res) => {
     db.query(sql, [email], (err, result) => {
         if (err) {
             res.send({ error: err });
-        }
+        } 
 
         if (result.length > 0) {
             bcrypt.compare(pass, result[0].passcode, (error, response) => {
@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
                     const accessToken = sign({ userEmail: email, typeofUser: "customer" }, "ilovedatabases");
                     res.json(accessToken);
                 }
-                else {
+                else { 
                     res.send({ error: "Wrong user/pass combo" })
                 }
             })

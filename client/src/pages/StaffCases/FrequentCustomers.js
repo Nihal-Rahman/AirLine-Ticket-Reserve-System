@@ -60,12 +60,12 @@ function FrequentCustomers(){
     }
 
     return(
-        <div>
+        <div className="text-4xl text-center">
             <StaffNavbar/>
-            <section>
+            <section className="ml-60">
                 {!view ? (
                     <>
-                        <div>FrequentCustomers:</div>
+                        <div className="mt-60 underline">Frequent Customers</div>
                         <table className="table">
                         <thead>
                             <tr>
@@ -81,7 +81,7 @@ function FrequentCustomers(){
                                 <td> {value.email} </td> 
                                 <td> {value.numFlights} </td> 
                                 <td>
-                                <button onClick={()=>{viewInfo(value.email)}}>View Flight</button> 
+                                <button onClick={() => { viewInfo(value.email) }} className='px-16 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'>View Flight </button>
                                 </td>
                                 </tr>
                             );
@@ -115,7 +115,7 @@ function FrequentCustomers(){
                             })}
                         </tbody>
                         </table>
-                        <button onClick={()=>{goBack()}}> Back</button>
+                            <button onClick={() => { goBack() }} className='px-16 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'>Go Back </button>
                     </>
                 )
                 }

@@ -7,7 +7,6 @@ import StaffLogin from './pages/StaffLogin';
 import Navbar from './components/Navbar';
 import Login from './pages/Login'
 import CustomerHome from './pages/CustomerHome';
-import CancelFlights from './pages/CustomerCases/CancelFlights';
 import SearchFlights from './pages/CustomerCases/SearchFlights';
 import CustomerReview from './pages/CustomerCases/CustomerReview';
 import CustomerSpending from './pages/CustomerCases/CustomerSpending';
@@ -18,10 +17,13 @@ import AddAirport from './pages/StaffCases/AddAirport'
 import Flight from './pages/StaffCases/Flight';
 import ViewReports from './pages/StaffCases/ViewReports';
 import FrequentCustomers from './pages/StaffCases/FrequentCustomers';
+import CustomerSpending from './pages/CustomerCases/CustomerSpending'
+import CancelFlights from './pages/CustomerCases/CancelFlights';
+
 
 function App() {
   return <div className="App">
-    <Navbar relative flex absolute inset-y-0 />
+    <Navbar/>
     <Router>
       <Routes>
         <Route path='/' exact element={<Home />} />
@@ -32,6 +34,7 @@ function App() {
         <Route path='/customer/cancelFlights' exact element={<CancelFlights />} />
         <Route path='/customer/search' exact element={<SearchFlights />} />
         <Route path='/customer/reviews' exact element={<CustomerReview />} />
+        <Route path='/customer/spending' exact element={<CustomerSpending />} />
 
         <Route path='/staff/register' exact element={<StaffRegister />} />
         <Route path='/staff/login' exact element={<StaffLogin />} />

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react"; 
+import CustomerNavbar from '../../components/CustomerNavbar';
 
 function CancelFlights(){
 
@@ -46,52 +47,55 @@ function CancelFlights(){
       }
 
       return(
-        <section>
-          <div>Your Upcoming Flights:</div>
-          <table className="table">
-            <thead>
-                <tr>
-                    <th>Ticket ID</th>
-                    <th>Flight Num</th>
-                    <th>Departure Date</th>
-                    <th>Departure Time</th>
-                    <th>Airline Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Cancel</th>
-                </tr>
-            </thead>
-            <tbody>
-              {listOfFlights.map((value,key) => {
-                return ( 
-                  <tr> 
-                    <td> {value.ticket_ID} </td> 
-                    <td> {value.flight_num} </td> 
-                    <td> {value.departure_date} </td> 
-                    <td> {value.departure_time} </td>
-                    <td> {value.airline_name} </td>
-                    <td> {value.first_name} </td> 
-                    <td> {value.last_name} </td>
-                    <td>
-                        <input onChange = {(event)=>{
-                          let checked = event.target.checked;
-                          setListOfFlights(
-                            listOfFlights.map(data => {
-                              if(data.ticket_ID === value.ticket_ID){
-                                data.select = checked;
-                              }
-                              return data;
-                            })
-                          );
-                        }}type="checkbox" checked={value.select}/>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <button onClick={cancelFlights}> Cancel </button>
-        </section>
+        <div className=' text-3xl text-center'>
+          <CustomerNavbar/>
+          <section className='ml-20'>
+            <div>Your Upcoming Flights:</div>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th className='underline'>Ticket ID</th>
+                        <th className='underline'>Flight Num</th>
+                        <th className='underline'>Departure Date</th>
+                        <th className='underline'>Departure Time</th>
+                        <th className='underline'>Airline Name</th>
+                        <th className='underline'>First Name</th>
+                        <th className='underline'>Last Name</th>
+                        <th className='underline'>Cancel</th>
+                    </tr>
+                </thead>
+              <tbody>
+                {listOfFlights.map((value,key) => {
+                  return ( 
+                    <tr> 
+                      <td> {value.ticket_ID} </td> 
+                      <td> {value.flight_num} </td> 
+                      <td> {value.departure_date} </td> 
+                      <td> {value.departure_time} </td>
+                      <td> {value.airline_name} </td>
+                      <td> {value.first_name} </td> 
+                      <td> {value.last_name} </td>
+                      <td>
+                          <input onChange = {(event)=>{
+                            let checked = event.target.checked;
+                            setListOfFlights(
+                              listOfFlights.map(data => {
+                                if(data.ticket_ID === value.ticket_ID){
+                                  data.select = checked;
+                                }
+                                return data;
+                              })
+                            );
+                        }} type="checkbox" style={{ transform: "scale(2)" }} checked={value.select}/>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <button onClick={cancelFlights} className="mt-20 bg-[#424B5A] hover:bg-violet-300 text-white font-bold py-2 px-10 rounded-3xl">Cancel</button>
+          </section>
+        </div>
     );
 }
 
