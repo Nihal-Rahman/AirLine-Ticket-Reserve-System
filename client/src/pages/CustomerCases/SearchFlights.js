@@ -113,7 +113,6 @@ function SearchFlights(){
             }
         }).filter(a => a != null)];
 
-        console.log("HERE", wantToBuy);
 
         wantToBuy.map((data, key)=>{
             initialValues["firstName" + key] = "";
@@ -121,7 +120,6 @@ function SearchFlights(){
             initialValues["date_of_birth" + key] = "";
         })
 
-        console.log(initialValues);
 
         setTicketsToBuy(wantToBuy);
         setReadyToPurchase(true);
@@ -140,7 +138,6 @@ function SearchFlights(){
         const ticket_bought = ticketsToBuy.map((d,key) =>{
             return {price: d.price, ticket_ID: d.ticket_ID, firstName: data["firstName"+key], lastName: data["lastName"+key], dob: data["dob"+key], card_type: ctype, card_num: cnum, name_on_card: name, expiration_date: cexdate}
         });
-        console.log(ticket_bought);
 
         axios.post("http://localhost:3001/customer/buy", ticket_bought, {
             headers: {

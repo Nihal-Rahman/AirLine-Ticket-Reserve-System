@@ -17,7 +17,6 @@ import AddAirport from './pages/StaffCases/AddAirport'
 import Flight from './pages/StaffCases/Flight';
 import ViewReports from './pages/StaffCases/ViewReports';
 import FrequentCustomers from './pages/StaffCases/FrequentCustomers';
-import CustomerSpending from './pages/CustomerCases/CustomerSpending'
 import CancelFlights from './pages/CustomerCases/CancelFlights';
 
 
