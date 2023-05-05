@@ -166,10 +166,7 @@ router.get("/retrieveReviews", validateToken, (req, res) => {
     });
 });
 
-router.get('/retrieveYearlySpending', validateToken, async(req, res) => {
-    const email = req.userInfo.userEmail;
 
-}); 
 router.post("/buy", validateToken, (req, res)=>{
     const email = req.userInfo.userEmail;
 
@@ -219,32 +216,34 @@ router.get("/viewFlights/today", validateToken, (req,res)=>{
     })
 })
 
-router.get('/retrieveYearlySpending', validateToken, async (req, res) => {
+router.get('/retrieveYearlySpending', validateToken, (req, res) => {
+    console.log("Im here");
     const email = req.userInfo.userEmail;
+    console.log("Im here");
     const theUser = new Customer();
     const yearlyPurchases = theUser.getYearlyTotal(email);
 
     yearlyPurchases.then(value => {
         res.send(value);
+        console.log("Successfully retrieved customer's yearly spending");
     });
-    console.log("Successfully retrieved customer's yearly spending");
-
 });
 
-router.get('/retrieveSixMonthSpending', validateToken, async (req, res) => {
+router.get('/retrieveSixMonthSpending', validateToken, (req, res) => {
     const email = req.userInfo.userEmail;
     const theUser = new Customer();
     const sixMonthPurchases = theUser.getSixMonthSpending(email);
 
     sixMonthPurchases.then(values => {
         res.send(values);
+        console.log("Successfully retrieved customer's spending over the past six months");
     });
-    console.log("Successfully retrieved customer's spending over the past six months");
+    
     //console.log(sixMonthPurchases);
 });
 
 
-router.get('/retrieveSpendingOverRange', validateToken, async (req, res) => {
+router.get('/retrieveSpendingOverRange', validateToken, (req, res) => {
     const email = req.userInfo.userEmail;
     const start = req.query.data.start;
     const end = req.query.data.end;

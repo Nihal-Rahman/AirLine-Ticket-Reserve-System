@@ -40,7 +40,6 @@ function CustomerSpending() {
       } 
     });
 
-
     axios.get("http://localhost:3001/customer/retrieveSixMonthSpending",
       {
         headers: {

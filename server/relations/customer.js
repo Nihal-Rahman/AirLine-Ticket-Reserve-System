@@ -285,6 +285,7 @@ module.exports = class Customer {
     async getYearlyTotal(email) {
         const customerYearPurchasesQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats as total_capacity, COUNT(all(tbb.ticket_id)) as num_of_tickets_sold FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID WHERE email_address = ? AND tbb.purchase_date BETWEEN DATE_SUB(current_date(), INTERVAL 1 YEAR) AND current_date() GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
 
+        
         const customerYearPurchases = await db.promise().query(customerYearPurchasesQuery, [email], (err, result) => {
             if (err) {
                 console.log(err);
@@ -308,8 +309,6 @@ module.exports = class Customer {
             }
         }
 
-
-        //for (int ind = 0; ind < )
         return sum.toString();  // cannot do res.send(values) with a string
     }
 }
