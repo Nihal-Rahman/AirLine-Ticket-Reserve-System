@@ -24,9 +24,8 @@ function FrequentCustomers(){
                 })
                 let map = {};
 
-
                 consumers.forEach((data)=>{
-                    if(map[data]===1){
+                    if(map[data]){
                         map[data] += 1;
                     }
                     else{

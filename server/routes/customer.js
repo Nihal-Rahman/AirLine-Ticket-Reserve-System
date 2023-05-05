@@ -5,6 +5,7 @@ const { validateToken } = require("../middleware/auth.js");
 const db = require('../connection');
 const e = require('express');
 
+
 router.get("/viewFlights", validateToken, (req, res) => {
 
     const email = req.userInfo.userEmail;
