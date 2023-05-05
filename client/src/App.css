@@ -38,6 +38,17 @@
   justify-content: center;
 }
 
+.buyFlights {
+  margin-top: 300px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
 .searchReports {
   text-align: center;
   font-family: 'Montserrat', sans-serif;

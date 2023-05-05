@@ -161,71 +161,44 @@ function SearchFlights(){
 
 
     return(
-    <section>
-    {!readytoPurchase ? (
-            <>
-            <CustomerNavbar/>
-                <div className='searchFlights'>
-                        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                            <Form className='formContainer'>
-                                <label className='text-4xl'>Departure Airport:</label>
-                                <ErrorMessage name="dair" component="span" />
-                                <Field autoComplete="off" id="inputRegister" name="dair" placeholder="(Ex: JFK)" />
-                                <label className='text-4xl'>Arrival Airport:</label>
-                                <ErrorMessage name="aair" component="span" />
-                                <Field autoComplete="off" id="inputRegister" name="aair" placeholder="(Ex: PVG)" />
-                                <label className='text-4xl'>Departure Date:</label>
-                                <ErrorMessage name="ddate" component="span" />
-                                <Field autoComplete="off" id="inputRegister" name="ddate" placeholder="(Ex: YYYY-MM-DD)" />
-                                <section>{status == "One Way" ? (<></>): (<>
-                                    <label className='text-4xl'>Return Date:</label>
-                                    <br/>
-                                    <ErrorMessage name="rdate" component="span" />
-                                    <Field className='returnDate' autoComplete="off" id="inputRegister" name="rdate" placeholder="(Ex: YYYY-MM-DD)" />
-                                </>)}</section>
+    <div>
+        <CustomerNavbar />
+        <section>
+        {!readytoPurchase ? (
+                <>
+                    <div className='searchFlights'>
+                            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+                                <Form className='formContainer'>
+                                    <label className='text-4xl'>Departure Airport:</label>
+                                    <ErrorMessage name="dair" component="span" />
+                                    <Field autoComplete="off" id="inputRegister" name="dair" placeholder="(Ex: JFK)" />
+                                    <label className='text-4xl'>Arrival Airport:</label>
+                                    <ErrorMessage name="aair" component="span" />
+                                    <Field autoComplete="off" id="inputRegister" name="aair" placeholder="(Ex: PVG)" />
+                                    <label className='text-4xl'>Departure Date:</label>
+                                    <ErrorMessage name="ddate" component="span" />
+                                    <Field autoComplete="off" id="inputRegister" name="ddate" placeholder="(Ex: YYYY-MM-DD)" />
+                                    <section>{status == "One Way" ? (<></>): (<>
+                                        <label className='text-4xl'>Return Date:</label>
+                                        <br/>
+                                        <ErrorMessage name="rdate" component="span" />
+                                        <Field className='returnDate' autoComplete="off" id="inputRegister" name="rdate" placeholder="(Ex: YYYY-MM-DD)" />
+                                    </>)}</section>
 
-                                <select onChange={(e) => { setStatus(e.target.value) }} className='inline-flex items-center mt-5 px-3 py-2 text-center border border-slate-300 text-4xl rounded-lg'>
-                                    <option>Round Trip</option>                                    
-                                    <option>One Way</option>
-                                </select>
+                                    <select onChange={(e) => { setStatus(e.target.value) }} className='inline-flex items-center mt-5 px-3 py-2 text-center border border-slate-300 text-4xl rounded-lg'>
+                                        <option>Round Trip</option>                                    
+                                        <option>One Way</option>
+                                    </select>
 
-                                <button className='px-16 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'>Search </button>
-                            </Form>
-                        </Formik>
-                </div>
-                <h1 className='w-42 mt-20 mb-6 text-5xl text-center font-black underline tracking-tight text-gray-900 dark:text-white'>Available Tickets</h1>
-                <div>
-                <button className='mt-10 ml-4 flex flex-col items-center mb-10 px-8 py-8 text-2xl text-center text-white bg-blue-400 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800' onClick={purchaseTickets}> Checkout </button>
-                        <section>{status == "One Way" ? (<>
-                            <h1 className='text-4xl mt-20 mb-4 ml-10'>Outgoing:</h1>
-                            < div className='mb-20 ml-4 mr-4 grid gap-4 grid-cols-4 text-xl' >
-                                {
-                                    listOfTickets.map((value, key) => {
-                                        return (
-                                            <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
-                                                <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
-                                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
-                                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
-                                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
-                                                <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
-                                                <input className='hover:cursor-pointer' onChange={(event) => {
-                                                    let checked = event.target.checked;
-                                                    setListOfTickets(
-                                                        listOfTickets.map(data => {
-                                                            if (data.ticket_ID === value.ticket_ID) {
-                                                                data.select = checked;
-                                                            }
-                                                            return data;
-                                                        })
-                                                    );
-                                                }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select} />
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div >
-                        </>) : (<>
-                            <h1 className='text-4xl mt-20 mb-4 ml-10'>Outgoing:</h1>
+                                    <button className='px-16 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'>Search </button>
+                                </Form>
+                            </Formik>
+                    </div>
+                    <h1 className='w-42 mt-20 mb-6 text-5xl text-center font-black underline tracking-tight text-gray-900 dark:text-white'>Available Tickets</h1>
+                    <div>
+                    <button className='mt-10 ml-4 flex flex-col items-center mb-10 px-8 py-8 text-2xl text-center text-white bg-blue-400 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800' onClick={purchaseTickets}> Checkout </button>
+                            <section>{status == "One Way" ? (<>
+                                <h1 className='text-4xl mt-20 mb-4 ml-10'>Outgoing:</h1>
                                 < div className='mb-20 ml-4 mr-4 grid gap-4 grid-cols-4 text-xl' >
                                     {
                                         listOfTickets.map((value, key) => {
@@ -252,47 +225,76 @@ function SearchFlights(){
                                         })
                                     }
                                 </div >
+                            </>) : (<>
+                                <h1 className='text-4xl mt-20 mb-4 ml-10'>Outgoing:</h1>
+                                    < div className='mb-20 ml-4 mr-4 grid gap-4 grid-cols-4 text-xl' >
+                                        {
+                                            listOfTickets.map((value, key) => {
+                                                return (
+                                                    <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
+                                                        <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
+                                                        <input className='hover:cursor-pointer' onChange={(event) => {
+                                                            let checked = event.target.checked;
+                                                            setListOfTickets(
+                                                                listOfTickets.map(data => {
+                                                                    if (data.ticket_ID === value.ticket_ID) {
+                                                                        data.select = checked;
+                                                                    }
+                                                                    return data;
+                                                                })
+                                                            );
+                                                        }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select} />
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div >
 
-                            <h1 className='text-4xl mb-4 ml-10'>Returning:</h1>
-                                < div className='mb-20 ml-4 mr-4 grid gap-4 grid-cols-4 text-xl' >
-                                    {
-                                        returnTickets.map((value, key) => {
-                                            return (
-                                                <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
-                                                    <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
-                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
-                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
-                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
-                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
-                                                    <input className='hover:cursor-pointer' onChange={(event) => {
-                                                        let checked = event.target.checked;
-                                                        setReturnTickets(
-                                                            returnTickets.map(data => {
-                                                                if (data.ticket_ID === value.ticket_ID) {
-                                                                    data.select = checked;
-                                                                }
-                                                                return data;
-                                                            })
-                                                        );
-                                                    }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select} />
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div >
-                        </>)}
-                        </section>
-                </div>
+                                <h1 className='text-4xl mb-4 ml-10'>Returning:</h1>
+                                    < div className='mb-20 ml-4 mr-4 grid gap-4 grid-cols-4 text-xl' >
+                                        {
+                                            returnTickets.map((value, key) => {
+                                                return (
+                                                    <div className='max-w-xl p-6 bg-white border border-slate-300 rounded-lg hover:shadow-2xl hover:bg-slate-100 dark:bg-gray-800 dark:border-gray-700'>
+                                                        <h1 className='w-42 mb-2 text-2xl font-black tracking-tight text-gray-900 dark:text-white'>Ticket No. {value.ticket_ID}</h1>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Flight {value.flight_num} </p>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
+                                                        <input className='hover:cursor-pointer' onChange={(event) => {
+                                                            let checked = event.target.checked;
+                                                            setReturnTickets(
+                                                                returnTickets.map(data => {
+                                                                    if (data.ticket_ID === value.ticket_ID) {
+                                                                        data.select = checked;
+                                                                    }
+                                                                    return data;
+                                                                })
+                                                            );
+                                                        }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select} />
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div >
+                            </>)}
+                            </section>
+                    </div>
 
-            </>
-        ): (
-            <>
-                <div className='registerPage'>
-                    {FormDisplay()}
-                </div>
-            </>
-        )}
-        </section>
+                </>
+            ): (
+                <>
+                    <div className='registerPage'>
+                        {FormDisplay()}
+                    </div>
+                </>
+            )}
+            </section>
+        </div>
       
       
     );

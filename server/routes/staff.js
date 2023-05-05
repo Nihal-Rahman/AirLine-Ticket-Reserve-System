@@ -6,8 +6,29 @@ const cors = require("cors")
 const {validateToken} = require("../middleware/auth");
 
 router.get('/flights', validateToken, (req, res) =>{
-    const sqlSelect = "SELECT * FROM flight";
-    db.query(sqlSelect, (err, result) =>{
+    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND departure_date BETWEEN CURRENT_DATE AND DATE_ADD(NOW(),INTERVAL 1 MONTH)";
+    db.query(sqlSelect, req.userInfo.airline, (err, result) =>{
+        res.send(result);
+    });
+})
+
+router.get('/flights/current', validateToken, (req, res) =>{
+    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND departure_date = CURRENT_DATE";
+    db.query(sqlSelect, req.userInfo.airline, (err, result) =>{
+        res.send(result);
+    });
+})
+
+router.get('/flights/future', validateToken, (req, res) =>{
+    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND departure_date > CURRENT_DATE";
+    db.query(sqlSelect, req.userInfo.airline, (err, result) =>{
+        res.send(result);
+    });
+})
+
+router.get('/flights/past', validateToken, (req, res) =>{
+    const sqlSelect = "SELECT * FROM flight WHERE airline_name = ? AND departure_date < CURRENT_DATE";
+    db.query(sqlSelect, req.userInfo.airline, (err, result) =>{
         res.send(result);
     });
 })
@@ -154,7 +175,6 @@ router.get('/ticketSoldRevenue', validateToken, (req, res) => {
 
 router.post('/ticketDateRange', validateToken, (req, res) => {
     const sql = 'SELECT purchase_date , COUNT(purchase_date) FROM Ticket_Bought_By NATURAL JOIN Ticket WHERE airline_name = ? AND purchase_date BETWEEN ? AND ? GROUP BY purchase_date';
-
     const dates = req.body;
     db.query(sql, [req.userInfo.airline, dates.bdate, dates.edate], (err, results) => {
         if (err) console.log(err);

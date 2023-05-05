@@ -92,7 +92,7 @@ function CustomerHome() {
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Date: {val.departure_date}</p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Time: {val.departure_time}</p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>{val.airline_name} </p>
-                <p className='font-normal text-gray-700 dark:text-gray-400'>{val.flight_status} </p>
+                <p className='font-normal text-gray-700 dark:text-gray-400'>Status: {val.flight_status.toUpperCase()} </p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Ticket No. {val.ticket_ID} </p>
 
               </div>

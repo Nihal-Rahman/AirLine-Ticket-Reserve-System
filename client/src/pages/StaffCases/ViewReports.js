@@ -105,7 +105,7 @@ function ViewReports() {
                     </Formik>
                 </div>
 
-                <div className="ml-52 text-6xl">
+                <div className="ml-52 mb-80 text-6xl">
                     <table className="table">
                         <thead>
                             <tr>

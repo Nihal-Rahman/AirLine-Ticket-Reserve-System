@@ -1,9 +1,11 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import Navbar from "../../components/Navbar";
 
 function CustomerTicketInfo({initialValues,onSubmit, validation, data}){
     return(
-        <div className="searchFlights">
+        <div className="">
+            <div className="buyFlights">
                 <Formik initialValues={initialValues} onSubmit={onSubmit}>
                     <Form className='formContainer'>
                         {data.map((value, key)=>{
@@ -20,7 +22,6 @@ function CustomerTicketInfo({initialValues,onSubmit, validation, data}){
                                     <label className='text-4xl'>Date of Birth:</label>
                                     <ErrorMessage name={"dob"+key}  component="span" />
                                     <Field required autoComplete="off" id="inputRegister" name={"dob" + key} placeholder="(Ex: YYYY-MM-DD)" />
-                                    <label>------------------------------------------------------------------------------------------------------------------------------------------------------</label>
                                 </>
                             )
                         })}
@@ -28,6 +29,7 @@ function CustomerTicketInfo({initialValues,onSubmit, validation, data}){
                     </Form>
                 </Formik>
             </div>
+        </div>
     )
 }
 
