@@ -12,7 +12,7 @@ function CustomerTicketInfo({initialValues,onSubmit, validation, data}){
                             return(
                                 <>
                                     <label className=' underline text-4xl mb-4'><b>Passenger Info for Ticket #{key + 1}</b></label>
-                                    <label className='italic text-2xl mb-10'><b>Flight #{value.flight_num} | {value.departure_date} | Ticket No. {value.ticket_ID}</b></label>
+                                    <label className='italic text-2xl mb-10'><b>Flight #{value.flight_num} | {value.departure_date} | Ticket No. {value.ticket_ID} | ${value.price}</b></label>
                                     <label className='text-4xl'>First Name:</label>
                                     <ErrorMessage name={"firstName"+key} component="span" />
                                     <Field required autoComplete="off" id="inputRegister" name={"firstName"+ key} placeholder="(Ex: John)" />

@@ -64,10 +64,16 @@ function SearchFlights(){
                 alert("You are not logged in!");
             }
             else {
+
+
+                
+
+
+
                 if (status == "One Way") {
                     let tickets = response.data.tickets;
                     tickets.map((data, key) => {
-                        return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
+                        return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key], price: data.price }
                     })
                     setListOfTickets(tickets);
                 }
@@ -77,11 +83,11 @@ function SearchFlights(){
 
 
                     const s1 = set1.map((data, key) => {
-                        return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
+                        return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key], price: data.price  }
                     });
 
                     const s2 = set2.map((data, key) => {
-                        return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key] }
+                        return { select: false, ticket_ID: data.ticket_ID, flight_num: data.flight_num, departure_date: data.departure_date, departure_time: data.departure_time, airline_name: data.airline_name, firstName: data["firstName" + key], lastName: data["lastName" + key], price: data.price  }
                     });
 
                     setListOfTickets([...s1]);
@@ -132,7 +138,7 @@ function SearchFlights(){
 
     const final = (data) => {
         const ticket_bought = ticketsToBuy.map((d,key) =>{
-            return {ticket_ID: d.ticket_ID, firstName: data["firstName"+key], lastName: data["lastName"+key], dob: data["dob"+key], card_type: ctype, card_num: cnum, name_on_card: name, expiration_date: cexdate}
+            return {price: d.price, ticket_ID: d.ticket_ID, firstName: data["firstName"+key], lastName: data["lastName"+key], dob: data["dob"+key], card_type: ctype, card_num: cnum, name_on_card: name, expiration_date: cexdate}
         });
         console.log(ticket_bought);
 
@@ -209,6 +215,7 @@ function SearchFlights(){
                                                     <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
                                                     <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
                                                     <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
+                                                    <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Price: ${value.price}</p>
                                                     <input className='hover:cursor-pointer' onChange={(event) => {
                                                         let checked = event.target.checked;
                                                         setListOfTickets(
@@ -237,6 +244,8 @@ function SearchFlights(){
                                                         <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
                                                         <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
                                                         <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Price: ${value.price}</p>
+
                                                         <input className='hover:cursor-pointer' onChange={(event) => {
                                                             let checked = event.target.checked;
                                                             setListOfTickets(
@@ -265,6 +274,7 @@ function SearchFlights(){
                                                         <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Date: {value.departure_date} </p>
                                                         <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Time: {value.departure_time} </p>
                                                         <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{value.airline_name}</p>
+                                                        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Price: ${value.price}</p>
                                                         <input className='hover:cursor-pointer' onChange={(event) => {
                                                             let checked = event.target.checked;
                                                             setReturnTickets(
@@ -275,7 +285,7 @@ function SearchFlights(){
                                                                     return data;
                                                                 })
                                                             );
-                                                        }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select} />
+                                                        }} style={{ transform: "scale(2)" }} type="checkbox" checked={value.select}/>
                                                     </div>
                                                 )
                                             })

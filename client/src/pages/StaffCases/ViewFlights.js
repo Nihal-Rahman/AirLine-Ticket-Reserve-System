@@ -139,7 +139,6 @@ export default function ViewFlights() {
                             <select onChange={(e) => {setStatus(e.target.value)}} className='inline-flex items-center px-3 py-2 text-xl text-white bg-slate-400 rounded-lg hover:bg-slate-500 dark:focus:ring-blue-800'>
                                 <option>on-time</option>
                                 <option>delayed</option>
-                                <option>CANCELLED</option>
                             </select>
                             <button onClick={() => {update(val.flight_num, val.departure_date, val.departure_time)}} className='ml-2 inline-flex items-center px-3 py-2 text-xl text-center text-white bg-blue-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800'>Update</button>
                         </div>

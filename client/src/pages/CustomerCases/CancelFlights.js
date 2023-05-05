@@ -47,9 +47,9 @@ function CancelFlights(){
       }
 
       return(
-        <div className=' text-4xl text-center'>
+        <div className=' text-3xl text-center'>
           <CustomerNavbar/>
-          <section className='ml-60'>
+          <section className='ml-20'>
             <div>Your Upcoming Flights:</div>
             <table className="table">
                 <thead>
