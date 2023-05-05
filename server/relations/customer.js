@@ -56,6 +56,20 @@ module.exports = class Customer {
         return flightInfo[0];
     }
 
+    async getPastFlightsFromDB(email){
+        const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = 'maanavsavani239@gmail.com' AND (CURRENT_DATE > DEPARTURE_DATE OR (CURRENT_DATE = departure_date AND CURRENT_TIME > departure_time));"
+        const flightInfo = await db.promise().query(sql, [email], (err, result) => {
+            if (err) {
+                console.log(values);
+                throw err;
+            }
+
+            console.log("Found all flight info!");
+        });
+        
+        return flightInfo[0];
+    }
+
     async flightsToCancel(email){
         const sql = "SELECT ticket_ID, flight_num, departure_date, departure_time, airline_name, first_name, last_name FROM Ticket NATURAL JOIN Ticket_Bought_By WHERE email_address = ? AND (departure_date > CURRENT_DATE) AND (departure_time > CURRENT_TIME);"
         const flightInfo = await db.promise().query(sql, [email], (err, result)=>{
@@ -226,7 +240,7 @@ module.exports = class Customer {
 
     async getSixMonthSpending(email) {
         // const customerSixMonthPurchasesQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats as total_capacity, COUNT(all(tbb.ticket_id)) as num_of_tickets_sold FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID WHERE email_address = ? AND tbb.purchase_date BETWEEN DATE_SUB(current_date(), INTERVAL 6 MONTH) AND current_date() GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
-        const customerSixMonthPurchasesQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, tbb.purchase_date, MONTH(tbb.purchase_date) as purchase_month, YEAR(tbb.purchase_date) as purchase_year FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID  WHERE email_address = ? AND tbb.purchase_date BETWEEN DATE_SUB(current_date(), INTERVAL 6 MONTH) AND current_date() GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
+        const customerSixMonthPurchasesQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, tbb.purchase_date, MONTH(tbb.purchase_date) as purchase_month, YEAR(tbb.purchase_date) as purchase_year FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID  WHERE email_address = 'maanavsavani239@gmail.com' AND tbb.purchase_date BETWEEN DATE_SUB(current_date(), INTERVAL 6 MONTH) AND current_date() GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
 
         const customerSixMonthlyPurchases = await db.promise().query(customerSixMonthPurchasesQuery, [email], (err, result) => {
             if(err) {
@@ -272,9 +286,9 @@ module.exports = class Customer {
 
 
     async getSpendingOverRange(email, start, end) {
-        const customerMonthlyPurchasesOverRangeQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, tbb.purchase_date, MONTH(tbb.purchase_date) as purchase_month, YEAR(tbb.purchase_date) as purchase_year FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID  WHERE email_address = ? AND tbb.purchase_date BETWEEN ? AND ? GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
+        const customerMonthlyPurchasesOverRangeQuery = "SELECT email_address, round(t.price * (1 + 0.25*(COUNT(all(t.ticket_id)) / airplane.num_of_seats >= 0.8)), 2) as market_price, tbb.purchase_date, MONTH(tbb.purchase_date) as purchase_month, YEAR(tbb.purchase_date) as purchase_year FROM flight JOIN airplane ON flight.airplane_id = airplane.airplane_id JOIN ticket as t ON t.flight_num = flight.flight_num JOIN ticket_bought_by as tbb on t.ticket_id = tbb.ticket_ID  WHERE email_address = 'maanavsavani239@gmail.com' AND tbb.purchase_date BETWEEN ? AND ? GROUP BY t.price, flight.flight_num, tbb.purchase_date, airplane.airplane_id, airplane.num_of_seats;"
 
-        const customerMonthlyPurchases = await db.promise().query(customerMonthlyPurchasesOverRangeQuery, [email, start, end], (err, result) => {
+        const customerMonthlyPurchases = await db.promise().query(customerMonthlyPurchasesOverRangeQuery, [start, end], (err, result) => {
             if(err) {
                 console.log(err);
                 throw err;

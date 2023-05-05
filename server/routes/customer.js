@@ -62,6 +62,8 @@ router.post("/search", validateToken, (req, res) =>{
 });
 
 router.post("/writeReview", validateToken, (req, res) => {
+    const theUser = new Customer();  //creates customer relation object
+
     const email = req.userInfo.userEmail;
     const flight_num = req.body.flightNum;
     const departureDate = req.body.departure_date;
@@ -70,8 +72,11 @@ router.post("/writeReview", validateToken, (req, res) => {
     const comment = req.body.comment;
     //res.console.log([email, flightNum, departure_date, departure_time, rating, comment]);
     const newReview = [email, flight_num, departureDate, departureTime, rating, comment];
-    res.json(newReview);
-    const theUser = new Customer();  //creates review relation object
+
+    //check if this customer even went on this flight
+    pastFlightInfo = theUser.getPastFlightsFromDB(email);
+    console.log(pastFlightInfo);
+    //res.json(newReview);
     theUser.insertNewReview(newReview);  // inserts the review info into the database
 
     res.json("Thank you for your feedback!");
@@ -118,8 +123,8 @@ router.get('/retrieveSpendingOverRange', validateToken, async(req, res) => {
     const email = req.userInfo.userEmail;
     const start = req.query.data.start;
     const end = req.query.data.end;
-    console.log(req.query.data.start);
-    console.log(req.query.data.end);
+    //console.log(req.query.data.start);
+    //console.log(req.query.data.end);
     const theUser = new Customer();
     const purchasesOverRange = theUser.getSpendingOverRange(email, start, end);
 

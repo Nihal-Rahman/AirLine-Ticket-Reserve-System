@@ -33,9 +33,9 @@ function CustomerSpending() {
         alert("You are not logged in!");
       } else {
           const yearTotal = response.data;
-          console.log(yearTotal)
+          //console.log(yearTotal)
           const formattedTotal = yearTotal.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
-          console.log(formattedTotal);
+          //console.log(formattedTotal);
           setYearlyTotal(formattedTotal);
       }
     });
@@ -53,7 +53,7 @@ function CustomerSpending() {
         console.log(response.data.error);
         alert("You are not logged in!");
       } else {
-          console.log(response.data);
+          //console.log(response.data);
           //setSixMonthPurchaseTotals(response.data);
           setMonthlyPurchases(response.data);
       }
