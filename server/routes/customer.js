@@ -229,7 +229,7 @@ router.post("/writeReview", validateToken, (req, res) => {
         if (err) {
             throw err;
         }
-        console.log("Insert Success");
+        console.log("Insert Success"); 
     });
 
     res.json("Thank you for your feedback!");

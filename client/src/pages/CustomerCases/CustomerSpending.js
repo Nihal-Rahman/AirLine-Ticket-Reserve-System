@@ -135,5 +135,5 @@ function CustomerSpending() {
     </div>
   );
 }
-
+ 
 export default CustomerSpending
