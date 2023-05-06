@@ -6,8 +6,6 @@
   }
   
   .viewPastReviews {
-    flex: 1;
-    padding-right: 20px;
     box-sizing: border-box;
   }
   
@@ -16,6 +14,7 @@
     box-sizing: border-box;
     border: 2px solid #ccc;
     padding: 20px;
+    width: 1000px;
   }
   
   .createNewReview input {

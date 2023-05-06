@@ -56,15 +56,15 @@ export default function AddPlane() {
                 <h1 className='text-7xl underline'>Add New Plane</h1>
                 <div className='text-3xl mt-24'>
                     <input className='w-96' type='text' name="airplane_id" placeholder="Airplane ID" onChange={(e) => setID(e.target.value)} />
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <input className='w-96' type='text' name="num_seats" placeholder="Number of Seats" onChange={(e) => setSeats(e.target.value)} />
                     <br />
                     <br />
 
                     <input className='w-96' type='text' name="manufactoring_comp" placeholder="Manufacturing Company" onChange={(e) => setComp(e.target.value)} />
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <input className='w-96' type='text' name="manufactoring_date" placeholder="Manufacturing Date" onChange={(e) => setDate(e.target.value)} />
                     <br />
                     <br />

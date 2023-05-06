@@ -39,15 +39,12 @@ function Login() {
       <Navbar />
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
         <Form className='formContainer'>
-          <label className='font-extrabold underline text-2xl'>Customer Login</label>
-          <br />
+          <label className='font-extrabold underline mb-10 text-4xl'>Customer Login</label>
           <ErrorMessage name="email" component="span" />
           <Field autoComplete="off" id="inputRegister" name="email" placeholder="Email Address" />
           <ErrorMessage name="pass" component="span" />
-          <br/>
           <Field autoComplete="off" id="inputRegister" name="pass" type='password' placeholder='Password'/>
-          <button type='submit'>Login </button>
-          <br/>
+          <button className='px-16 mb-10 mr-4 mt-10 py-3 drop-shadow-lg bg-[#424B5A] text-4xl text-white rounded-full hover:bg-sky-300 ' type='submit'>Login</button>
           <a className='redirect' href='/staff/login'>Airline Staff Member? Login here.</a>
         </Form>
       </Formik>

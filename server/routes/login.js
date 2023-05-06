@@ -17,7 +17,7 @@ router.post("/", (req, res) => {
     db.query(sql, [email], (err, result) => {
         if (err) {
             res.send({ error: err });
-        }
+        } 
 
         if (result.length > 0) {
             bcrypt.compare(pass, result[0].passcode, (error, response) => {
@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
                     const accessToken = sign({ userEmail: email, typeofUser: "customer" }, "ilovedatabases");
                     res.json(accessToken);
                 }
-                else {
+                else { 
                     res.send({ error: "Wrong user/pass combo" })
                 }
             })
@@ -37,8 +37,8 @@ router.post("/", (req, res) => {
 });
 
 router.post("/staff", (req, res) => {
-    const user = req.body;
-    const theUser = new Staff();
+    const username = req.body.username;
+    const password = req.body.password;
 
     const sql = "SELECT userName, passcode, airline_name FROM Airline_Staff WHERE userName = ?;"
 
@@ -53,7 +53,7 @@ router.post("/staff", (req, res) => {
                     console.log("success!!!! logged in.");
 
                     const accessToken = sign(
-                        { username: username, typeofUser: "staff", airline: result[0].airline_name}, 
+                        { username: username, typeofUser: "staff", airline: result[0].airline_name },
                         "ilovedatabases"
                     );
                     res.json(accessToken);

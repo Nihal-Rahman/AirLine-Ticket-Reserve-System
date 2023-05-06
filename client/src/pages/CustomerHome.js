@@ -2,8 +2,11 @@ import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CustomerNavbar from '../components/CustomerNavbar'
+import { useNavigate } from 'react-router-dom';
+
 
 function CustomerHome() {
+  let history = useNavigate();
 
   const [listOfFlights, setListOfFlights] = useState([]);
 
@@ -17,6 +20,7 @@ function CustomerHome() {
     ).then((response) => {
       if (response.data.error) {
         alert("You are not logged in!");
+        history("/")
       } else {
         setListOfFlights(response.data);
       }
@@ -83,11 +87,12 @@ function CustomerHome() {
         <div className='ml-4 mt-10 mr-4 grid gap-4 grid-cols-5 text-xl'>
           {listOfFlights.map((val) => {
             return (
-              <div className='p-6 space-y-3 bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
-                <h1 className='w-42 mb-6 text-2xl font-black tracking-tight underline text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
+              <div className='p-6 space-y-3 text-2xl bg-white border border-slate-300 rounded-lg hover:shadow-lg dark:bg-gray-800 dark:border-gray-700'>
+                <h1 className='w-42 mb-6 text-4xl font-black tracking-tight underline text-gray-900 dark:text-white'>Flight {val.flight_num}</h1>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Date: {val.departure_date}</p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Time: {val.departure_time}</p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>{val.airline_name} </p>
+                <p className='font-normal text-gray-700 dark:text-gray-400'>Status: {val.flight_status.toUpperCase()} </p>
                 <p className='font-normal text-gray-700 dark:text-gray-400'>Ticket No. {val.ticket_ID} </p>
 
               </div>
